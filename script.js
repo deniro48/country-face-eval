@@ -668,6 +668,12 @@ function restartAnalysis() {
     }
     capturedImageData = null;
     cameraModal.style.display = 'none';
+    
+    // 화면 상단으로 부드럽게 스크롤
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
 }
 
 // 강제 재배포를 위한 주석
