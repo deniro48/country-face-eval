@@ -278,14 +278,53 @@ async function analyzeWithFacePlusPlus(imageFile) {
 function analyzeLandmarks(landmarks) {
     const getDistance = (p1, p2) => Math.hypot(p1.x - p2.x, p1.y - p2.y);
 
+    // 얼굴 대칭 계산
     const symmetry = 100 - ([...Array(5).keys()].reduce((acc, i) =>
         acc + Math.abs(landmarks[i * 21 + 4].x - (1 - landmarks[i * 21 + 24].x)), 0) * 200);
 
+    // 얼굴 비율 계산
     const verticalRatio = getDistance(landmarks[10], landmarks[152]) / getDistance(landmarks[168], landmarks[6]);
     const horizontalRatio = getDistance(landmarks[234], landmarks[454]) / getDistance(landmarks[130], landmarks[243]);
     const lipNoseRatio = getDistance(landmarks[61], landmarks[291]) / getDistance(landmarks[218], landmarks[438]);
+    
+    // MediaPipe 랜드마크 기반 인종 추정
+    const estimatedEthnicity = estimateEthnicityFromLandmarks(landmarks);
 
-    return { symmetry, verticalRatio, horizontalRatio, lipNoseRatio };
+    return { symmetry, verticalRatio, horizontalRatio, lipNoseRatio, estimatedEthnicity };
+}
+
+// MediaPipe 랜드마크를 이용한 안정적인 인종 추정 함수
+function estimateEthnicityFromLandmarks(landmarks) {
+    try {
+        const getDistance = (p1, p2) => Math.hypot(p1.x - p2.x, p1.y - p2.y);
+
+        // 눈 가로폭 대비 세로폭 비율 (일반적으로 동양인이 서양인보다 비율이 작음)
+        const leftEyeWidth = getDistance(landmarks[33], landmarks[133]);
+        const leftEyeHeight = getDistance(landmarks[159], landmarks[145]);
+        const rightEyeWidth = getDistance(landmarks[362], landmarks[263]);
+        const rightEyeHeight = getDistance(landmarks[386], landmarks[374]);
+
+        const avgEyeRatio = ((leftEyeHeight / leftEyeWidth) + (rightEyeHeight / rightEyeWidth)) / 2;
+        
+        // 코 넓이 대비 얼굴 전체 넓이 비율 (일반적으로 동양인이 더 넓은 코를 가짐)
+        const faceWidth = getDistance(landmarks[234], landmarks[454]);
+        const noseWidth = getDistance(landmarks[226], landmarks[446]);
+        const noseFaceRatio = noseWidth / faceWidth;
+
+        // 매우 단순화된 추정 로직 (정확도는 제한적이나, 결과를 내는 데 초점)
+        // 두 지표를 조합하여 판별
+        if (avgEyeRatio < 0.35 && noseFaceRatio > 0.22) {
+            return 'Asian';
+        } else if (avgEyeRatio > 0.4) {
+            return 'White';
+        } else {
+            // 어느 한 쪽 특징이 강하지 않으면 중간 값으로 판정
+            return 'Mixed'; 
+        }
+    } catch (e) {
+        console.error("인종 추정 중 오류 발생:", e);
+        return 'N/A'; // 오류 발생 시 분석 불가 처리
+    }
 }
 
 // 국가별 점수 계산
@@ -299,13 +338,13 @@ function calculateAllCountryScores(geometric, attributes) {
     // Face++ API에서는 'smile'로 반환되므로 이를 'smiling'으로 매핑
     const smileScore = faceAttributes.smile ? faceAttributes.smile.value : 50;
     
-    // 인종 정보 처리 (빈 문자열인 경우 기본값 사용)
-    const detectedEthnicity = faceAttributes.ethnicity && faceAttributes.ethnicity.value ? faceAttributes.ethnicity.value : 'N/A';
+    // 인종 정보는 MediaPipe 추정치를 사용
+    const detectedEthnicity = geometric.estimatedEthnicity || 'N/A';
 
     console.log('추출된 데이터:', {
         beautyScore,
         smileScore,
-        detectedEthnicity,
+        detectedEthnicity: `MediaPipe 추정: ${detectedEthnicity}`,
         faceAttributes,
         geometricAvailable: !!geometric.symmetry
     });
@@ -328,8 +367,16 @@ function calculateAllCountryScores(geometric, attributes) {
         scores.horizontalRatio = geometric.horizontalRatio ? calculateRatioScore(geometric.horizontalRatio, factors.idealRatios.horizontalRatio) : 70;
         scores.lipNoseRatio = geometric.lipNoseRatio ? calculateRatioScore(geometric.lipNoseRatio, factors.idealRatios.lipNoseRatio) : 70;
         
-        scores.ethnicity = (detectedEthnicity === factors.idealEthnicity) ? 100 : 75; // 인종 일치 시 100점, 불일치 시 75점 (큰 페널티 방지)
-        if (!factors.idealEthnicity) scores.ethnicity = 85; // 인종을 보지 않는 국가는 기본 점수
+        // 인종 점수 계산 (Mixed인 경우 중간 점수)
+        if (detectedEthnicity === 'N/A') {
+            scores.ethnicity = 75; // 분석 불가 시 기본 점수
+        } else if (detectedEthnicity === factors.idealEthnicity) {
+            scores.ethnicity = 100; // 완전 일치
+        } else if (detectedEthnicity === 'Mixed' || !factors.idealEthnicity) {
+            scores.ethnicity = 85; // 혼합 또는 인종 무관 국가는 중간 점수
+        } else {
+            scores.ethnicity = 75; // 불일치 시 기본 점수
+        }
 
         // 2. 최종 점수 계산: 각 항목의 점수에 가중치를 적용하여 합산
         let finalScore = (beautyScore * factors.weights.beauty) +
@@ -400,7 +447,12 @@ function displayAdvancedAnalysis(geometric, attributes) {
     document.getElementById('smileScore').textContent = getAnalysisText(faceAttributes.smile?.value, '점');
     document.getElementById('faceQuality').textContent = getAnalysisText(faceAttributes.facequality?.value, '점');
     document.getElementById('beautyScore').textContent = getAnalysisText((faceAttributes.beauty?.male_score + faceAttributes.beauty?.female_score) / 2, '점');
-    document.getElementById('ethnicity').textContent = faceAttributes.ethnicity?.value || '분석 불가';
+    
+    // 인종 정보는 MediaPipe 추정치를 표시
+    const ethnicityText = geometric.estimatedEthnicity && geometric.estimatedEthnicity !== 'N/A' 
+        ? `${geometric.estimatedEthnicity} (추정)` 
+        : '분석 불가';
+    document.getElementById('ethnicity').textContent = ethnicityText;
 
     const emotion = faceAttributes.emotion ? Object.keys(faceAttributes.emotion).reduce((a, b) => faceAttributes.emotion[a] > faceAttributes.emotion[b] ? a : b) : '분석 불가';
     document.getElementById('emotionAnalysis').textContent = emotion;
