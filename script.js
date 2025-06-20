@@ -226,26 +226,34 @@ function checkAnalyzeButtonState() {
 
 // 분석 시작 (하이브리드 모델)
 async function startAnalysis() {
+    if (!uploadedImage || !selectedGender) {
+        alert('이미지를 업로드하고 성별을 선택해주세요.');
+        return;
+    }
+
     loadingOverlay.style.display = 'flex';
+    
     try {
+        // MediaPipe와 Face++ 동시 분석
         const [mediaPipeResult, facePlusPlusResult] = await Promise.all([
-            analyzeWithMediaPipe(previewImage),
+            analyzeWithMediaPipe(uploadedImage),
             analyzeWithFacePlusPlus(uploadedImage)
         ]);
 
         if (mediaPipeResult.error) {
-            throw new Error(`얼굴 형태 분석 실패: ${mediaPipeResult.error}`);
+            throw new Error(mediaPipeResult.error);
         }
-        if (facePlusPlusResult.error) {
-            console.warn(`Face++ 추가 정보 분석 실패: ${facePlusPlusResult.error}`);
-        }
-        
-        const geometricAnalysis = analyzeLandmarks(mediaPipeResult.landmarks);
-        const attributeAnalysis = facePlusPlusResult.faces?.[0]?.attributes || {};
-        
-        const countryScores = calculateAllCountryScores(geometricAnalysis, attributeAnalysis);
 
-        displayResults(countryScores, geometricAnalysis, attributeAnalysis);
+        if (facePlusPlusResult.error) {
+            throw new Error(facePlusPlusResult.error);
+        }
+
+        const geometricAnalysis = analyzeLandmarks(mediaPipeResult.landmarks);
+        
+        // Face++ API 응답 전체를 전달
+        const countryScores = calculateAllCountryScores(geometricAnalysis, facePlusPlusResult);
+
+        displayResults(countryScores, geometricAnalysis, facePlusPlusResult);
         
     } catch (error) {
         loadingOverlay.style.display = 'none';
@@ -279,6 +287,15 @@ async function analyzeWithFacePlusPlus(imageFile) {
         if (!response.ok) {
             throw new Error(data.error || 'API 서버 응답 오류');
         }
+        
+        // 디버깅: Face++ API 응답 구조 확인
+        console.log('Face++ API 응답:', data);
+        if (data.faces && data.faces[0]) {
+            console.log('얼굴 속성:', data.faces[0].attributes);
+            console.log('미소 점수:', data.faces[0].attributes?.smiling);
+            console.log('인종 정보:', data.faces[0].attributes?.ethnicity);
+        }
+        
         return data;
     } catch (error) {
         console.error("Face++ API 호출 실패:", error);
@@ -302,10 +319,20 @@ function analyzeLandmarks(landmarks) {
 
 // 국가별 점수 계산
 function calculateAllCountryScores(geometric, attributes) {
+    // Face++ API 응답 구조에 맞게 데이터 추출
+    const faceAttributes = attributes.faces && attributes.faces[0] ? attributes.faces[0].attributes : {};
+    
     // 분석된 값이 없을 경우를 대비해 기본값 설정
-    const beautyScore = attributes.beauty ? (attributes.beauty.male_score + attributes.beauty.female_score) / 2 : 75;
-    const smileScore = attributes.smiling ? attributes.smiling.value : 50;
-    const detectedEthnicity = attributes.ethnicity ? attributes.ethnicity.value : 'N/A';
+    const beautyScore = faceAttributes.beauty ? (faceAttributes.beauty.male_score + faceAttributes.beauty.female_score) / 2 : 75;
+    const smileScore = faceAttributes.smiling ? faceAttributes.smiling.value : 50;
+    const detectedEthnicity = faceAttributes.ethnicity ? faceAttributes.ethnicity.value : 'N/A';
+
+    console.log('추출된 데이터:', {
+        beautyScore,
+        smileScore,
+        detectedEthnicity,
+        faceAttributes
+    });
 
     return Object.entries(countryData).map(([name, data]) => {
         const factors = data.scoringFactors;
@@ -389,16 +416,19 @@ function displayCountriesList(sortedCountries) {
 function displayAdvancedAnalysis(geometric, attributes) {
     const getAnalysisText = (value, unit = '') => value ? `${Math.round(value)}${unit}` : '분석 불가';
     
-    document.getElementById('estimatedAge').textContent = getAnalysisText(attributes.age?.value, '세');
-    document.getElementById('smileScore').textContent = getAnalysisText(attributes.smiling?.value, '점');
-    document.getElementById('faceQuality').textContent = getAnalysisText(attributes.facequality?.value, '점');
-    document.getElementById('beautyScore').textContent = getAnalysisText((attributes.beauty?.male_score + attributes.beauty?.female_score) / 2, '점');
-    document.getElementById('ethnicity').textContent = attributes.ethnicity?.value || '분석 불가';
+    // Face++ API 응답 구조에 맞게 데이터 추출
+    const faceAttributes = attributes.faces && attributes.faces[0] ? attributes.faces[0].attributes : {};
+    
+    document.getElementById('estimatedAge').textContent = getAnalysisText(faceAttributes.age?.value, '세');
+    document.getElementById('smileScore').textContent = getAnalysisText(faceAttributes.smiling?.value, '점');
+    document.getElementById('faceQuality').textContent = getAnalysisText(faceAttributes.facequality?.value, '점');
+    document.getElementById('beautyScore').textContent = getAnalysisText((faceAttributes.beauty?.male_score + faceAttributes.beauty?.female_score) / 2, '점');
+    document.getElementById('ethnicity').textContent = faceAttributes.ethnicity?.value || '분석 불가';
 
-    const emotion = attributes.emotion ? Object.keys(attributes.emotion).reduce((a, b) => attributes.emotion[a] > attributes.emotion[b] ? a : b) : '분석 불가';
+    const emotion = faceAttributes.emotion ? Object.keys(faceAttributes.emotion).reduce((a, b) => faceAttributes.emotion[a] > faceAttributes.emotion[b] ? a : b) : '분석 불가';
     document.getElementById('emotionAnalysis').textContent = emotion;
 
-    const skin = attributes.skinstatus;
+    const skin = faceAttributes.skinstatus;
     document.getElementById('skinCondition').textContent = skin ? `건강: ${Math.round(skin.health)}%` : '분석 불가';
     
     document.getElementById('poseAnalysis').textContent = `대칭: ${getAnalysisText(geometric.symmetry, '점')}`;
@@ -445,27 +475,3 @@ function restartAnalysis() {
     previewImage.src = '';
     analyzeBtn.disabled = true;
 }
-
-// 국가 데이터 (국기 URL과 함께)
-const countries = [
-    { name: '이탈리아', flag: 'https://flagcdn.com/w40/it.png', code: 'IT' },
-    { name: '브라질', flag: 'https://flagcdn.com/w40/br.png', code: 'BR' },
-    { name: '일본', flag: 'https://flagcdn.com/w40/jp.png', code: 'JP' },
-    { name: '프랑스', flag: 'https://flagcdn.com/w40/fr.png', code: 'FR' },
-    { name: '스페인', flag: 'https://flagcdn.com/w40/es.png', code: 'ES' },
-    { name: '대한민국', flag: 'https://flagcdn.com/w40/kr.png', code: 'KR' },
-    { name: '미국', flag: 'https://flagcdn.com/w40/us.png', code: 'US' },
-    { name: '영국', flag: 'https://flagcdn.com/w40/gb.png', code: 'GB' },
-    { name: '독일', flag: 'https://flagcdn.com/w40/de.png', code: 'DE' },
-    { name: '호주', flag: 'https://flagcdn.com/w40/au.png', code: 'AU' },
-    { name: '캐나다', flag: 'https://flagcdn.com/w40/ca.png', code: 'CA' },
-    { name: '네덜란드', flag: 'https://flagcdn.com/w40/nl.png', code: 'NL' },
-    { name: '스웨덴', flag: 'https://flagcdn.com/w40/se.png', code: 'SE' },
-    { name: '노르웨이', flag: 'https://flagcdn.com/w40/no.png', code: 'NO' },
-    { name: '덴마크', flag: 'https://flagcdn.com/w40/dk.png', code: 'DK' },
-    { name: '스위스', flag: 'https://flagcdn.com/w40/ch.png', code: 'CH' },
-    { name: '오스트리아', flag: 'https://flagcdn.com/w40/at.png', code: 'AT' },
-    { name: '벨기에', flag: 'https://flagcdn.com/w40/be.png', code: 'BE' },
-    { name: '포르투갈', flag: 'https://flagcdn.com/w40/pt.png', code: 'PT' },
-    { name: '그리스', flag: 'https://flagcdn.com/w40/gr.png', code: 'GR' }
-]; 
