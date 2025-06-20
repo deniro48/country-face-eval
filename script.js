@@ -65,7 +65,7 @@ const countryData = {
     '러시아': {
         flag: 'https://flagcdn.com/w320/ru.png',
         scoringFactors: {
-            weights: { beauty: 0.20, symmetry: 0.25, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.05, ethnicity: 0.30 },
+            weights: { beauty: 0.15, symmetry: 0.20, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.05, ethnicity: 0.40 },
             idealRatios: { verticalRatio: 1.38, horizontalRatio: 2.2, lipNoseRatio: 1.5 },
             idealEthnicity: 'White'
         },
@@ -346,8 +346,8 @@ function calculateAllCountryScores(geometric, attributes) {
             if (detectedEthnicity === idealEthnicity) {
                 ethnicityScore = 100; // 완벽히 일치
             } else {
-                // 동아시아 국가에서 흑인일 경우 큰 감점 (사용자 요청)
-                if (['대한민국', '일본', '중국'].includes(name) && detectedEthnicity === 'Black') {
+                // 동아시아 및 러시아에서 흑인일 경우 큰 감점 (사용자 요청)
+                if (['대한민국', '일본', '중국', '러시아'].includes(name) && detectedEthnicity === 'Black') {
                     ethnicityScore = 20; // 감점 대폭 강화
                 } else {
                     ethnicityScore = 50; // 그 외 모든 불일치 경우 감점 강화
