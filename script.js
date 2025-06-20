@@ -613,7 +613,7 @@ function displayAdvancedAnalysis(geometric, attributes) {
     document.getElementById('emotionAnalysis').textContent = emotion;
 
     const skin = faceAttributes.skinstatus;
-    const skinText = `건강 ${getAnalysisText(skin.health, '%')}, 잡티 ${getAnalysisText(skin.stain, '%')} | 여드름 ${getAnalysisText(skin.acne, '%')}, 다크서클 ${getAnalysisText(skin.dark_circle, '%')}`;
+    const skinText = `건강 ${getAnalysisText(skin.health, '%')}, 잡티 ${getAnalysisText(skin.stain, '%')}<br>여드름 ${getAnalysisText(skin.acne, '%')}, 다크서클 ${getAnalysisText(skin.dark_circle, '%')}`;
     document.getElementById('skinCondition').innerHTML = skinText;
     
     document.getElementById('geometricAnalysis').innerHTML = `가로: ${getAnalysisText(geometric.horizontalRatio)}, 세로: ${getAnalysisText(geometric.verticalRatio)}<br>입/코: ${getAnalysisText(geometric.lipNoseRatio)}`;
