@@ -20,7 +20,7 @@ const countryData = {
     '대한민국': {
         flag: 'https://flagcdn.com/w320/kr.png',
         scoringFactors: {
-            weights: { beauty: 0.15, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.10, ethnicity: 0.40 },
+            weights: { beauty: 0.10, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.45, skinClarity: 0.10 },
             idealRatios: { verticalRatio: 1.4, horizontalRatio: 2.1, lipNoseRatio: 1.6 },
             idealEthnicity: 'Asian'
         },
@@ -29,7 +29,7 @@ const countryData = {
     '일본': {
         flag: 'https://flagcdn.com/w320/jp.png',
         scoringFactors: {
-            weights: { beauty: 0.20, symmetry: 0.10, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.10, ethnicity: 0.40 },
+            weights: { beauty: 0.15, symmetry: 0.10, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.45, skinClarity: 0.10 },
             idealRatios: { verticalRatio: 1.28, horizontalRatio: 2.25, lipNoseRatio: 1.45 },
             idealEthnicity: 'Asian'
         },
@@ -38,7 +38,7 @@ const countryData = {
     '중국': {
         flag: 'https://flagcdn.com/w320/cn.png',
         scoringFactors: {
-            weights: { beauty: 0.15, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.10, ethnicity: 0.40 },
+            weights: { beauty: 0.10, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.45, skinClarity: 0.10 },
             idealRatios: { verticalRatio: 1.3, horizontalRatio: 2.05, lipNoseRatio: 1.65 },
             idealEthnicity: 'Asian'
         },
@@ -65,7 +65,7 @@ const countryData = {
     '러시아': {
         flag: 'https://flagcdn.com/w320/ru.png',
         scoringFactors: {
-            weights: { beauty: 0.15, symmetry: 0.20, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.05, ethnicity: 0.40 },
+            weights: { beauty: 0.10, symmetry: 0.20, verticalRatio: 0.05, horizontalRatio: 0.10, lipNoseRatio: 0.0, ethnicity: 0.45, skinClarity: 0.10 },
             idealRatios: { verticalRatio: 1.38, horizontalRatio: 2.2, lipNoseRatio: 1.5 },
             idealEthnicity: 'White'
         },
@@ -334,6 +334,16 @@ function calculateAllCountryScores(geometric, attributes) {
         scores.horizontalRatio = geometric.horizontalRatio ? calculateRatioScore(geometric.horizontalRatio, factors.idealRatios.horizontalRatio) : 70;
         scores.lipNoseRatio = geometric.lipNoseRatio ? calculateRatioScore(geometric.lipNoseRatio, factors.idealRatios.lipNoseRatio) : 70;
         
+        // 새로운 점수 항목: 피부 깨끗함 (잡티, 여드름, 다크서클 기반)
+        const skinStatus = faceAttributes.skinstatus;
+        if (skinStatus) {
+            const totalBlemish = (skinStatus.stain ?? 0) + (skinStatus.acne ?? 0) + (skinStatus.dark_circle ?? 0);
+            // 결점 합이 100을 넘어가면 0점, 결점이 없으면 100점
+            scores.skinClarity = Math.max(0, 100 - totalBlemish);
+        } else {
+            scores.skinClarity = 70; // 분석 불가 시 기본 점수
+        }
+
         // 인종 선호도 점수 계산 (로직 강화)
         let ethnicityScore;
         const idealEthnicity = factors.idealEthnicity;
@@ -346,11 +356,11 @@ function calculateAllCountryScores(geometric, attributes) {
             if (detectedEthnicity === idealEthnicity) {
                 ethnicityScore = 100; // 완벽히 일치
             } else {
-                // 동아시아 및 러시아에서 흑인일 경우 큰 감점 (사용자 요청)
+                // 동아시아 및 러시아에서 흑인일 경우 0점 처리 (사용자 요청)
                 if (['대한민국', '일본', '중국', '러시아'].includes(name) && detectedEthnicity === 'Black') {
-                    ethnicityScore = 20; // 감점 대폭 강화
+                    ethnicityScore = 0; // 감점 대폭 강화 (0점)
                 } else {
-                    ethnicityScore = 50; // 그 외 모든 불일치 경우 감점 강화
+                    ethnicityScore = 30; // 그 외 모든 불일치 경우 감점 강화
                 }
             }
         }
@@ -362,7 +372,8 @@ function calculateAllCountryScores(geometric, attributes) {
                          (scores.verticalRatio * factors.weights.verticalRatio) +
                          (scores.horizontalRatio * factors.weights.horizontalRatio) +
                          (scores.lipNoseRatio * factors.weights.lipNoseRatio) +
-                         (scores.ethnicity * factors.weights.ethnicity);
+                         (scores.ethnicity * factors.weights.ethnicity) +
+                         (scores.skinClarity * (factors.weights.skinClarity || 0)); // skinClarity 가중치가 없는 국가 대비
         
         // 3. 최종 점수를 0-100점 사이 값으로 그대로 사용 (정규화 로직 제거)
         return {
