@@ -34,8 +34,8 @@
             faceppFormData.append('api_secret', API_SECRET);
             faceppFormData.append('image_file', imageFile);
             
-            // 우리가 필요한 모든 속성을 요청합니다. (smiling, eyestatus 제외)
-            faceppFormData.append('return_attributes', 'gender,age,emotion,skinstatus,beauty,headpose,facequality,ethnicity');
+            // 인종, 피부상태, 감정 등 필요한 모든 속성을 명시적으로 요청합니다.
+            faceppFormData.append('return_attributes', 'gender,age,smiling,facequality,beauty,skinstatus,emotion,ethnicity,headpose');
     
             // Face++ API 호출
             const response = await fetch(`${BASE_URL}/detect`, {
