@@ -242,7 +242,7 @@ function analyzeWithMediaPipe(image) {
         timeoutId = setTimeout(() => {
             resolve({ error: 'MediaPipe 분석 시간이 초과되었습니다.' });
             cleanup();
-        }, 10000); // 10초 타임아웃
+        }, 15000); // 15초 타임아웃
     });
 }
 
