@@ -20,7 +20,7 @@ const countryData = {
     '대한민국': {
         flag: 'https://flagcdn.com/w320/kr.png',
         scoringFactors: {
-            weights: { beauty: 0.20, symmetry: 0.30, verticalRatio: 0.20, horizontalRatio: 0.10, lipNoseRatio: 0.10, ethnicity: 0.10 },
+            weights: { beauty: 0.20, symmetry: 0.20, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.10, ethnicity: 0.30 },
             idealRatios: { verticalRatio: 1.4, horizontalRatio: 2.1, lipNoseRatio: 1.6 },
             idealEthnicity: 'Asian'
         },
@@ -29,7 +29,7 @@ const countryData = {
     '일본': {
         flag: 'https://flagcdn.com/w320/jp.png',
         scoringFactors: {
-            weights: { beauty: 0.30, symmetry: 0.20, verticalRatio: 0.15, horizontalRatio: 0.15, lipNoseRatio: 0.10, ethnicity: 0.10 },
+            weights: { beauty: 0.25, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.10, ethnicity: 0.30 },
             idealRatios: { verticalRatio: 1.28, horizontalRatio: 2.25, lipNoseRatio: 1.45 },
             idealEthnicity: 'Asian'
         },
@@ -38,7 +38,7 @@ const countryData = {
     '중국': {
         flag: 'https://flagcdn.com/w320/cn.png',
         scoringFactors: {
-            weights: { beauty: 0.25, symmetry: 0.15, verticalRatio: 0.20, horizontalRatio: 0.20, lipNoseRatio: 0.10, ethnicity: 0.10 },
+            weights: { beauty: 0.20, symmetry: 0.15, verticalRatio: 0.15, horizontalRatio: 0.10, lipNoseRatio: 0.10, ethnicity: 0.30 },
             idealRatios: { verticalRatio: 1.3, horizontalRatio: 2.05, lipNoseRatio: 1.65 },
             idealEthnicity: 'Asian'
         },
@@ -47,7 +47,7 @@ const countryData = {
     '미국': {
         flag: 'https://flagcdn.com/w320/us.png',
         scoringFactors: {
-            weights: { beauty: 0.30, symmetry: 0.20, verticalRatio: 0.10, horizontalRatio: 0.15, lipNoseRatio: 0.05, ethnicity: 0.20 },
+            weights: { beauty: 0.25, symmetry: 0.20, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.05, ethnicity: 0.30 },
             idealRatios: { verticalRatio: 1.35, horizontalRatio: 2.25, lipNoseRatio: 1.7 },
             idealEthnicity: 'White'
         },
@@ -56,7 +56,7 @@ const countryData = {
     '프랑스': {
         flag: 'https://flagcdn.com/w320/fr.png',
         scoringFactors: {
-            weights: { beauty: 0.40, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.05, ethnicity: 0.20 },
+            weights: { beauty: 0.35, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.30 },
             idealRatios: { verticalRatio: 1.33, horizontalRatio: 2.25, lipNoseRatio: 1.55 },
             idealEthnicity: 'White'
         },
@@ -65,7 +65,7 @@ const countryData = {
     '러시아': {
         flag: 'https://flagcdn.com/w320/ru.png',
         scoringFactors: {
-            weights: { beauty: 0.25, symmetry: 0.25, verticalRatio: 0.10, horizontalRatio: 0.15, lipNoseRatio: 0.05, ethnicity: 0.20 },
+            weights: { beauty: 0.20, symmetry: 0.25, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.05, ethnicity: 0.30 },
             idealRatios: { verticalRatio: 1.38, horizontalRatio: 2.2, lipNoseRatio: 1.5 },
             idealEthnicity: 'White'
         },
@@ -76,14 +76,14 @@ const countryData = {
         scoringFactors: {
             weights: { beauty: 0.40, symmetry: 0.15, verticalRatio: 0.15, horizontalRatio: 0.15, lipNoseRatio: 0.10, ethnicity: 0.05 },
             idealRatios: { verticalRatio: 1.3, horizontalRatio: 2.3, lipNoseRatio: 1.6 },
-            idealEthnicity: null // 다인종 국가로 인종 가중치 낮음
+            idealEthnicity: null
         },
         features: { '얼굴형': { icon: '😊', description: '건강미 넘치는 구릿빛 피부와 입체적인 얼굴형이 매력적입니다.' }, '눈': { icon: '👀', description: '깊고 매혹적인 눈매, 다양한 색의 눈이 아름답게 여겨집니다.' }, '코': { icon: '👃', description: '자연스럽고 얼굴과 조화로운 코를 선호합니다.' }, '입술': { icon: '👄', description: '도톰하고 생기 있는 입술이 선호됩니다.' } }
     },
     '인도': {
         flag: 'https://flagcdn.com/w320/in.png',
         scoringFactors: {
-            weights: { beauty: 0.25, symmetry: 0.15, verticalRatio: 0.15, horizontalRatio: 0.15, lipNoseRatio: 0.10, ethnicity: 0.20 },
+            weights: { beauty: 0.20, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.15, lipNoseRatio: 0.10, ethnicity: 0.30 },
             idealRatios: { verticalRatio: 1.3, horizontalRatio: 2.0, lipNoseRatio: 1.65 },
             idealEthnicity: 'Indian'
         },
@@ -92,7 +92,7 @@ const countryData = {
     '이탈리아': {
         flag: 'https://flagcdn.com/w320/it.png',
         scoringFactors: {
-            weights: { beauty: 0.30, symmetry: 0.25, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.05, ethnicity: 0.20 },
+            weights: { beauty: 0.25, symmetry: 0.25, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.30 },
             idealRatios: { verticalRatio: 1.36, horizontalRatio: 2.2, lipNoseRatio: 1.6 },
             idealEthnicity: 'White'
         },
@@ -101,7 +101,7 @@ const countryData = {
     '태국': {
         flag: 'https://flagcdn.com/w320/th.png',
         scoringFactors: {
-            weights: { beauty: 0.30, symmetry: 0.20, verticalRatio: 0.15, horizontalRatio: 0.15, lipNoseRatio: 0.10, ethnicity: 0.10 },
+            weights: { beauty: 0.25, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.10, ethnicity: 0.30 },
             idealRatios: { verticalRatio: 1.32, horizontalRatio: 2.15, lipNoseRatio: 1.6 },
             idealEthnicity: 'Asian'
         },
@@ -334,17 +334,25 @@ function calculateAllCountryScores(geometric, attributes) {
         scores.horizontalRatio = geometric.horizontalRatio ? calculateRatioScore(geometric.horizontalRatio, factors.idealRatios.horizontalRatio) : 70;
         scores.lipNoseRatio = geometric.lipNoseRatio ? calculateRatioScore(geometric.lipNoseRatio, factors.idealRatios.lipNoseRatio) : 70;
         
-        // 인종 선호도 점수 계산
-        let ethnicityScore = 70; // 기본 점수
+        // 인종 선호도 점수 계산 (로직 강화)
+        let ethnicityScore;
         const idealEthnicity = factors.idealEthnicity;
-        if (detectedEthnicity && idealEthnicity) {
+
+        if (!idealEthnicity) { // e.g., 브라질 (선호 인종 없음)
+            ethnicityScore = 85;
+        } else if (!detectedEthnicity) { // 인종 분석 불가
+            ethnicityScore = 70;
+        } else {
             if (detectedEthnicity === idealEthnicity) {
-                ethnicityScore = 100;
-            } else if (['대한민국', '일본', '중국'].includes(name) && detectedEthnicity === 'Black') {
-                ethnicityScore = 60; // 동아시아 국가에서 흑인일 경우 점수 조정
+                ethnicityScore = 100; // 완벽히 일치
+            } else {
+                // 동아시아 국가에서 흑인일 경우 큰 감점 (사용자 요청)
+                if (['대한민국', '일본', '중국'].includes(name) && detectedEthnicity === 'Black') {
+                    ethnicityScore = 40;
+                } else {
+                    ethnicityScore = 65; // 그 외 모든 불일치 경우
+                }
             }
-        } else if (!idealEthnicity) {
-            ethnicityScore = 85; // 브라질처럼 특정 선호 인종이 없는 경우
         }
         scores.ethnicity = ethnicityScore;
 
