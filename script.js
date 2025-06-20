@@ -264,14 +264,30 @@ async function startAnalysis() {
 // MediaPipe 분석 함수
 function analyzeWithMediaPipe(image) {
     return new Promise((resolve) => {
-        faceMesh.onResults((results) => {
-            if (results.multiFaceLandmarks && results.multiFaceLandmarks.length > 0) {
-                resolve({ landmarks: results.multiFaceLandmarks[0] });
-            } else {
-                resolve({ error: '얼굴을 찾을 수 없습니다.' });
+        // 이미지가 완전히 로드된 후에 분석 시작
+        if (image.complete && image.naturalWidth !== 0) {
+            processImage();
+        } else {
+            image.onload = processImage;
+            image.onerror = () => resolve({ error: '이미지 로딩 실패' });
+        }
+        
+        function processImage() {
+            faceMesh.onResults((results) => {
+                if (results.multiFaceLandmarks && results.multiFaceLandmarks.length > 0) {
+                    resolve({ landmarks: results.multiFaceLandmarks[0] });
+                } else {
+                    resolve({ error: '얼굴을 찾을 수 없습니다.' });
+                }
+            });
+            
+            try {
+                faceMesh.send({ image });
+            } catch (error) {
+                console.error('MediaPipe 오류:', error);
+                resolve({ error: 'MediaPipe 분석 실패' });
             }
-        });
-        faceMesh.send({ image });
+        }
     });
 }
 
@@ -292,7 +308,7 @@ async function analyzeWithFacePlusPlus(imageFile) {
         console.log('Face++ API 응답:', data);
         if (data.faces && data.faces[0]) {
             console.log('얼굴 속성:', data.faces[0].attributes);
-            console.log('미소 점수:', data.faces[0].attributes?.smiling);
+            console.log('미소 점수:', data.faces[0].attributes?.smile);
             console.log('인종 정보:', data.faces[0].attributes?.ethnicity);
         }
         
@@ -324,8 +340,12 @@ function calculateAllCountryScores(geometric, attributes) {
     
     // 분석된 값이 없을 경우를 대비해 기본값 설정
     const beautyScore = faceAttributes.beauty ? (faceAttributes.beauty.male_score + faceAttributes.beauty.female_score) / 2 : 75;
-    const smileScore = faceAttributes.smiling ? faceAttributes.smiling.value : 50;
-    const detectedEthnicity = faceAttributes.ethnicity ? faceAttributes.ethnicity.value : 'N/A';
+    
+    // Face++ API에서는 'smile'로 반환되므로 이를 'smiling'으로 매핑
+    const smileScore = faceAttributes.smile ? faceAttributes.smile.value : 50;
+    
+    // 인종 정보 처리 (빈 문자열인 경우 기본값 사용)
+    const detectedEthnicity = faceAttributes.ethnicity && faceAttributes.ethnicity.value ? faceAttributes.ethnicity.value : 'N/A';
 
     console.log('추출된 데이터:', {
         beautyScore,
@@ -420,7 +440,7 @@ function displayAdvancedAnalysis(geometric, attributes) {
     const faceAttributes = attributes.faces && attributes.faces[0] ? attributes.faces[0].attributes : {};
     
     document.getElementById('estimatedAge').textContent = getAnalysisText(faceAttributes.age?.value, '세');
-    document.getElementById('smileScore').textContent = getAnalysisText(faceAttributes.smiling?.value, '점');
+    document.getElementById('smileScore').textContent = getAnalysisText(faceAttributes.smile?.value, '점');
     document.getElementById('faceQuality').textContent = getAnalysisText(faceAttributes.facequality?.value, '점');
     document.getElementById('beautyScore').textContent = getAnalysisText((faceAttributes.beauty?.male_score + faceAttributes.beauty?.female_score) / 2, '점');
     document.getElementById('ethnicity').textContent = faceAttributes.ethnicity?.value || '분석 불가';
