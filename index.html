@@ -34,9 +34,16 @@
                         <h3>사진을 업로드해주세요</h3>
                         <p>JPG, PNG 파일만 지원됩니다</p>
                         <input type="file" id="imageInput" accept="image/jpeg,image/png" hidden>
-                        <button class="upload-btn" id="uploadBtn">
-                            사진 선택하기
-                        </button>
+                        <div class="upload-buttons">
+                            <button class="upload-btn" id="uploadBtn">
+                                <i class="fas fa-upload"></i>
+                                사진 선택하기
+                            </button>
+                            <button class="camera-btn" id="cameraBtn">
+                                <i class="fas fa-camera"></i>
+                                카메라로 촬영
+                            </button>
+                        </div>
                     </div>
                     
                     <!-- 미리보기 이미지 -->
@@ -198,6 +205,42 @@
             <div class="loading-spinner"></div>
             <h3>분석 중입니다...</h3>
             <p>전 세계 미의 기준으로 당신의 얼굴을 분석하고 있어요</p>
+        </div>
+    </div>
+
+    <!-- 카메라 모달 -->
+    <div class="camera-modal" id="cameraModal" style="display: none;">
+        <div class="camera-content">
+            <div class="camera-header">
+                <h3><i class="fas fa-camera"></i> 카메라로 촬영</h3>
+                <button class="close-camera-btn" id="closeCameraBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="camera-body">
+                <video id="cameraVideo" autoplay playsinline muted></video>
+                <canvas id="cameraCanvas" style="display: none;"></canvas>
+                <div class="camera-overlay">
+                    <div class="face-guide">
+                        <div class="face-outline"></div>
+                        <p>얼굴을 프레임 안에 맞춰주세요</p>
+                    </div>
+                </div>
+            </div>
+            <div class="camera-controls">
+                <button class="capture-btn" id="captureBtn">
+                    <i class="fas fa-circle"></i>
+                    촬영하기
+                </button>
+                <button class="retake-btn" id="retakeBtn" style="display: none;">
+                    <i class="fas fa-redo"></i>
+                    다시 촬영
+                </button>
+                <button class="use-photo-btn" id="usePhotoBtn" style="display: none;">
+                    <i class="fas fa-check"></i>
+                    이 사진 사용하기
+                </button>
+            </div>
         </div>
     </div>
 

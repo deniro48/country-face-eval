@@ -146,446 +146,15 @@ body {
     box-shadow: var(--shadow-hover);
 }
 
-/* 이미지 미리보기 */
-.image-preview {
-    margin-bottom: 2rem;
-    position: relative;
-}
-
-.image-preview img {
-    max-width: 100%;
-    max-height: 300px;
-    border-radius: 15px;
-    box-shadow: var(--shadow);
-}
-
-.change-image-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: rgba(255, 255, 255, 0.9);
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 25px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    color: var(--text-primary);
-    transition: all 0.3s ease;
-}
-
-.change-image-btn:hover {
-    background: white;
-    transform: scale(1.05);
-}
-
-/* 성별 선택 */
-.gender-selection {
-    margin-bottom: 2rem;
-}
-
-.gender-selection h3 {
-    font-size: 1.3rem;
-    margin-bottom: 1.5rem;
-    color: var(--text-primary);
-}
-
-.gender-options {
+/* 업로드 버튼 그룹 */
+.upload-buttons {
     display: flex;
     gap: 1rem;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
-.gender-option {
-    cursor: pointer;
-}
-
-.gender-option input[type="radio"] {
-    display: none;
-}
-
-.gender-card {
-    background: var(--card-background);
-    border: 2px solid var(--border-color);
-    border-radius: 15px;
-    padding: 1.5rem 2rem;
-    text-align: center;
-    transition: all 0.3s ease;
-    min-width: 120px;
-}
-
-.gender-card i {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-    color: var(--text-secondary);
-}
-
-.gender-card span {
-    font-weight: 500;
-    color: var(--text-primary);
-}
-
-.gender-option input[type="radio"]:checked + .gender-card {
-    border-color: var(--primary-color);
-    background: rgba(102, 126, 234, 0.1);
-    transform: scale(1.05);
-}
-
-.gender-option input[type="radio"]:checked + .gender-card i {
-    color: var(--primary-color);
-}
-
-/* 분석 버튼 */
-.analyze-btn {
-    background: var(--gradient-accent);
-    color: white;
-    border: none;
-    padding: 1.2rem 3rem;
-    border-radius: 50px;
-    font-size: 1.2rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: var(--shadow);
-    width: 100%;
-    max-width: 300px;
-}
-
-.analyze-btn:hover:not(:disabled) {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-hover);
-}
-
-.analyze-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none;
-}
-
-/* 결과 섹션 */
-.result-section {
-    margin-top: 3rem;
-}
-
-.result-card {
-    background: var(--background);
-    border-radius: 20px;
-    padding: 3rem;
-    box-shadow: var(--shadow);
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-/* 최고 점수 국가 */
-.top-country {
-    text-align: center;
-    margin-bottom: 3rem;
-    padding: 2rem;
-    background: var(--gradient-success);
-    border-radius: 20px;
-    color: white;
-}
-
-.country-badge {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
-}
-
-.country-badge img {
-    width: 60px;
-    height: 40px;
-    border-radius: 8px;
-    object-fit: cover;
-}
-
-.country-badge h2 {
-    font-size: 2rem;
-    font-weight: 700;
-}
-
-.score-display {
-    margin-bottom: 1rem;
-}
-
-.score-number {
-    font-size: 4rem;
-    font-weight: 700;
-    display: block;
-}
-
-.score-label {
-    font-size: 1.5rem;
-    font-weight: 500;
-}
-
-.congratulation {
-    font-size: 1.2rem;
-    opacity: 0.9;
-}
-
-/* TOP 10 국가 리스트 */
-.top-countries {
-    margin-bottom: 3rem;
-}
-
-.top-countries h3 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-    color: var(--text-primary);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.countries-hint {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    margin-bottom: 1.5rem;
-    text-align: center;
-    padding: 0.5rem;
-    background: rgba(102, 126, 234, 0.05);
-    border-radius: 10px;
-    border-left: 3px solid var(--accent-color);
-}
-
-.countries-list {
-    display: grid;
-    gap: 1rem;
-}
-
-.country-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem 1.5rem;
-    background: var(--card-background);
-    border-radius: 15px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    border: 2px solid transparent;
-}
-
-.country-item:hover {
-    transform: translateX(5px);
-    box-shadow: var(--shadow);
-    border-color: var(--primary-color);
-}
-
-.country-item.selected {
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-    border-color: var(--primary-color);
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
-    transform: translateX(5px);
-}
-
-.country-item.selected .country-name {
-    color: var(--primary-color);
-    font-weight: 600;
-}
-
-.country-item.selected .country-score {
-    color: var(--primary-color);
-    font-weight: 800;
-}
-
-.country-info {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.country-rank {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--primary-color);
-    min-width: 30px;
-}
-
-.country-flag {
-    width: 40px;
-    height: 30px;
-    border-radius: 5px;
-    object-fit: cover;
-}
-
-.country-name {
-    font-weight: 500;
-    color: var(--text-primary);
-}
-
-.country-score {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--success-color);
-}
-
-/* 매력 점수 이유 설명 */
-.reason-section {
-    margin-bottom: 2rem;
-}
-
-.reason-section h3 {
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
-    color: var(--text-primary);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.reason-section h3 i {
-    color: var(--accent-color);
-}
-
-.reasons {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.reason-item {
-    background: var(--card-background);
-    padding: 1.5rem;
-    border-radius: 15px;
-    border-left: 4px solid var(--accent-color);
-    transition: all 0.3s ease;
-}
-
-.reason-title {
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 0.5rem;
-    font-size: 1.1rem;
-}
-
-.reason-description {
-    color: var(--text-secondary);
-    line-height: 1.6;
-}
-
-/* 사진 분석 정보 섹션 */
-.photo-analysis-info {
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
-    border-radius: 20px;
-    padding: 2rem;
-    margin-bottom: 2rem;
-    border: 1px solid rgba(102, 126, 234, 0.1);
-}
-
-.photo-analysis-info h3 {
-    text-align: center;
-    font-size: 1.8rem;
-    font-weight: 700;
-    margin-bottom: 2.5rem;
-    color: var(--text-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.8rem;
-}
-
-.photo-analysis-info h3 i {
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.result-card .analysis-grid {
-    display: grid;
-    grid-template-columns: 1fr; /* 모바일에서는 1열이 기본 */
-    gap: 1.5rem;
-}
-
-@media (min-width: 500px) {
-    .result-card .analysis-grid {
-        grid-template-columns: repeat(2, 1fr); /* 500px 이상 화면에서 2열로 변경 */
-    }
-}
-
-.analysis-item {
-    background: var(--background);
-    border-radius: 16px;
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 0.8rem;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
-    border: 1px solid var(--border-color);
-    min-height: 120px;
-}
-
-.analysis-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
-    border-color: var(--primary-color);
-}
-
-.analysis-icon {
-    background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
-    color: white;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 1rem;
-    box-shadow: 0 4px 15px rgba(172, 193, 238, 0.5);
-}
-
-.analysis-icon i {
-    font-size: 1.75rem;
-}
-
-.analysis-content {
-    text-align: center;
-}
-
-.analysis-content h4 {
-    font-size: 1rem;
-    color: var(--text-secondary);
-    font-weight: 500;
-    margin-bottom: 0.75rem;
-}
-
-.analysis-value {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    line-height: 1.4;
-}
-
-/* 나이 특별 스타일 */
-#estimatedAge {
-    font-size: 1.5rem;
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-/* 미소 점수 특별 스타일 */
-#smileScore {
-    color: #f093fb;
-}
-
-/* 얼굴 품질 특별 스타일 */
-#faceQuality {
-    color: #4facfe;
-}
-
-/* 매력도 점수 특별 스타일 */
-#beautyScore {
-    color: #f5576c;
-}
-
-/* 다시하기 버튼 */
-.restart-btn {
+.camera-btn {
     background: var(--gradient-accent);
     color: white;
     border: none;
@@ -596,62 +165,190 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: var(--shadow);
-    width: 100%;
-    max-width: 300px;
-    margin: 0 auto;
-    display: block;
 }
 
-.restart-btn:hover {
+.camera-btn:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-hover);
 }
 
-/* 로딩 오버레이 */
-.loading-overlay {
+/* 카메라 모달 */
+.camera-modal {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
+    background: rgba(0, 0, 0, 0.9);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 1000;
+    backdrop-filter: blur(5px);
 }
 
-.loading-content {
-    text-align: center;
+.camera-content {
+    background: var(--background);
+    border-radius: 20px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow: hidden;
+    box-shadow: var(--shadow-hover);
 }
 
-.loading-spinner {
-    width: 60px;
-    height: 60px;
-    border: 4px solid var(--border-color);
-    border-top: 4px solid var(--primary-color);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin: 0 auto 1rem;
+.camera-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--gradient-primary);
+    color: white;
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+.camera-header h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
-.loading-content h3 {
+.close-camera-btn {
+    background: none;
+    border: none;
+    color: white;
     font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-    color: var(--text-primary);
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: all 0.3s ease;
 }
 
-.loading-content p {
-    color: var(--text-secondary);
+.close-camera-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
 }
 
-/* 반응형 디자인 */
+.camera-body {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+}
+
+#cameraVideo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0;
+}
+
+#cameraCanvas {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.camera-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.face-guide {
+    text-align: center;
+    color: white;
+}
+
+.face-outline {
+    width: 200px;
+    height: 250px;
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    margin: 0 auto 1rem;
+    position: relative;
+}
+
+.face-outline::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 180px;
+    height: 230px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+}
+
+.face-guide p {
+    font-size: 1rem;
+    font-weight: 500;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.camera-controls {
+    padding: 1.5rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.capture-btn {
+    background: var(--gradient-success);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.capture-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.capture-btn i {
+    font-size: 1.5rem;
+}
+
+.retake-btn, .use-photo-btn {
+    background: var(--gradient-primary);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.retake-btn:hover, .use-photo-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* 모바일 반응형 */
 @media (max-width: 768px) {
     .container {
         padding: 0 15px;
@@ -663,6 +360,40 @@ body {
     
     .upload-card {
         padding: 2rem;
+    }
+    
+    .upload-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .camera-content {
+        width: 95%;
+        max-height: 95vh;
+    }
+    
+    .camera-body {
+        height: 300px;
+    }
+    
+    .face-outline {
+        width: 150px;
+        height: 200px;
+    }
+    
+    .face-outline::before {
+        width: 130px;
+        height: 180px;
+    }
+    
+    .camera-controls {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .capture-btn, .retake-btn, .use-photo-btn {
+        width: 100%;
+        max-width: 200px;
     }
     
     .gender-options {
@@ -846,4 +577,504 @@ body {
     .analysis-grid {
         grid-template-columns: repeat(2, 1fr);
     }
+}
+
+/* 결과 섹션 */
+.result-section {
+    margin-bottom: 3rem;
+}
+
+.result-card {
+    background: var(--background);
+    border-radius: 20px;
+    padding: 3rem;
+    box-shadow: var(--shadow);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* 최고 점수 국가 */
+.top-country {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: var(--gradient-primary);
+    border-radius: 15px;
+    color: white;
+}
+
+.country-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.country-badge img {
+    width: 60px;
+    height: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.country-badge h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.score-display {
+    margin-bottom: 1rem;
+}
+
+.score-number {
+    font-size: 6rem;
+    font-weight: 900;
+    line-height: 1;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.score-label {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+.congratulation {
+    font-size: 1.3rem;
+    font-weight: 500;
+    opacity: 0.95;
+}
+
+/* TOP 10 국가 리스트 */
+.top-countries {
+    margin-bottom: 3rem;
+}
+
+.top-countries h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.top-countries h3 i {
+    color: var(--primary-color);
+}
+
+.countries-hint {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    padding: 1rem;
+    background: var(--card-background);
+    border-radius: 10px;
+}
+
+.countries-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.country-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background: var(--card-background);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.country-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+    border-color: var(--primary-color);
+}
+
+.country-item.selected {
+    background: rgba(102, 126, 234, 0.1);
+    border-color: var(--primary-color);
+}
+
+.country-item.selected .country-name {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.country-item.selected .country-score {
+    color: var(--primary-color);
+}
+
+.country-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.country-rank {
+    font-weight: 700;
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    min-width: 30px;
+}
+
+.country-flag {
+    width: 40px;
+    height: 30px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.country-name {
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.country-score {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+}
+
+/* 매력 점수 이유 설명 */
+.reason-section {
+    margin-bottom: 3rem;
+}
+
+.reason-section h3 {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.reason-section h3 i {
+    color: var(--primary-color);
+}
+
+.reasons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.reason-item {
+    background: var(--card-background);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.reason-title {
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.reason-description {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* 사진 분석 정보 섹션 */
+.photo-analysis-info {
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: var(--card-background);
+    border-radius: 15px;
+}
+
+.photo-analysis-info h3 {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.photo-analysis-info h3 i {
+    color: var(--primary-color);
+}
+
+.result-card .analysis-grid {
+    display: grid;
+    gap: 1.5rem;
+}
+
+@media (min-width: 500px) {
+    .result-card .analysis-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.analysis-item {
+    background: var(--background);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.analysis-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+    border-color: var(--primary-color);
+}
+
+.analysis-icon {
+    width: 50px;
+    height: 50px;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    box-shadow: var(--shadow);
+}
+
+.analysis-icon i {
+    color: white;
+    font-size: 1.5rem;
+}
+
+.analysis-content {
+    text-align: center;
+}
+
+.analysis-content h4 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.analysis-value {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    background: rgba(102, 126, 234, 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    display: inline-block;
+}
+
+/* 나이 특별 스타일 */
+#estimatedAge {
+    background: rgba(79, 172, 254, 0.1);
+    color: var(--success-color);
+}
+
+/* 미소 점수 특별 스타일 */
+#smileScore {
+    background: rgba(240, 147, 251, 0.1);
+    color: var(--warning-color);
+}
+
+/* 얼굴 품질 특별 스타일 */
+#faceQuality {
+    background: rgba(79, 172, 254, 0.1);
+    color: var(--success-color);
+}
+
+/* 매력도 점수 특별 스타일 */
+#beautyScore {
+    background: rgba(240, 147, 251, 0.1);
+    color: var(--warning-color);
+}
+
+/* 다시하기 버튼 */
+.restart-btn {
+    background: var(--gradient-primary);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 auto;
+}
+
+.restart-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* 로딩 오버레이 */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.loading-content {
+    text-align: center;
+    color: white;
+}
+
+.loading-spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 2rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-content h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.loading-content p {
+    color: var(--text-secondary);
+}
+
+/* 이미지 미리보기 */
+.image-preview {
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.image-preview img {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+}
+
+.change-image-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+.change-image-btn:hover {
+    background: white;
+    transform: scale(1.05);
+}
+
+/* 성별 선택 */
+.gender-selection {
+    margin-bottom: 2rem;
+}
+
+.gender-selection h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+}
+
+.gender-options {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.gender-option {
+    cursor: pointer;
+}
+
+.gender-option input[type="radio"] {
+    display: none;
+}
+
+.gender-card {
+    background: var(--card-background);
+    border: 2px solid var(--border-color);
+    border-radius: 15px;
+    padding: 1.5rem 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    min-width: 120px;
+}
+
+.gender-card i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+}
+
+.gender-card span {
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.gender-option input[type="radio"]:checked + .gender-card {
+    border-color: var(--primary-color);
+    background: rgba(102, 126, 234, 0.1);
+    transform: scale(1.05);
+}
+
+.gender-option input[type="radio"]:checked + .gender-card i {
+    color: var(--primary-color);
+}
+
+/* 분석 버튼 */
+.analyze-btn {
+    background: var(--gradient-accent);
+    color: white;
+    border: none;
+    padding: 1.2rem 3rem;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+    width: 100%;
+    max-width: 300px;
+}
+
+.analyze-btn:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+}
+
+.analyze-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
 } 

@@ -2,6 +2,10 @@
 let selectedGender = null;
 let uploadedImage = null;
 
+// 카메라 관련 변수들
+let cameraStream = null;
+let capturedImageData = null;
+
 // DOM 요소 참조
 const uploadArea = document.getElementById('uploadArea');
 const imageInput = document.getElementById('imageInput');
@@ -15,85 +19,105 @@ const resultSection = document.getElementById('resultSection');
 const loadingOverlay = document.getElementById('loadingOverlay');
 const restartBtn = document.getElementById('restartBtn');
 
+// 카메라 관련 DOM 요소들
+const cameraBtn = document.getElementById('cameraBtn');
+const cameraModal = document.getElementById('cameraModal');
+const closeCameraBtn = document.getElementById('closeCameraBtn');
+const cameraVideo = document.getElementById('cameraVideo');
+const cameraCanvas = document.getElementById('cameraCanvas');
+const captureBtn = document.getElementById('captureBtn');
+const retakeBtn = document.getElementById('retakeBtn');
+const usePhotoBtn = document.getElementById('usePhotoBtn');
+
 // 나라별 선호도 및 얼굴 특징 데이터 (인종 가중치 포함하여 전면 재조정)
 const countryData = {
     '대한민국': {
         flag: 'https://flagcdn.com/w320/kr.png',
         scoringFactors: {
-            weights: { beauty: 0.10, symmetry: 0.15, verticalRatio: 0.05, horizontalRatio: 0.05, lipNoseRatio: 0.05, skinClarity: 0.60 },
-            idealRatios: { verticalRatio: 1.4, horizontalRatio: 2.1, lipNoseRatio: 1.6 }
+            weights: { beauty: 0.10, symmetry: 0.15, verticalRatio: 0.05, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.45, skinClarity: 0.15 },
+            idealRatios: { verticalRatio: 1.4, horizontalRatio: 2.1, lipNoseRatio: 1.6 },
+            idealEthnicity: 'Asian'
         },
         features: { '얼굴형': { icon: '😊', description: '갸름한 V라인과 작은 얼굴이 선호됩니다.' }, '눈': { icon: '👀', description: '또렷한 쌍꺼풀과 큰 눈이 매력적으로 여겨집니다.' }, '코': { icon: '👃', description: '높고 곧은 콧대와 작은 코끝이 이상적입니다.' }, '입술': { icon: '👄', description: '도톰하고 선명한 입술이 선호됩니다.' } }
     },
     '일본': {
         flag: 'https://flagcdn.com/w320/jp.png',
         scoringFactors: {
-            weights: { beauty: 0.10, symmetry: 0.10, verticalRatio: 0.05, horizontalRatio: 0.05, lipNoseRatio: 0.10, skinClarity: 0.60 },
-            idealRatios: { verticalRatio: 1.28, horizontalRatio: 2.25, lipNoseRatio: 1.45 }
+            weights: { beauty: 0.10, symmetry: 0.10, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.45, skinClarity: 0.15 },
+            idealRatios: { verticalRatio: 1.28, horizontalRatio: 2.25, lipNoseRatio: 1.45 },
+            idealEthnicity: 'Asian'
         },
         features: { '얼굴형': { icon: '😊', description: '부드러운 계란형 얼굴이 선호됩니다.' }, '눈': { icon: '👀', description: '처진 눈꼬리와 자연스러운 쌍꺼풀이 매력적입니다.' }, '코': { icon: '👃', description: '작고 낮은 코가 귀엽게 여겨집니다.' }, '입술': { icon: '👄', description: '작고 얇은 입술이 선호됩니다.' } }
     },
     '중국': {
         flag: 'https://flagcdn.com/w320/cn.png',
         scoringFactors: {
-            weights: { beauty: 0.10, symmetry: 0.10, verticalRatio: 0.05, horizontalRatio: 0.05, lipNoseRatio: 0.10, skinClarity: 0.60 },
-            idealRatios: { verticalRatio: 1.3, horizontalRatio: 2.05, lipNoseRatio: 1.65 }
+            weights: { beauty: 0.10, symmetry: 0.10, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.45, skinClarity: 0.15 },
+            idealRatios: { verticalRatio: 1.3, horizontalRatio: 2.05, lipNoseRatio: 1.65 },
+            idealEthnicity: 'Asian'
         },
         features: { '얼굴형': { icon: '😊', description: '둥글고 풍만한 얼굴형이 선호됩니다.' }, '눈': { icon: '👀', description: '날렵한 눈매와 긴 눈이 매력적입니다.' }, '코': { icon: '👃', description: '적당한 크기의 코가 이상적입니다.' }, '입술': { icon: '👄', description: '도톰하고 붉은 입술이 선호됩니다.' } }
     },
     '미국': {
         flag: 'https://flagcdn.com/w320/us.png',
         scoringFactors: {
-            weights: { beauty: 0.30, symmetry: 0.25, verticalRatio: 0.15, horizontalRatio: 0.15, lipNoseRatio: 0.10, skinClarity: 0.05 },
-            idealRatios: { verticalRatio: 1.35, horizontalRatio: 2.25, lipNoseRatio: 1.7 }
+            weights: { beauty: 0.25, symmetry: 0.20, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.05, ethnicity: 0.25, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.35, horizontalRatio: 2.25, lipNoseRatio: 1.7 },
+            idealEthnicity: 'White'
         },
         features: { '얼굴형': { icon: '😊', description: '각진 턱선과 입체적인 얼굴이 선호됩니다.' }, '눈': { icon: '👀', description: '깊은 눈매와 큰 눈동자가 매력적입니다.' }, '코': { icon: '👃', description: '높고 굵은 콧대가 이상적입니다.' }, '입술': { icon: '👄', description: '풍만하고 섹시한 입술이 선호됩니다.' } }
     },
     '프랑스': {
         flag: 'https://flagcdn.com/w320/fr.png',
         scoringFactors: {
-            weights: { beauty: 0.35, symmetry: 0.20, verticalRatio: 0.15, horizontalRatio: 0.10, lipNoseRatio: 0.10, skinClarity: 0.10 },
-            idealRatios: { verticalRatio: 1.33, horizontalRatio: 2.25, lipNoseRatio: 1.55 }
+            weights: { beauty: 0.30, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.30, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.33, horizontalRatio: 2.25, lipNoseRatio: 1.55 },
+            idealEthnicity: 'White'
         },
         features: { '얼굴형': { icon: '😊', description: '세련된 타원형 얼굴이 선호됩니다.' }, '눈': { icon: '👀', description: '깊이 있는 눈매와 긴 속눈썹이 매력적입니다.' }, '코': { icon: '👃', description: '높고 날렵한 콧대가 이상적입니다.' }, '입술': { icon: '👄', description: '자연스럽고 우아한 입술이 선호됩니다.' } }
     },
     '러시아': {
         flag: 'https://flagcdn.com/w320/ru.png',
         scoringFactors: {
-            weights: { beauty: 0.10, symmetry: 0.15, verticalRatio: 0.05, horizontalRatio: 0.05, lipNoseRatio: 0.05, skinClarity: 0.60 },
-            idealRatios: { verticalRatio: 1.38, horizontalRatio: 2.2, lipNoseRatio: 1.5 }
+            weights: { beauty: 0.10, symmetry: 0.15, verticalRatio: 0.05, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.45, skinClarity: 0.15 },
+            idealRatios: { verticalRatio: 1.38, horizontalRatio: 2.2, lipNoseRatio: 1.5 },
+            idealEthnicity: 'White'
         },
         features: { '얼굴형': { icon: '😊', description: '높고 도드라진 광대뼈와 갸름한 턱선이 특징입니다.' }, '눈': { icon: '👀', description: '크고 밝은 색의 눈, 특히 파란색이나 녹색 눈이 선호됩니다.' }, '코': { icon: '👃', description: '곧고 높은 콧대가 미의 기준으로 여겨집니다.' }, '입술': { icon: '👄', description: '너무 두껍지 않은 자연스러운 입술을 선호합니다.' } }
     },
     '브라질': {
         flag: 'https://flagcdn.com/w320/br.png',
         scoringFactors: {
-            weights: { beauty: 0.40, symmetry: 0.20, verticalRatio: 0.15, horizontalRatio: 0.15, lipNoseRatio: 0.05, skinClarity: 0.05 },
-            idealRatios: { verticalRatio: 1.3, horizontalRatio: 2.3, lipNoseRatio: 1.6 }
+            weights: { beauty: 0.35, symmetry: 0.20, verticalRatio: 0.15, horizontalRatio: 0.15, lipNoseRatio: 0.10, ethnicity: 0.05, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.3, horizontalRatio: 2.3, lipNoseRatio: 1.6 },
+            idealEthnicity: null
         },
         features: { '얼굴형': { icon: '😊', description: '건강미 넘치는 구릿빛 피부와 입체적인 얼굴형이 매력적입니다.' }, '눈': { icon: '👀', description: '깊고 매혹적인 눈매, 다양한 색의 눈이 아름답게 여겨집니다.' }, '코': { icon: '👃', description: '자연스럽고 얼굴과 조화로운 코를 선호합니다.' }, '입술': { icon: '👄', description: '도톰하고 생기 있는 입술이 선호됩니다.' } }
     },
     '인도': {
         flag: 'https://flagcdn.com/w320/in.png',
         scoringFactors: {
-            weights: { beauty: 0.25, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.10, skinClarity: 0.30 },
-            idealRatios: { verticalRatio: 1.3, horizontalRatio: 2.0, lipNoseRatio: 1.65 }
+            weights: { beauty: 0.15, symmetry: 0.10, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.10, ethnicity: 0.30, skinClarity: 0.15 },
+            idealRatios: { verticalRatio: 1.3, horizontalRatio: 2.0, lipNoseRatio: 1.65 },
+            idealEthnicity: 'Indian'
         },
         features: { '얼굴형': { icon: '😊', description: '계란형의 부드러운 얼굴선이 선호됩니다.' }, '눈': { icon: '👀', description: '크고 짙은 아몬드 모양의 눈, 긴 속눈썹이 매우 아름답게 여겨집니다.' }, '코': { icon: '👃', description: '날렵하고 오똑한 코가 이상적입니다.' }, '입술': { icon: '👄', description: '윤곽이 뚜렷하고 도톰한 입술이 매력의 상징입니다.' } }
     },
     '이탈리아': {
         flag: 'https://flagcdn.com/w320/it.png',
         scoringFactors: {
-            weights: { beauty: 0.30, symmetry: 0.25, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.10, skinClarity: 0.15 },
-            idealRatios: { verticalRatio: 1.36, horizontalRatio: 2.2, lipNoseRatio: 1.6 }
+            weights: { beauty: 0.25, symmetry: 0.20, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.30, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.36, horizontalRatio: 2.2, lipNoseRatio: 1.6 },
+            idealEthnicity: 'White'
         },
         features: { '얼굴형': { icon: '😊', description: '선이 굵고 조각 같은 입체적인 얼굴형이 선호됩니다.' }, '눈': { icon: '👀', description: '짙고 표현력이 풍부한 눈썹과 깊은 눈매가 특징입니다.' }, '코': { icon: '👃', description: '고전적으로 쭉 뻗은 로마 코가 아름답게 여겨집니다.' }, '입술': { icon: '👄', description: '감성적이고 도톰한 입술이 매력적으로 평가됩니다.' } }
     },
     '태국': {
         flag: 'https://flagcdn.com/w320/th.png',
         scoringFactors: {
-            weights: { beauty: 0.25, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.10, skinClarity: 0.35 },
-            idealRatios: { verticalRatio: 1.32, horizontalRatio: 2.15, lipNoseRatio: 1.6 }
+            weights: { beauty: 0.20, symmetry: 0.10, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.10, ethnicity: 0.30, skinClarity: 0.15 },
+            idealRatios: { verticalRatio: 1.32, horizontalRatio: 2.15, lipNoseRatio: 1.6 },
+            idealEthnicity: 'Asian'
         },
         features: { '얼굴형': { icon: '😊', description: '작고 갸름한 얼굴, 부드러운 인상이 선호됩니다.' }, '눈': { icon: '👀', description: '크고 동그란 눈과 쌍꺼풀이 선호되는 경향이 있습니다.' }, '코': { icon: '👃', description: '너무 높지 않고 자연스러운 코를 아름답다고 생각합니다.' }, '입술': { icon: '👄', description: '미소를 머금은 듯한 모양의 도톰한 입술이 인기가 많습니다.' } }
     }
@@ -116,6 +140,13 @@ document.addEventListener('DOMContentLoaded', () => {
         selectedGender = e.target.value;
         checkAnalyzeButtonState();
     }));
+
+    // 카메라 관련 이벤트 리스너들
+    cameraBtn.addEventListener('click', openCamera);
+    closeCameraBtn.addEventListener('click', closeCamera);
+    captureBtn.addEventListener('click', capturePhoto);
+    retakeBtn.addEventListener('click', retakePhoto);
+    usePhotoBtn.addEventListener('click', useCapturedPhoto);
 });
 
 function handleImageUpload(event) {
@@ -136,6 +167,123 @@ function handleImageUpload(event) {
         checkAnalyzeButtonState();
     };
     reader.readAsDataURL(file);
+}
+
+// 카메라 열기 함수
+async function openCamera() {
+    try {
+        // 카메라 권한 요청 및 스트림 시작
+        cameraStream = await navigator.mediaDevices.getUserMedia({
+            video: {
+                facingMode: 'user', // 전면 카메라 사용
+                width: { ideal: 1280 },
+                height: { ideal: 720 }
+            }
+        });
+        
+        // 비디오 요소에 스트림 연결
+        cameraVideo.srcObject = cameraStream;
+        cameraModal.style.display = 'flex';
+        
+        // 카메라가 로드될 때까지 대기
+        cameraVideo.onloadedmetadata = () => {
+            cameraVideo.play();
+        };
+        
+    } catch (error) {
+        console.error('카메라 접근 오류:', error);
+        alert('카메라에 접근할 수 없습니다. 카메라 권한을 확인해주세요.');
+    }
+}
+
+// 카메라 닫기 함수
+function closeCamera() {
+    if (cameraStream) {
+        // 모든 비디오 트랙 중지
+        cameraStream.getTracks().forEach(track => track.stop());
+        cameraStream = null;
+    }
+    
+    // 모달 닫기
+    cameraModal.style.display = 'none';
+    
+    // 비디오 요소 초기화
+    cameraVideo.srcObject = null;
+    
+    // 캡처된 이미지 데이터 초기화
+    capturedImageData = null;
+    
+    // 버튼 상태 초기화
+    captureBtn.style.display = 'flex';
+    retakeBtn.style.display = 'none';
+    usePhotoBtn.style.display = 'none';
+    cameraVideo.style.display = 'block';
+    cameraCanvas.style.display = 'none';
+}
+
+// 사진 촬영 함수
+function capturePhoto() {
+    const context = cameraCanvas.getContext('2d');
+    
+    // 캔버스 크기를 비디오 크기에 맞춤
+    cameraCanvas.width = cameraVideo.videoWidth;
+    cameraCanvas.height = cameraVideo.videoHeight;
+    
+    // 비디오 프레임을 캔버스에 그리기
+    context.drawImage(cameraVideo, 0, 0, cameraCanvas.width, cameraCanvas.height);
+    
+    // 캡처된 이미지 데이터 저장
+    capturedImageData = cameraCanvas.toDataURL('image/jpeg', 0.8);
+    
+    // UI 상태 변경
+    cameraVideo.style.display = 'none';
+    cameraCanvas.style.display = 'block';
+    captureBtn.style.display = 'none';
+    retakeBtn.style.display = 'flex';
+    usePhotoBtn.style.display = 'flex';
+}
+
+// 다시 촬영 함수
+function retakePhoto() {
+    // 캡처된 이미지 데이터 초기화
+    capturedImageData = null;
+    
+    // UI 상태 초기화
+    cameraVideo.style.display = 'block';
+    cameraCanvas.style.display = 'none';
+    captureBtn.style.display = 'flex';
+    retakeBtn.style.display = 'none';
+    usePhotoBtn.style.display = 'none';
+}
+
+// 촬영한 사진 사용하기 함수
+function useCapturedPhoto() {
+    if (!capturedImageData) {
+        alert('촬영된 사진이 없습니다.');
+        return;
+    }
+    
+    // Data URL을 Blob으로 변환
+    fetch(capturedImageData)
+        .then(res => res.blob())
+        .then(blob => {
+            // File 객체 생성 (업로드된 이미지와 동일한 형식)
+            const file = new File([blob], 'camera-photo.jpg', { type: 'image/jpeg' });
+            
+            // 기존 이미지 업로드 처리 함수와 동일한 방식으로 처리
+            uploadedImage = file;
+            previewImage.src = capturedImageData;
+            uploadArea.style.display = 'none';
+            imagePreview.style.display = 'block';
+            checkAnalyzeButtonState();
+            
+            // 카메라 모달 닫기
+            closeCamera();
+        })
+        .catch(error => {
+            console.error('이미지 처리 오류:', error);
+            alert('이미지 처리 중 오류가 발생했습니다.');
+        });
 }
 
 function checkAnalyzeButtonState() {
@@ -301,21 +449,19 @@ function analyzeLandmarks(landmarks) {
 
 // 국가별 점수 계산
 function calculateAllCountryScores(geometric, attributes) {
-    // Face++ API 응답 구조에 맞게 데이터 추출
     const faceAttributes = attributes.faces && attributes.faces[0] ? attributes.faces[0].attributes : {};
     
-    // 분석된 값이 없을 경우를 대비해 기본값 설정
     const beautyScore = faceAttributes.beauty ? (faceAttributes.beauty.male_score + faceAttributes.beauty.female_score) / 2 : 75;
+    const detectedEthnicity = faceAttributes.ethnicity?.value;
 
     return Object.entries(countryData).map(([name, data]) => {
         const factors = data.scoringFactors;
         
-        // 1. 각 항목을 0-100점 척도로 변환
         const scores = {};
         scores.symmetry = geometric.symmetry ?? 70;
 
         const calculateRatioScore = (userValue, idealValue) => {
-            if (!userValue || !idealValue) return 70; // 비율 값 없으면 기본 점수
+            if (!userValue || !idealValue) return 70;
             const diff = Math.abs(userValue - idealValue) / idealValue;
             return Math.max(0, 100 * (1 - diff * 2));
         };
@@ -323,27 +469,44 @@ function calculateAllCountryScores(geometric, attributes) {
         scores.horizontalRatio = geometric.horizontalRatio ? calculateRatioScore(geometric.horizontalRatio, factors.idealRatios.horizontalRatio) : 70;
         scores.lipNoseRatio = geometric.lipNoseRatio ? calculateRatioScore(geometric.lipNoseRatio, factors.idealRatios.lipNoseRatio) : 70;
         
-        // 새로운 핵심 점수 항목: 피부 점수 (건강도 + 결점)
         const skinStatus = faceAttributes.skinstatus;
         if (skinStatus) {
             const healthScore = skinStatus.health ?? 70;
             const totalBlemish = (skinStatus.stain ?? 0) + (skinStatus.acne ?? 0) + (skinStatus.dark_circle ?? 0);
-            const blemishScore = Math.max(0, 100 - totalBlemish * 1.5); // 결점이 많을수록 큰 감점
-            // 최종 피부 점수는 건강도(70%)와 결점 없음(30%)을 가중 평균하여 건강도의 영향력을 높임
-            scores.skinClarity = (healthScore * 0.7) + (blemishScore * 0.3);
+            const blemishScore = Math.max(0, 100 - totalBlemish);
+            scores.skinClarity = (healthScore * 0.5) + (blemishScore * 0.5);
         } else {
-            scores.skinClarity = 70; // 분석 불가 시 기본 점수
+            scores.skinClarity = 70;
         }
 
-        // 2. 최종 점수 계산: 각 항목의 점수에 가중치를 적용하여 합산
+        let ethnicityScore;
+        const idealEthnicity = factors.idealEthnicity;
+
+        if (!idealEthnicity) { 
+            ethnicityScore = 85;
+        } else if (!detectedEthnicity) {
+            ethnicityScore = 70;
+        } else {
+            if (detectedEthnicity === idealEthnicity) {
+                ethnicityScore = 100;
+            } else {
+                if (['대한민국', '일본', '중국', '러시아'].includes(name) && detectedEthnicity === 'Black') {
+                    ethnicityScore = 0; // Black 인종에 대한 강력한 페널티
+                } else {
+                    ethnicityScore = 30; // 그 외 불일치
+                }
+            }
+        }
+        scores.ethnicity = ethnicityScore;
+
         let finalScore = (beautyScore * factors.weights.beauty) +
                          (scores.symmetry * factors.weights.symmetry) +
                          (scores.verticalRatio * factors.weights.verticalRatio) +
                          (scores.horizontalRatio * factors.weights.horizontalRatio) +
                          (scores.lipNoseRatio * factors.weights.lipNoseRatio) +
-                         (scores.skinClarity * factors.weights.skinClarity);
+                         (scores.ethnicity * factors.weights.ethnicity) +
+                         (scores.skinClarity * (factors.weights.skinClarity || 0));
         
-        // 3. 최종 점수를 0-100점 사이 값으로 그대로 사용
         return {
             name,
             flag: data.flag,
@@ -356,13 +519,13 @@ function calculateAllCountryScores(geometric, attributes) {
 function displayResults(countryScores, geometric, attributes) {
     loadingOverlay.style.display = 'none';
     uploadSection.style.display = 'none';
-    resultSection.style.display = 'block';
-    
+        resultSection.style.display = 'block';
+        
     const sortedCountries = countryScores.sort((a, b) => b.score - a.score);
     const topCountry = sortedCountries[0];
 
     document.getElementById('topCountryFlag').src = topCountry.flag;
-    document.getElementById('topCountryName').textContent = topCountry.name;
+        document.getElementById('topCountryName').textContent = topCountry.name;
     document.getElementById('topScore').textContent = Math.round(topCountry.score);
 
     displayAdvancedAnalysis(geometric, attributes);
@@ -372,18 +535,18 @@ function displayResults(countryScores, geometric, attributes) {
 
 // 국가 리스트 표시
 function displayCountriesList(sortedCountries) {
-    const countriesList = document.getElementById('countriesList');
-    countriesList.innerHTML = '';
+        const countriesList = document.getElementById('countriesList');
+        countriesList.innerHTML = '';
     sortedCountries.forEach((country, index) => {
         const countryElement = document.createElement('div');
         countryElement.className = 'country-item';
         countryElement.setAttribute('data-country', country.name);
         countryElement.innerHTML = `
-            <div class="country-info">
+                <div class="country-info">
             <span class="country-rank">#${index + 1}</span>
             <img src="${country.flag}" alt="${country.name} 국기" class="country-flag">
-                <span class="country-name">${country.name}</span>
-            </div>
+                    <span class="country-name">${country.name}</span>
+                </div>
         <div class="country-score"><span>${Math.round(country.score)}</span></div>`;
         countryElement.addEventListener('click', () => selectCountry(country.name));
         countriesList.appendChild(countryElement);
@@ -454,6 +617,14 @@ function restartAnalysis() {
     imagePreview.style.display = 'none';
     previewImage.src = '';
     analyzeBtn.disabled = true;
+    
+    // 카메라 관련 상태 초기화
+    if (cameraStream) {
+        cameraStream.getTracks().forEach(track => track.stop());
+        cameraStream = null;
+    }
+    capturedImageData = null;
+    cameraModal.style.display = 'none';
 }
 
 // 강제 재배포를 위한 주석
