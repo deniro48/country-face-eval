@@ -20,7 +20,7 @@ const countryData = {
     '대한민국': {
         flag: 'https://flagcdn.com/w320/kr.png',
         scoringFactors: {
-            weights: { beauty: 0.20, symmetry: 0.20, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.10, skinClarity: 0.30 },
+            weights: { beauty: 0.10, symmetry: 0.15, verticalRatio: 0.05, horizontalRatio: 0.05, lipNoseRatio: 0.05, skinClarity: 0.60 },
             idealRatios: { verticalRatio: 1.4, horizontalRatio: 2.1, lipNoseRatio: 1.6 }
         },
         features: { '얼굴형': { icon: '😊', description: '갸름한 V라인과 작은 얼굴이 선호됩니다.' }, '눈': { icon: '👀', description: '또렷한 쌍꺼풀과 큰 눈이 매력적으로 여겨집니다.' }, '코': { icon: '👃', description: '높고 곧은 콧대와 작은 코끝이 이상적입니다.' }, '입술': { icon: '👄', description: '도톰하고 선명한 입술이 선호됩니다.' } }
@@ -28,7 +28,7 @@ const countryData = {
     '일본': {
         flag: 'https://flagcdn.com/w320/jp.png',
         scoringFactors: {
-            weights: { beauty: 0.20, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.10, skinClarity: 0.35 },
+            weights: { beauty: 0.10, symmetry: 0.10, verticalRatio: 0.05, horizontalRatio: 0.05, lipNoseRatio: 0.10, skinClarity: 0.60 },
             idealRatios: { verticalRatio: 1.28, horizontalRatio: 2.25, lipNoseRatio: 1.45 }
         },
         features: { '얼굴형': { icon: '😊', description: '부드러운 계란형 얼굴이 선호됩니다.' }, '눈': { icon: '👀', description: '처진 눈꼬리와 자연스러운 쌍꺼풀이 매력적입니다.' }, '코': { icon: '👃', description: '작고 낮은 코가 귀엽게 여겨집니다.' }, '입술': { icon: '👄', description: '작고 얇은 입술이 선호됩니다.' } }
@@ -36,7 +36,7 @@ const countryData = {
     '중국': {
         flag: 'https://flagcdn.com/w320/cn.png',
         scoringFactors: {
-            weights: { beauty: 0.20, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.10, skinClarity: 0.35 },
+            weights: { beauty: 0.10, symmetry: 0.10, verticalRatio: 0.05, horizontalRatio: 0.05, lipNoseRatio: 0.10, skinClarity: 0.60 },
             idealRatios: { verticalRatio: 1.3, horizontalRatio: 2.05, lipNoseRatio: 1.65 }
         },
         features: { '얼굴형': { icon: '😊', description: '둥글고 풍만한 얼굴형이 선호됩니다.' }, '눈': { icon: '👀', description: '날렵한 눈매와 긴 눈이 매력적입니다.' }, '코': { icon: '👃', description: '적당한 크기의 코가 이상적입니다.' }, '입술': { icon: '👄', description: '도톰하고 붉은 입술이 선호됩니다.' } }
@@ -60,7 +60,7 @@ const countryData = {
     '러시아': {
         flag: 'https://flagcdn.com/w320/ru.png',
         scoringFactors: {
-            weights: { beauty: 0.20, symmetry: 0.20, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.05, skinClarity: 0.35 },
+            weights: { beauty: 0.10, symmetry: 0.15, verticalRatio: 0.05, horizontalRatio: 0.05, lipNoseRatio: 0.05, skinClarity: 0.60 },
             idealRatios: { verticalRatio: 1.38, horizontalRatio: 2.2, lipNoseRatio: 1.5 }
         },
         features: { '얼굴형': { icon: '😊', description: '높고 도드라진 광대뼈와 갸름한 턱선이 특징입니다.' }, '눈': { icon: '👀', description: '크고 밝은 색의 눈, 특히 파란색이나 녹색 눈이 선호됩니다.' }, '코': { icon: '👃', description: '곧고 높은 콧대가 미의 기준으로 여겨집니다.' }, '입술': { icon: '👄', description: '너무 두껍지 않은 자연스러운 입술을 선호합니다.' } }
@@ -329,8 +329,8 @@ function calculateAllCountryScores(geometric, attributes) {
             const healthScore = skinStatus.health ?? 70;
             const totalBlemish = (skinStatus.stain ?? 0) + (skinStatus.acne ?? 0) + (skinStatus.dark_circle ?? 0);
             const blemishScore = Math.max(0, 100 - totalBlemish * 1.5); // 결점이 많을수록 큰 감점
-            // 최종 피부 점수는 건강도(40%)와 결점 없음(60%)을 가중 평균
-            scores.skinClarity = (healthScore * 0.4) + (blemishScore * 0.6);
+            // 최종 피부 점수는 건강도(70%)와 결점 없음(30%)을 가중 평균하여 건강도의 영향력을 높임
+            scores.skinClarity = (healthScore * 0.7) + (blemishScore * 0.3);
         } else {
             scores.skinClarity = 70; // 분석 불가 시 기본 점수
         }
