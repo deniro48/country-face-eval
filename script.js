@@ -240,17 +240,19 @@ async function startAnalysis() {
             analyzeWithFacePlusPlus(uploadedImage)
         ]);
 
+        // MediaPipe가 실패해도 분석은 계속 진행됩니다.
         if (mediaPipeResult.error) {
-            throw new Error(mediaPipeResult.error);
+            console.warn(`MediaPipe 분석 실패: ${mediaPipeResult.error}. Face++ 결과만으로 분석을 계속합니다.`);
         }
-
-        if (facePlusPlusResult.error) {
-            throw new Error(facePlusPlusResult.error);
-        }
-
-        const geometricAnalysis = analyzeLandmarks(mediaPipeResult.landmarks);
         
-        // Face++ API 응답 전체를 전달
+        // Face++는 필수이므로 실패 시 분석을 중단합니다.
+        if (facePlusPlusResult.error || !facePlusPlusResult.faces || facePlusPlusResult.faces.length === 0) {
+            throw new Error(facePlusPlusResult.error || 'Face++ API에서 얼굴을 감지하지 못했습니다.');
+        }
+
+        // MediaPipe 분석이 실패하면 geometricAnalysis는 빈 객체가 됩니다.
+        const geometricAnalysis = mediaPipeResult.landmarks ? analyzeLandmarks(mediaPipeResult.landmarks) : {};
+        
         const countryScores = calculateAllCountryScores(geometricAnalysis, facePlusPlusResult);
 
         displayResults(countryScores, geometricAnalysis, facePlusPlusResult);
@@ -264,18 +266,30 @@ async function startAnalysis() {
 // MediaPipe 분석 함수
 function analyzeWithMediaPipe(image) {
     return new Promise((resolve) => {
-        const faceMesh = new FaceMesh({
+        let timeoutId = null;
+        let faceMesh = null;
+
+        const cleanup = () => {
+            clearTimeout(timeoutId);
+            if (faceMesh) {
+                faceMesh.close();
+                faceMesh = null;
+            }
+        };
+
+        faceMesh = new FaceMesh({
             locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`
         });
+        
         faceMesh.setOptions({ maxNumFaces: 1, refineLandmarks: true, minDetectionConfidence: 0.5, minTrackingConfidence: 0.5 });
         
         faceMesh.onResults((results) => {
             if (results.multiFaceLandmarks && results.multiFaceLandmarks.length > 0) {
                 resolve({ landmarks: results.multiFaceLandmarks[0] });
             } else {
-                resolve({ error: '얼굴을 찾을 수 없습니다.' });
+                resolve({ error: 'MediaPipe에서 얼굴을 찾을 수 없습니다.' });
             }
-            faceMesh.close(); // 분석 후 리소스 해제
+            cleanup();
         });
 
         const processImage = () => {
@@ -283,6 +297,7 @@ function analyzeWithMediaPipe(image) {
                 faceMesh.send({ image });
             } catch (error) {
                  resolve({ error: `MediaPipe 분석 오류: ${error.message}` });
+                 cleanup();
             }
         };
 
@@ -290,8 +305,16 @@ function analyzeWithMediaPipe(image) {
             processImage();
         } else {
             image.onload = processImage;
-            image.onerror = () => resolve({ error: '이미지를 로드할 수 없습니다.' });
+            image.onerror = () => {
+                resolve({ error: '이미지를 로드할 수 없습니다.' });
+                cleanup();
+            };
         }
+
+        timeoutId = setTimeout(() => {
+            resolve({ error: 'MediaPipe 분석 시간이 초과되었습니다.' });
+            cleanup();
+        }, 10000); // 10초 타임아웃
     });
 }
 
@@ -355,7 +378,8 @@ function calculateAllCountryScores(geometric, attributes) {
         beautyScore,
         smileScore,
         detectedEthnicity,
-        faceAttributes
+        faceAttributes,
+        geometricAvailable: !!geometric.symmetry
     });
 
     return Object.entries(countryData).map(([name, data]) => {
@@ -363,7 +387,8 @@ function calculateAllCountryScores(geometric, attributes) {
         
         // 1. 각 항목을 0-100점 척도로 변환
         const scores = {};
-        scores.symmetry = geometric.symmetry;
+        // geometric 데이터가 없으면(분석 실패) 기본 점수 70점 부여
+        scores.symmetry = geometric.symmetry ?? 70;
         scores.smiling = smileScore;
 
         const calculateRatioScore = (userValue, idealValue) => {
@@ -371,9 +396,9 @@ function calculateAllCountryScores(geometric, attributes) {
             const diff = Math.abs(userValue - idealValue) / idealValue;
             return Math.max(0, 100 * (1 - diff * 2));
         };
-        scores.verticalRatio = calculateRatioScore(geometric.verticalRatio, factors.idealRatios.verticalRatio);
-        scores.horizontalRatio = calculateRatioScore(geometric.horizontalRatio, factors.idealRatios.horizontalRatio);
-        scores.lipNoseRatio = calculateRatioScore(geometric.lipNoseRatio, factors.idealRatios.lipNoseRatio);
+        scores.verticalRatio = geometric.verticalRatio ? calculateRatioScore(geometric.verticalRatio, factors.idealRatios.verticalRatio) : 70;
+        scores.horizontalRatio = geometric.horizontalRatio ? calculateRatioScore(geometric.horizontalRatio, factors.idealRatios.horizontalRatio) : 70;
+        scores.lipNoseRatio = geometric.lipNoseRatio ? calculateRatioScore(geometric.lipNoseRatio, factors.idealRatios.lipNoseRatio) : 70;
         
         scores.ethnicity = (detectedEthnicity === factors.idealEthnicity) ? 100 : 75; // 인종 일치 시 100점, 불일치 시 75점 (큰 페널티 방지)
         if (!factors.idealEthnicity) scores.ethnicity = 85; // 인종을 보지 않는 국가는 기본 점수
@@ -438,7 +463,7 @@ function displayCountriesList(sortedCountries) {
 
 // 상세 분석 정보 표시
 function displayAdvancedAnalysis(geometric, attributes) {
-    const getAnalysisText = (value, unit = '') => value ? `${Math.round(value)}${unit}` : '분석 불가';
+    const getAnalysisText = (value, unit = '') => (value !== undefined && value !== null) ? `${Math.round(value)}${unit}` : '분석 불가';
     
     // Face++ API 응답 구조에 맞게 데이터 추출
     const faceAttributes = attributes.faces && attributes.faces[0] ? attributes.faces[0].attributes : {};
