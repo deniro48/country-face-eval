@@ -541,6 +541,30 @@ body.mobile-view .loading-overlay {
         font-size: 0.9rem;
     }
     
+    /* 768px 이하에서 피부 상태 박스 조정 */
+    #skinCondition {
+        font-size: 0.9rem;
+        line-height: 1.4;
+        padding: 0.7rem 1rem;
+        white-space: normal;
+        word-break: keep-all;
+    }
+    
+    /* 768px 이하에서 얼굴 비율 박스 조정 */
+    #geometricAnalysis {
+        font-size: 0.9rem;
+        line-height: 1.4;
+        padding: 0.7rem 1rem;
+        white-space: normal;
+        word-break: keep-all;
+    }
+    
+    /* 768px 이하에서 얼굴 생김새 제목 조정 */
+    .facial-features-title {
+        line-height: 1.3;
+        white-space: normal;
+    }
+    
     /* 모바일에서 텍스트 줄바꿈 방지 */
     .logo {
         white-space: nowrap;
@@ -727,6 +751,33 @@ body.mobile-view .loading-overlay {
     
     .mobile-view-toggle i {
         font-size: 1rem;
+    }
+    
+    /* 480px 이하에서 피부 상태 박스 크기 조정 */
+    #skinCondition {
+        font-size: 0.85rem;
+        line-height: 1.3;
+        padding: 0.8rem 1.2rem;
+        min-height: auto;
+        white-space: normal;
+        word-break: keep-all;
+    }
+    
+    /* 480px 이하에서 얼굴 비율 박스 크기 조정 */
+    #geometricAnalysis {
+        font-size: 0.85rem;
+        line-height: 1.3;
+        padding: 0.8rem 1.2rem;
+        min-height: auto;
+        white-space: normal;
+        word-break: keep-all;
+    }
+    
+    /* 480px 이하에서 얼굴 생김새 제목 조정 */
+    .facial-features-title {
+        font-size: 1rem;
+        line-height: 1.2;
+        white-space: normal;
     }
 }
 
@@ -1083,7 +1134,7 @@ body.mobile-view .loading-overlay {
 }
 
 .analysis-value {
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 700;
     color: var(--primary-color);
     background: rgba(102, 126, 234, 0.1);
