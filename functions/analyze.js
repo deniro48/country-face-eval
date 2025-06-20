@@ -1,10 +1,11 @@
 // Cloudflare Function to handle Face++ API requests
 
 // Face++ API 설정 정보
-// 나중에 Cloudflare 대시보드에서 이 키들을 안전하게 환경 변수로 설정하는 것이 좋습니다.
+// 보안을 위해 환경 변수로 설정해야 합니다.
+// Cloudflare 대시보드에서 환경 변수를 설정해주세요.
 const FACE_API_CONFIG = {
-    API_KEY: 'Giw09KRlWPFGbGORxHOKE7BtvwXXtsey',
-    API_SECRET: 'edjHz6YcvI9aa2OT-htOjztoydKIAjxX',
+    API_KEY: process.env.FACE_API_KEY || 'YOUR_API_KEY_HERE',
+    API_SECRET: process.env.FACE_API_SECRET || 'YOUR_API_SECRET_HERE',
     BASE_URL: 'https://api-us.faceplusplus.com/facepp/v3'
 };
 
