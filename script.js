@@ -422,7 +422,7 @@ function displayCountriesList(sortedCountries) {
             <img src="${country.flag}" alt="${country.name} 국기" class="country-flag">
                 <span class="country-name">${country.name}</span>
             </div>
-        <div class="country-score"><span>${Math.round(country.score)}</span>점</div>`;
+        <div class="country-score"><span>${Math.round(country.score)}</span></div>`;
         countryElement.addEventListener('click', () => selectCountry(country.name));
         countriesList.appendChild(countryElement);
     });
