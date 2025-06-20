@@ -1323,7 +1323,15 @@ body.mobile-view .loading-overlay {
 }
 
 .analyze-btn:disabled {
-    opacity: 0.6;
+    background: var(--border-color);
     cursor: not-allowed;
+    box-shadow: none;
     transform: none;
+}
+
+/* 데스크톱에서만 특정 요소 숨기기 */
+@media (min-width: 769px) {
+    .mobile-only {
+        display: none;
+    }
 } 

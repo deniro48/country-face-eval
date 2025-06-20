@@ -594,10 +594,12 @@ function displayFacialFeatures(countryName) {
     const features = countryData[countryName]?.features;
     if (!features) return;
     
-    const title = document.createElement('h3');
-    title.className = 'facial-features-title';
-    title.innerHTML = `👑 ${countryName}의 선호하는<br>얼굴 생김새`;
-    list.appendChild(title);
+    const featuresTitle = document.createElement('h3');
+    featuresTitle.className = 'facial-features-title';
+    featuresTitle.innerHTML = `<i class="fas fa-crown"></i> ${countryName}의 선호하는 <br class="mobile-only">얼굴 생김새`;
+
+    const featuresList = document.createElement('div');
+    featuresList.className = 'facial-features-list';
 
     Object.entries(features).forEach(([feature, data]) => {
         const item = document.createElement('div');
@@ -605,8 +607,11 @@ function displayFacialFeatures(countryName) {
         item.innerHTML = `
             <div class="facial-feature-title">${data.icon} ${feature}</div>
             <div class="facial-feature-description">${data.description}</div>`;
-        list.appendChild(item);
+        featuresList.appendChild(item);
     });
+
+    list.appendChild(featuresTitle);
+    list.appendChild(featuresList);
 }
 
 function restartAnalysis() {
