@@ -123,6 +123,384 @@ const countryData = {
             idealEthnicity: 'Asian'
         },
         features: { '얼굴형': { icon: '😊', description: '작고 갸름한 얼굴, 부드러운 인상이 선호됩니다.' }, '눈': { icon: '👀', description: '크고 동그란 눈과 쌍꺼풀이 선호되는 경향이 있습니다.' }, '코': { icon: '👃', description: '너무 높지 않고 자연스러운 코를 아름답다고 생각합니다.' }, '입술': { icon: '👄', description: '미소를 머금은 듯한 모양의 도톰한 입술이 인기가 많습니다.' } }
+    },
+    '영국': {
+        flag: 'https://flagcdn.com/w320/gb.png',
+        scoringFactors: {
+            weights: { beauty: 0.25, symmetry: 0.20, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.30, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.34, horizontalRatio: 2.2, lipNoseRatio: 1.6 },
+            idealEthnicity: 'White'
+        },
+        features: { '얼굴형': { icon: '👑', description: '오각형 얼굴형과 날렵한 턱선이 세련미를 더합니다.' }, '눈': { icon: '👀', description: '차분하고 깊이 있는 눈매가 지적인 이미지를 줍니다.' }, '코': { icon: '👃', description: '곧고 클래식한 코가 귀족적인 느낌을 줍니다.' }, '입술': { icon: '👄', description: '너무 두껍지 않고 균형 잡힌 입술이 선호됩니다.' } }
+    },
+    '독일': {
+        flag: 'https://flagcdn.com/w320/de.png',
+        scoringFactors: {
+            weights: { beauty: 0.20, symmetry: 0.25, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.05, ethnicity: 0.25, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.37, horizontalRatio: 2.2, lipNoseRatio: 1.5 },
+            idealEthnicity: 'White'
+        },
+        features: { '얼굴형': { icon: '😊', description: '각진 턱과 도드라진 광대뼈가 강인한 인상을 줍니다.' }, '눈': { icon: '👀', description: '뚜렷하고 진지한 눈매, 밝은 색 눈동자가 많습니다.' }, '코': { icon: '👃', description: '곧고 약간은 매부리코 형태가 자연스럽게 여겨집니다.' }, '입술': { icon: '👄', description: '얇고 섬세한 입술이 지적인 느낌을 줍니다.' } }
+    },
+    '스페인': {
+        flag: 'https://flagcdn.com/w320/es.png',
+        scoringFactors: {
+            weights: { beauty: 0.30, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.05, ethnicity: 0.25, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.33, horizontalRatio: 2.15, lipNoseRatio: 1.65 },
+            idealEthnicity: 'White'
+        },
+        features: { '얼굴형': { icon: '💃', description: '올리브 톤의 피부와 계란형 얼굴이 건강미를 상징합니다.' }, '눈': { icon: '👀', description: '크고 짙은 아몬드 모양의 눈이 정열적으로 보입니다.' }, '코': { icon: '👃', description: '선이 굵고 강한 인상을 주는 코가 매력적입니다.' }, '입술': { icon: '👄', description: '도톰하고 표현력이 풍부한 입술이 선호됩니다.' } }
+    },
+    '스웨덴': {
+        flag: 'https://flagcdn.com/w320/se.png',
+        scoringFactors: {
+            weights: { beauty: 0.20, symmetry: 0.25, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.05, ethnicity: 0.25, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.4, horizontalRatio: 2.25, lipNoseRatio: 1.5 },
+            idealEthnicity: 'White'
+        },
+        features: { '얼굴형': { icon: '❄️', description: '높은 광대뼈와 날카로운 턱선을 가진 얼굴형이 이상적입니다.' }, '눈': { icon: '👀', description: '밝은 파란색이나 녹색의 눈이 신비로운 느낌을 줍니다.' }, '코': { icon: '👃', description: '가늘고 곧은 코가 세련된 인상을 줍니다.' }, '입술': { icon: '👄', description: '자연스럽고 너무 두껍지 않은 입술이 선호됩니다.' } }
+    },
+    '네덜란드': {
+        flag: 'https://flagcdn.com/w320/nl.png',
+        scoringFactors: {
+            weights: { beauty: 0.20, symmetry: 0.20, verticalRatio: 0.15, horizontalRatio: 0.10, lipNoseRatio: 0.05, ethnicity: 0.25, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.38, horizontalRatio: 2.15, lipNoseRatio: 1.55 },
+            idealEthnicity: 'White'
+        },
+        features: { '얼굴형': { icon: '😊', description: '자연스럽고 건강해 보이는 얼굴, 개성을 중시합니다.' }, '눈': { icon: '👀', description: '친절하고 열려있는 인상을 주는 눈매가 매력적입니다.' }, '코': { icon: '👃', description: '인위적이지 않고 자연스러운 코를 선호합니다.' }, '입술': { icon: '👄', description: '미소가 아름다운 입술이 긍정적인 이미지를 줍니다.' } }
+    },
+    '캐나다': {
+        flag: 'https://flagcdn.com/w320/ca.png',
+        scoringFactors: {
+            weights: { beauty: 0.20, symmetry: 0.20, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.05, ethnicity: 0.30, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.36, horizontalRatio: 2.2, lipNoseRatio: 1.6 },
+            idealEthnicity: 'White'
+        },
+        features: { '얼굴형': { icon: '🍁', description: '자연스럽고 건강미 넘치는 얼굴이 선호됩니다.' }, '눈': { icon: '👀', description: '다양한 인종이 공존하여 눈 색깔과 모양이 다양합니다.' }, '코': { icon: '👃', description: '얼굴 전체와 조화를 이루는 코가 아름답습니다.' }, '입술': { icon: '👄', description: '친근한 미소를 가진 입술이 매력적으로 여겨집니다.' } }
+    },
+    '멕시코': {
+        flag: 'https://flagcdn.com/w320/mx.png',
+        scoringFactors: {
+            weights: { beauty: 0.25, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.10, ethnicity: 0.25, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.32, horizontalRatio: 2.1, lipNoseRatio: 1.7 },
+            idealEthnicity: 'Latin'
+        },
+        features: { '얼굴형': { icon: '😊', description: '토착민과 유럽인의 특징이 혼합된 얼굴형이 많습니다.' }, '눈': { icon: '👀', description: '크고 짙은 눈이 매력적이며, 강렬한 인상을 줍니다.' }, '코': { icon: '👃', description: '약간 넓고 강한 콧대가 특징입니다.' }, '입술': { icon: '👄', description: '도톰하고 풍만한 입술이 아름답게 여겨집니다.' } }
+    },
+    '아르헨티나': {
+        flag: 'https://flagcdn.com/w320/ar.png',
+        scoringFactors: {
+            weights: { beauty: 0.25, symmetry: 0.20, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.30, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.35, horizontalRatio: 2.2, lipNoseRatio: 1.6 },
+            idealEthnicity: 'White'
+        },
+        features: { '얼굴형': { icon: '😊', description: '남유럽의 영향을 받아 이목구비가 뚜렷하고 입체적입니다.' }, '눈': { icon: '👀', description: '깊고 표현력이 풍부한 눈매가 매력적입니다.' }, '코': { icon: '👃', description: '날렵하고 오똑한 코가 세련된 이미지를 줍니다.' }, '입술': { icon: '👄', description: '우아하고 균형 잡힌 입술을 선호합니다.' } }
+    },
+    '베트남': {
+        flag: 'https://flagcdn.com/w320/vn.png',
+        scoringFactors: {
+            weights: { beauty: 0.15, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.40, skinClarity: 0.10 },
+            idealRatios: { verticalRatio: 1.3, horizontalRatio: 2.1, lipNoseRatio: 1.5 },
+            idealEthnicity: 'Asian'
+        },
+        features: { '얼굴형': { icon: '😊', description: '작고 갸름한 V-라인 얼굴과 하얀 피부를 선호합니다.' }, '눈': { icon: '👀', description: '크고 동그란 눈, 쌍꺼풀이 있는 눈을 아름답게 생각합니다.' }, '코': { icon: '👃', description: '높고 곧게 뻗은 콧대가 이상적으로 여겨집니다.' }, '입술': { icon: '👄', description: '앵두처럼 작고 도톰한 입술을 선호합니다.' } }
+    },
+    '필리핀': {
+        flag: 'https://flagcdn.com/w320/ph.png',
+        scoringFactors: {
+            weights: { beauty: 0.20, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.10, ethnicity: 0.35, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.31, horizontalRatio: 2.05, lipNoseRatio: 1.7 },
+            idealEthnicity: 'Asian'
+        },
+        features: { '얼굴형': { icon: '😊', description: '스페인과 미국의 영향을 받아 동서양의 특징이 혼합된 얼굴이 많습니다.' }, '눈': { icon: '👀', description: '크고 표현력 있는 눈이 매력의 중심으로 여겨집니다.' }, '코': { icon: '👃', description: '너무 높지 않으면서도 오똑한 코를 선호합니다.' }, '입술': { icon: '👄', description: '살짝 도톰하고 자연스러운 모양의 입술이 이상적입니다.' } }
+    },
+    '터키': {
+        flag: 'https://flagcdn.com/w320/tr.png',
+        scoringFactors: {
+            weights: { beauty: 0.20, symmetry: 0.20, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.35, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.34, horizontalRatio: 2.15, lipNoseRatio: 1.6 },
+            idealEthnicity: 'White'
+        },
+        features: { '얼굴형': { icon: '😊', description: '동서양이 조화된 타원형 얼굴에 뚜렷한 이목구비가 특징입니다.' }, '눈': { icon: '👀', description: '아몬드 모양의 신비로운 눈, 짙은 눈썹이 아름답습니다.' }, '코': { icon: '👃', description: '살짝 높고 곧은 코를 선호하며, 너무 뾰족하지 않은 코를 이상적으로 봅니다.' }, '입술': { icon: '👄', description: '도톰하고 관능적인 입술이 매력적으로 여겨집니다.' } }
+    },
+    '아랍에미리트': {
+        flag: 'https://flagcdn.com/w320/ae.png',
+        scoringFactors: {
+            weights: { beauty: 0.25, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.35, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.33, horizontalRatio: 2.1, lipNoseRatio: 1.65 },
+            idealEthnicity: 'Middle Eastern'
+        },
+        features: { '얼굴형': { icon: '😊', description: '갸름한 타원형 얼굴과 뚜렷한 윤곽이 선호됩니다.' }, '눈': { icon: '👀', description: '크고 깊은 눈, 긴 속눈썹, 화려한 아이 메이크업이 특징입니다.' }, '코': { icon: '👃', description: '작고 오똑한 코가 이상적으로 여겨집니다.' }, '입술': { icon: '👄', description: '도톰하고 윤곽이 분명한 입술이 아름답습니다.' } }
+    },
+    '나이지리아': {
+        flag: 'https://flagcdn.com/w320/ng.png',
+        scoringFactors: {
+            weights: { beauty: 0.25, symmetry: 0.25, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.10, ethnicity: 0.15, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.3, horizontalRatio: 2.0, lipNoseRatio: 1.8 },
+            idealEthnicity: 'Black'
+        },
+        features: { '얼굴형': { icon: '😊', description: '뚜렷한 이목구비와 대칭적인 얼굴이 중요하게 여겨집니다.' }, '눈': { icon: '👀', description: '크고 맑은 눈이 아름다움의 상징입니다.' }, '코': { icon: '👃', description: '넓지만 얼굴과 조화를 이루는 코를 선호합니다.' }, '입술': { icon: '👄', description: '도톰하고 풍만한 입술이 매력적으로 평가됩니다.' } }
+    },
+    '이집트': {
+        flag: 'https://flagcdn.com/w320/eg.png',
+        scoringFactors: {
+            weights: { beauty: 0.20, symmetry: 0.20, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.35, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.32, horizontalRatio: 2.1, lipNoseRatio: 1.6 },
+            idealEthnicity: 'Middle Eastern'
+        },
+        features: { '얼굴형': { icon: '😊', description: '고대 벽화처럼 신비롭고 이국적인 외모가 매력적입니다.' }, '눈': { icon: '👀', description: '아이라인으로 강조한 아몬드 모양의 눈(클레오파트라의 눈)이 이상적입니다.' }, '코': { icon: '👃', description: '곧고 날렵한 코가 세련미를 더합니다.' }, '입술': { icon: '👄', description: '윤곽이 뚜렷하고 균형 잡힌 입술이 선호됩니다.' } }
+    },
+    '남아프리카공화국': {
+        flag: 'https://flagcdn.com/w320/za.png',
+        scoringFactors: {
+            weights: { beauty: 0.30, symmetry: 0.20, verticalRatio: 0.15, horizontalRatio: 0.15, lipNoseRatio: 0.10, ethnicity: 0.05, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.33, horizontalRatio: 2.2, lipNoseRatio: 1.6 },
+            idealEthnicity: null 
+        },
+        features: { '얼굴형': { icon: '😊', description: '다양한 인종이 공존하여 미의 기준이 매우 다채롭습니다.' }, '눈': { icon: '👀', description: '개성 있고 생기 넘치는 눈빛이 중요하게 여겨집니다.' }, '코': { icon: '👃', description: '자연스럽고 조화로운 코가 아름답다고 평가됩니다.' }, '입술': { icon: '👄', description: '자신감 있는 미소를 가진 입술이 매력적입니다.' } }
+    },
+    '호주': {
+        flag: 'https://flagcdn.com/w320/au.png',
+        scoringFactors: {
+            weights: { beauty: 0.25, symmetry: 0.20, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.05, ethnicity: 0.25, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.35, horizontalRatio: 2.25, lipNoseRatio: 1.6 },
+            idealEthnicity: 'White'
+        },
+        features: { '얼굴형': { icon: '☀️', description: '햇볕에 건강하게 그을린 피부와 운동으로 다져진 얼굴형이 선호됩니다.' }, '눈': { icon: '👀', description: '자유롭고 활기찬 분위기의 눈매가 매력적입니다.' }, '코': { icon: '👃', description: '자연스럽고 오똑한 코가 이상적으로 여겨집니다.' }, '입술': { icon: '👄', description: '밝고 건강한 미소를 머금은 입술이 아름답습니다.' } }
+    },
+    '폴란드': {
+        flag: 'https://flagcdn.com/w320/pl.png',
+        scoringFactors: {
+            weights: { beauty: 0.20, symmetry: 0.25, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.05, ethnicity: 0.25, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.38, horizontalRatio: 2.2, lipNoseRatio: 1.55 },
+            idealEthnicity: 'White'
+        },
+        features: { '얼굴형': { icon: '😊', description: '하트형 또는 타원형 얼굴에 높은 광대뼈가 우아함을 더합니다.' }, '눈': { icon: '👀', description: '크고 표현력 있는 눈, 특히 밝은 색 눈동자가 선호됩니다.' }, '코': { icon: '👃', description: '가늘고 곧은 코가 세련된 인상을 줍니다.' }, '입술': { icon: '👄', description: '자연스럽게 도톰한 입술이 아름답게 여겨집니다.' } }
+    },
+    '그리스': {
+        flag: 'https://flagcdn.com/w320/gr.png',
+        scoringFactors: {
+            weights: { beauty: 0.25, symmetry: 0.20, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.05, ethnicity: 0.25, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.35, horizontalRatio: 2.15, lipNoseRatio: 1.6 },
+            idealEthnicity: 'White'
+        },
+        features: { '얼굴형': { icon: '🏛️', description: '조각상처럼 강한 턱선과 올리브 톤 피부가 특징입니다.' }, '눈': { icon: '👀', description: '짙은 아몬드 모양의 눈과 두꺼운 눈썹이 조화롭습니다.' }, '코': { icon: '👃', description: '고전적인 "그리스 코"로 불리는 곧고 높은 콧대가 이상적입니다.' }, '입술': { icon: '👄', description: '윤곽이 뚜렷하고 균형 잡힌 입술을 선호합니다.' } }
+    },
+    '아일랜드': {
+        flag: 'https://flagcdn.com/w320/ie.png',
+        scoringFactors: {
+            weights: { beauty: 0.20, symmetry: 0.20, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.05, ethnicity: 0.30, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.37, horizontalRatio: 2.25, lipNoseRatio: 1.5 },
+            idealEthnicity: 'White'
+        },
+        features: { '얼굴형': { icon: '🍀', description: '주근깨가 있는 창백한 피부와 강한 광대뼈가 매력적입니다.' }, '눈': { icon: '👀', description: '밝고 생기 있는 눈, 특히 녹색 눈이 상징적입니다.' }, '코': { icon: '👃', description: '자연스럽고 약간은 위로 향한 코가 귀여운 인상을 줍니다.' }, '입술': { icon: '👄', description: '붉은 머리카락과 대조되는 얇고 섬세한 입술이 특징입니다.' } }
+    },
+    '스위스': {
+        flag: 'https://flagcdn.com/w320/ch.png',
+        scoringFactors: {
+            weights: { beauty: 0.15, symmetry: 0.25, verticalRatio: 0.15, horizontalRatio: 0.10, lipNoseRatio: 0.05, ethnicity: 0.25, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.4, horizontalRatio: 2.2, lipNoseRatio: 1.5 },
+            idealEthnicity: 'White'
+        },
+        features: { '얼굴형': { icon: '🏔️', description: '꾸미지 않은 자연미와 깨끗하고 건강한 피부를 중시합니다.' }, '눈': { icon: '👀', description: '독일, 프랑스, 이탈리아의 영향으로 다양한 눈 모양이 나타납니다.' }, '코': { icon: '👃', description: '인위적이지 않고 얼굴과 조화를 이루는 코를 선호합니다.' }, '입술': { icon: '👄', description: '건강하고 자연스러운 입술이 아름답습니다.' } }
+    },
+    '콜롬비아': {
+        flag: 'https://flagcdn.com/w320/co.png',
+        scoringFactors: {
+            weights: { beauty: 0.30, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.10, ethnicity: 0.20, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.32, horizontalRatio: 2.1, lipNoseRatio: 1.75 },
+            idealEthnicity: 'Latin'
+        },
+        features: { '얼굴형': { icon: '💃', description: '건강한 구릿빛 피부와 뚜렷한 이목구비가 라틴미를 상징합니다.' }, '눈': { icon: '👀', description: '크고 짙은 눈이 열정적인 인상을 줍니다.' }, '코': { icon: '👃', description: '조화롭고 약간은 날렵한 코가 선호됩니다.' }, '입술': { icon: '👄', description: '풍만하고 매혹적인 입술이 아름다움의 중요한 요소입니다.' } }
+    },
+    '페루': {
+        flag: 'https://flagcdn.com/w320/pe.png',
+        scoringFactors: {
+            weights: { beauty: 0.20, symmetry: 0.20, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.05, ethnicity: 0.30, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.31, horizontalRatio: 2.05, lipNoseRatio: 1.6 },
+            idealEthnicity: 'Latin'
+        },
+        features: { '얼굴형': { icon: '🦙', description: '안데스 원주민의 혈통으로 높은 광대뼈가 특징입니다.' }, '눈': { icon: '👀', description: '깊고 어두운 아몬드 모양의 눈이 신비감을 줍니다.' }, '코': { icon: '👃', description: '강하고 약간은 매부리코 모양의 코가 인상적입니다.' }, '입술': { icon: '👄', description: '두껍고 윤곽이 뚜렷한 입술이 선호됩니다.' } }
+    },
+    '인도네시아': {
+        flag: 'https://flagcdn.com/w320/id.png',
+        scoringFactors: {
+            weights: { beauty: 0.15, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.40, skinClarity: 0.10 },
+            idealRatios: { verticalRatio: 1.29, horizontalRatio: 2.1, lipNoseRatio: 1.55 },
+            idealEthnicity: 'Asian'
+        },
+        features: { '얼굴형': { icon: '😊', description: '부드러운 타원형 얼굴과 밝은 갈색 피부톤을 선호합니다.' }, '눈': { icon: '👀', description: '크고 순한 눈매를 가진 눈이 아름답게 여겨집니다.' }, '코': { icon: '👃', description: '너무 높지 않고 자연스러운 콧대가 이상적입니다.' }, '입술': { icon: '👄', description: '미소를 머금은 듯한 자연스러운 입술이 매력적입니다.' } }
+    },
+    '말레이시아': {
+        flag: 'https://flagcdn.com/w320/my.png',
+        scoringFactors: {
+            weights: { beauty: 0.20, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.10, ethnicity: 0.35, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.3, horizontalRatio: 2.15, lipNoseRatio: 1.6 },
+            idealEthnicity: 'Asian'
+        },
+        features: { '얼굴형': { icon: '😊', description: '다문화 사회로, 갸름한 얼굴과 밝은 피부가 공통적으로 선호됩니다.' }, '눈': { icon: '👀', description: '크고 쌍꺼풀이 있는 눈이 아름답다고 여겨집니다.' }, '코': { icon: '👃', description: '높고 오똑한 콧대가 세련미를 더합니다.' }, '입술': { icon: '👄', description: '적당히 도톰하고 균형 잡힌 입술이 이상적입니다.' } }
+    },
+    '이스라엘': {
+        flag: 'https://flagcdn.com/w320/il.png',
+        scoringFactors: {
+            weights: { beauty: 0.25, symmetry: 0.20, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.30, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.34, horizontalRatio: 2.15, lipNoseRatio: 1.6 },
+            idealEthnicity: 'Middle Eastern'
+        },
+        features: { '얼굴형': { icon: '✡️', description: '지중해와 중동의 특징이 섞여 개성있는 외모를 선호합니다.' }, '눈': { icon: '👀', description: '녹색이나 파란색 등 밝은 눈동자가 매력적으로 여겨집니다.' }, '코': { icon: '👃', description: '약간은 강한 인상을 주는 코도 개성으로 존중됩니다.' }, '입술': { icon: '👄', description: '자연스럽고 표현력이 풍부한 입술이 아름답습니다.' } }
+    },
+    '사우디아라비아': {
+        flag: 'https://flagcdn.com/w320/sa.png',
+        scoringFactors: {
+            weights: { beauty: 0.25, symmetry: 0.20, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.30, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.32, horizontalRatio: 2.1, lipNoseRatio: 1.65 },
+            idealEthnicity: 'Middle Eastern'
+        },
+        features: { '얼굴형': { icon: '😊', description: '전통적으로 타원형의 갸름한 얼굴이 미의 기준입니다.' }, '눈': { icon: '👀', description: '크고 검은 "사막의 눈"이 아름다움의 상징입니다.' }, '코': { icon: '👃', description: '작고 날렵한 코가 이상적으로 여겨집니다.' }, '입술': { icon: '👄', description: '도톰하고 윤곽이 뚜렷한 입술이 선호됩니다.' } }
+    },
+    '에티오피아': {
+        flag: 'https://flagcdn.com/w320/et.png',
+        scoringFactors: {
+            weights: { beauty: 0.20, symmetry: 0.25, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.05, ethnicity: 0.25, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.33, horizontalRatio: 2.05, lipNoseRatio: 1.5 },
+            idealEthnicity: 'Black'
+        },
+        features: { '얼굴형': { icon: '😊', description: '높은 광대뼈와 갸름한 턱선을 가진 타원형 얼굴이 특징입니다.' }, '눈': { icon: '👀', description: '크고 아몬드 모양의 눈이 매력적으로 평가됩니다.' }, '코': { icon: '👃', description: '다른 아프리카 지역에 비해 상대적으로 좁고 높은 코를 선호합니다.' }, '입술': { icon: '👄', description: '너무 두껍지 않은 균형 잡힌 입술이 이상적입니다.' } }
+    },
+    '모로코': {
+        flag: 'https://flagcdn.com/w320/ma.png',
+        scoringFactors: {
+            weights: { beauty: 0.20, symmetry: 0.20, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.35, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.34, horizontalRatio: 2.1, lipNoseRatio: 1.6 },
+            idealEthnicity: 'Middle Eastern'
+        },
+        features: { '얼굴형': { icon: '🕌', description: '아랍과 베르베르 문화가 섞인 타원형 얼굴이 매력적입니다.' }, '눈': { icon: '👀', description: '신비로운 녹색이나 밝은 갈색 눈이 아름답게 여겨집니다.' }, '코': { icon: '👃', description: '곧고 조화로운 코가 선호됩니다.' }, '입술': { icon: '👄', description: '도톰하고 부드러운 인상을 주는 입술이 이상적입니다.' } }
+    },
+    '케냐': {
+        flag: 'https://flagcdn.com/w320/ke.png',
+        scoringFactors: {
+            weights: { beauty: 0.20, symmetry: 0.25, verticalRatio: 0.15, horizontalRatio: 0.10, lipNoseRatio: 0.10, ethnicity: 0.15, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.3, horizontalRatio: 2.0, lipNoseRatio: 1.8 },
+            idealEthnicity: 'Black'
+        },
+        features: { '얼굴형': { icon: '😊', description: '높은 광대뼈와 강한 턱선이 건강미를 상징합니다.' }, '눈': { icon: '👀', description: '크고 빛나는 눈이 생명력을 나타냅니다.' }, '코': { icon: '👃', description: '넓고 강한 콧대가 자연스럽고 아름답게 여겨집니다.' }, '입술': { icon: '👄', description: '도톰하고 건강한 입술이 매력적으로 평가됩니다.' } }
+    },
+    '뉴질랜드': {
+        flag: 'https://flagcdn.com/w320/nz.png',
+        scoringFactors: {
+            weights: { beauty: 0.25, symmetry: 0.20, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.05, ethnicity: 0.25, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.36, horizontalRatio: 2.2, lipNoseRatio: 1.6 },
+            idealEthnicity: 'White'
+        },
+        features: { '얼굴형': { icon: '🥝', description: '자연스럽고 건강한 모습, 마오리 문화의 영향으로 개성을 중시합니다.' }, '눈': { icon: '👀', description: '다양한 문화가 공존하여 눈의 형태와 색이 다채롭습니다.' }, '코': { icon: '👃', description: '인위적이지 않고 자연스러운 코를 선호합니다.' }, '입술': { icon: '👄', description: '활기찬 미소를 가진 입술이 아름답습니다.' } }
+    },
+    '노르웨이': {
+        flag: 'https://flagcdn.com/w320/no.png',
+        scoringFactors: {
+            weights: { beauty: 0.20, symmetry: 0.25, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.05, ethnicity: 0.25, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.4, horizontalRatio: 2.2, lipNoseRatio: 1.5 },
+            idealEthnicity: 'White'
+        },
+        features: { '얼굴형': { icon: '🏞️', description: '자연 그대로의 아름다움과 강한 턱선이 특징입니다.' }, '눈': { icon: '👀', description: '깊고 푸른 눈이 피오르드처럼 신비로운 느낌을 줍니다.' }, '코': { icon: '👃', description: '곧고 높은 코가 강인한 인상을 줍니다.' }, '입술': { icon: '👄', description: '자연스러운 색상의 균형 잡힌 입술을 선호합니다.' } }
+    },
+    '덴마크': {
+        flag: 'https://flagcdn.com/w320/dk.png',
+        scoringFactors: {
+            weights: { beauty: 0.15, symmetry: 0.25, verticalRatio: 0.15, horizontalRatio: 0.10, lipNoseRatio: 0.05, ethnicity: 0.25, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.39, horizontalRatio: 2.25, lipNoseRatio: 1.5 },
+            idealEthnicity: 'White'
+        },
+        features: { '얼굴형': { icon: '😊', description: '편안하고 행복해 보이는 휘게(Hygge) 스타일의 자연스러운 얼굴을 중시합니다.' }, '눈': { icon: '👀', description: '친절하고 따뜻한 느낌의 눈매가 매력적입니다.' }, '코': { icon: '👃', description: '과장되지 않고 부드러운 인상을 주는 코를 선호합니다.' }, '입술': { icon: '👄', description: '미소가 아름다운 건강한 입술이 아름답습니다.' } }
+    },
+    '핀란드': {
+        flag: 'https://flagcdn.com/w320/fi.png',
+        scoringFactors: {
+            weights: { beauty: 0.20, symmetry: 0.25, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.05, ethnicity: 0.25, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.41, horizontalRatio: 2.15, lipNoseRatio: 1.45 },
+            idealEthnicity: 'White'
+        },
+        features: { '얼굴형': { icon: '🌲', description: '자일리톨처럼 깨끗한 이미지와 높은 광대뼈가 특징입니다.' }, '눈': { icon: '👀', description: '호수처럼 맑고 밝은 색의 눈동자가 신비로움을 더합니다.' }, '코': { icon: '👃', description: '날렵하고 오똑한 코가 세련된 느낌을 줍니다.' }, '입술': { icon: '👄', description: '자연스럽고 섬세한 입술이 이상적입니다.' } }
+    },
+    '우크라이나': {
+        flag: 'https://flagcdn.com/w320/ua.png',
+        scoringFactors: {
+            weights: { beauty: 0.25, symmetry: 0.20, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.05, ethnicity: 0.25, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.37, horizontalRatio: 2.15, lipNoseRatio: 1.6 },
+            idealEthnicity: 'White'
+        },
+        features: { '얼굴형': { icon: '😊', description: '타원형 얼굴과 부드러운 얼굴선이 미의 기준으로 여겨집니다.' }, '눈': { icon: '👀', description: '크고 표현력 있는 눈, 짙은 색 눈동자가 매력적입니다.' }, '코': { icon: '👃', description: '곧고 조화로운 코를 선호합니다.' }, '입술': { icon: '👄', description: '도톰하고 아름다운 곡선의 입술이 인기가 많습니다.' } }
+    },
+    '루마니아': {
+        flag: 'https://flagcdn.com/w320/ro.png',
+        scoringFactors: {
+            weights: { beauty: 0.20, symmetry: 0.20, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.35, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.36, horizontalRatio: 2.1, lipNoseRatio: 1.65 },
+            idealEthnicity: 'White'
+        },
+        features: { '얼굴형': { icon: '🧛', description: '라틴계의 영향으로 신비롭고 이국적인 외모가 특징입니다.' }, '눈': { icon: '👀', description: '깊고 매혹적인 눈매, 다양한 색의 눈동자가 아름답습니다.' }, '코': { icon: '👃', description: '날렵하고 오똑한 코가 세련미를 더합니다.' }, '입술': { icon: '👄', description: '도톰하고 관능적인 입술이 매력적으로 여겨집니다.' } }
+    },
+    '체코': {
+        flag: 'https://flagcdn.com/w320/cz.png',
+        scoringFactors: {
+            weights: { beauty: 0.20, symmetry: 0.25, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.05, ethnicity: 0.25, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.38, horizontalRatio: 2.2, lipNoseRatio: 1.5 },
+            idealEthnicity: 'White'
+        },
+        features: { '얼굴형': { icon: '😊', description: '슬라브와 게르만의 특징이 섞인 높은 광대뼈가 매력적입니다.' }, '눈': { icon: '👀', description: '크고 밝은 색의 눈동자가 인형 같은 느낌을 줍니다.' }, '코': { icon: '👃', description: '곧고 가느다란 코를 선호합니다.' }, '입술': { icon: '👄', description: '균형 잡힌 자연스러운 입술이 아름답습니다.' } }
+    },
+    '칠레': {
+        flag: 'https://flagcdn.com/w320/cl.png',
+        scoringFactors: {
+            weights: { beauty: 0.30, symmetry: 0.20, verticalRatio: 0.15, horizontalRatio: 0.15, lipNoseRatio: 0.10, ethnicity: 0.05, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.34, horizontalRatio: 2.15, lipNoseRatio: 1.6 },
+            idealEthnicity: null
+        },
+        features: { '얼굴형': { icon: '🗿', description: '유럽과 원주민의 특징이 혼합되어 개성있는 외모가 많습니다.' }, '눈': { icon: '👀', description: '다양한 인종의 영향으로 눈의 모양과 색이 다채롭습니다.' }, '코': { icon: '👃', description: '얼굴 전체의 조화를 중시하며, 자연스러운 코를 선호합니다.' }, '입술': { icon: '👄', description: '건강하고 생기 있는 입술이 매력적으로 평가됩니다.' } }
+    },
+    '이란': {
+        flag: 'https://flagcdn.com/w320/ir.png',
+        scoringFactors: {
+            weights: { beauty: 0.25, symmetry: 0.20, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.30, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.33, horizontalRatio: 2.1, lipNoseRatio: 1.6 },
+            idealEthnicity: 'Middle Eastern'
+        },
+        features: { '얼굴형': { icon: '😊', description: '페르시아의 후예로, 타원형 얼굴과 뚜렷한 이목구비가 특징입니다.' }, '눈': { icon: '👀', description: '아몬드 모양의 큰 눈과 짙은 눈썹이 아름다움의 상징입니다.' }, '코': { icon: '👃', description: '오똑하고 날렵한 코를 선호하여 코 성형이 인기가 많습니다.' }, '입술': { icon: '👄', description: '윤곽이 뚜렷하고 도톰한 입술이 매력적입니다.' } }
+    },
+    '파키스탄': {
+        flag: 'https://flagcdn.com/w320/pk.png',
+        scoringFactors: {
+            weights: { beauty: 0.15, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.10, ethnicity: 0.30, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.32, horizontalRatio: 2.05, lipNoseRatio: 1.65 },
+            idealEthnicity: 'Indian'
+        },
+        features: { '얼굴형': { icon: '😊', description: '남아시아와 중동의 특징이 결합된 계란형 얼굴을 선호합니다.' }, '눈': { icon: '👀', description: '크고 짙은 눈, 특히 밝은 색 눈동자는 신비롭게 여겨집니다.' }, '코': { icon: '👃', description: '날렵하고 높은 코가 이상적입니다.' }, '입술': { icon: '👄', description: '도톰하고 표현력 있는 입술이 아름답습니다.' } }
+    },
+    '방글라데시': {
+        flag: 'https://flagcdn.com/w320/bd.png',
+        scoringFactors: {
+            weights: { beauty: 0.15, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.40, skinClarity: 0.10 },
+            idealRatios: { verticalRatio: 1.3, horizontalRatio: 2.1, lipNoseRatio: 1.6 },
+            idealEthnicity: 'Indian'
+        },
+        features: { '얼굴형': { icon: '😊', description: '벵골인의 특징인 둥근 얼굴형과 부드러운 인상이 선호됩니다.' }, '눈': { icon: '👀', description: '크고 동그란 "물고기 눈"이 아름다움의 상징입니다.' }, '코': { icon: '👃', description: '너무 높지 않고 얼굴과 조화되는 코가 아름답습니다.' }, '입술': { icon: '👄', description: '도톰하고 자연스러운 입술이 매력적입니다.' } }
+    },
+    '싱가포르': {
+        flag: 'https://flagcdn.com/w320/sg.png',
+        scoringFactors: {
+            weights: { beauty: 0.25, symmetry: 0.20, verticalRatio: 0.15, horizontalRatio: 0.15, lipNoseRatio: 0.10, ethnicity: 0.05, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.35, horizontalRatio: 2.2, lipNoseRatio: 1.6 },
+            idealEthnicity: null
+        },
+        features: { '얼굴형': { icon: '🏙️', description: '다인종 국가로, 젊고 세련된 도시적인 이미지를 선호합니다.' }, '눈': { icon: '👀', description: '중국, 말레이, 인도계의 특징이 섞여 다양한 눈이 아름답게 여겨집니다.' }, '코': { icon: '👃', description: '오똑하고 세련된 코가 인기가 많습니다.' }, '입술': { icon: '👄', description: '깔끔하고 정돈된 느낌의 입술이 선호됩니다.' } }
+    },
+    '오스트리아': {
+        flag: 'https://flagcdn.com/w320/at.png',
+        scoringFactors: {
+            weights: { beauty: 0.20, symmetry: 0.25, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.05, ethnicity: 0.25, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.38, horizontalRatio: 2.2, lipNoseRatio: 1.55 },
+            idealEthnicity: 'White'
+        },
+        features: { '얼굴형': { icon: '🎻', description: '음악의 도시처럼 클래식하고 우아한 얼굴형이 선호됩니다.' }, '눈': { icon: '👀', description: '지적이고 깊이 있는 눈매가 매력적입니다.' }, '코': { icon: '👃', description: '곧고 귀족적인 느낌의 코가 이상적으로 여겨집니다.' }, '입술': { icon: '👄', description: '너무 과하지 않은, 균형 잡힌 입술이 아름답습니다.' } }
     }
 };
 
