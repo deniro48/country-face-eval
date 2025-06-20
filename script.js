@@ -416,9 +416,6 @@ function displayAdvancedAnalysis(geometric, attributes) {
     document.getElementById('faceQuality').textContent = getAnalysisText(faceAttributes.facequality?.value, '점');
     document.getElementById('beautyScore').textContent = getAnalysisText((faceAttributes.beauty?.male_score + faceAttributes.beauty?.female_score) / 2, '점');
     
-    const ethnicityText = faceAttributes.ethnicity?.value ? `${faceAttributes.ethnicity.value} (추정)` : '분석 불가';
-    document.getElementById('ethnicity').textContent = ethnicityText;
-
     const emotion = faceAttributes.emotion ? Object.keys(faceAttributes.emotion).reduce((a, b) => faceAttributes.emotion[a] > faceAttributes.emotion[b] ? a : b) : '분석 불가';
     document.getElementById('emotionAnalysis').textContent = emotion;
 
