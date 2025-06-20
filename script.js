@@ -431,10 +431,6 @@ function displayAdvancedAnalysis(geometric, attributes) {
     document.getElementById('skinCondition').textContent = skin ? `건강: ${Math.round(skin.health)}%` : '분석 불가';
     
     document.getElementById('poseAnalysis').textContent = `대칭: ${getAnalysisText(geometric.symmetry, '점')}`;
-    
-    // 디버깅을 위해 분석된 인종을 화면에 표시
-    const detectedEthnicity = faceAttributes.ethnicity?.value || '분석 불가';
-    document.getElementById('ethnicity_debug').textContent = detectedEthnicity;
 }
 
 // 국가 선택 및 특징 표시
