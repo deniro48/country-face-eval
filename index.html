@@ -3,83 +3,207 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>나라별 미의 기준 분석</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>내 얼굴, 어디 나라에서 제일 통할까?</title>
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <link rel="stylesheet" href="styles.css?v=1.2">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>나라별 미의 기준 분석기</h1>
-            <p>사진을 업로드하여 여러 나라의 미적 기준에 따라 당신의 얼굴을 분석해보세요.</p>
-        </header>
+    <!-- 헤더 섹션 -->
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">
+                <i class="fas fa-globe-americas"></i>
+                내 얼굴, 어디 나라에서 제일 통할까?
+            </h1>
+            <p class="subtitle">전 세계 주요 국가 기준으로 당신의 외모 매력도를 분석해보세요!</p>
+        </div>
+    </header>
 
-        <div class="main-content">
-            <div class="upload-section">
-                <div id="image-preview-container">
-                    <img id="image-preview" src="#" alt="업로드된 이미지">
-                </div>
-                <input type="file" id="image-upload" accept="image/*">
-                <label for="image-upload" class="upload-btn">사진 선택</label>
-            </div>
+    <!-- 메인 컨텐츠 -->
+    <main class="main-content">
+        <div class="container">
+            <!-- 업로드 섹션 -->
+            <section class="upload-section" id="uploadSection">
+                <div class="upload-card">
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-icon">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                        <h3>사진을 업로드해주세요</h3>
+                        <p>JPG, PNG 파일만 지원됩니다</p>
+                        <input type="file" id="imageInput" accept="image/jpeg,image/png" hidden>
+                        <button class="upload-btn" id="uploadBtn">
+                            사진 선택하기
+                        </button>
+                    </div>
+                    
+                    <!-- 미리보기 이미지 -->
+                    <div class="image-preview" id="imagePreview" style="display: none;">
+                        <img id="previewImage" src="" alt="업로드된 이미지">
+                        <button class="change-image-btn" id="changeImageBtn">
+                            <i class="fas fa-edit"></i> 다른 사진 선택
+                        </button>
+                    </div>
 
-            <div id="analysis-container" class="hidden">
-                <div id="loader" class="hidden">
-                    <div class="spinner"></div>
-                    <p>분석 중입니다. 잠시만 기다려주세요...</p>
-                </div>
-                
-                <div id="analysis-results" class="hidden">
-                    <h2>기본 분석 결과</h2>
-                    <div class="results-grid">
-                        <div class="result-item">
-                            <span class="result-label">성별</span>
-                            <span id="gender" class="result-value"></span>
-                        </div>
-                        <div class="result-item">
-                            <span class="result-label">예상 나이</span>
-                            <span id="estimatedAge" class="result-value"></span>
-                        </div>
-                        <div class="result-item">
-                            <span class="result-label">사진 품질</span>
-                            <span id="faceQuality" class="result-value"></span>
-                        </div>
-                         <div class="result-item">
-                            <span class="result-label">감정 상태</span>
-                            <span id="emotionAnalysis" class="result-value"></span>
-                        </div>
-                        <div class="result-item">
-                            <span class="result-label">매력 점수</span>
-                            <span id="beautyScore" class="result-value"></span>
-                        </div>
-                        <div class="result-item">
-                            <span class="result-label">피부 상태</span>
-                            <span id="skinCondition" class="result-value"></span>
-                        </div>
-                        <div class="result-item">
-                            <span class="result-label">얼굴 비율</span>
-                            <span id="geometricAnalysis" class="result-value"></span>
-                        </div>
-                        <div class="result-item">
-                            <span class="result-label">얼굴 대칭</span>
-                            <span id="poseAnalysis" class="result-value"></span>
+                    <!-- 성별 선택 -->
+                    <div class="gender-selection">
+                        <h3>성별을 선택해주세요</h3>
+                        <div class="gender-options">
+                            <label class="gender-option">
+                                <input type="radio" name="gender" value="male" id="male">
+                                <div class="gender-card">
+                                    <i class="fas fa-mars"></i>
+                                    <span>남성</span>
+                                </div>
+                            </label>
+                            <label class="gender-option">
+                                <input type="radio" name="gender" value="female" id="female">
+                                <div class="gender-card">
+                                    <i class="fas fa-venus"></i>
+                                    <span>여성</span>
+                                </div>
+                            </label>
                         </div>
                     </div>
-                </div>
-                
-                <div id="country-rank-container" class="hidden">
-                    <h2>국가별 순위</h2>
-                    <div id="country-rank-list"></div>
-                </div>
-                
-                <div id="country-details-container" class="hidden">
-                    <h2 id="country-details-title"></h2>
-                    <div id="country-features"></div>
-                </div>
 
-            </div>
+                    <!-- 분석 버튼 -->
+                    <button class="analyze-btn" id="analyzeBtn" disabled>
+                        <i class="fas fa-magic"></i>
+                        분석하기
+                    </button>
+                </div>
+            </section>
+
+            <!-- 결과 섹션 -->
+            <section class="result-section" id="resultSection" style="display: none;">
+                <div class="result-card">
+                    <!-- 최고 점수 국가 -->
+                    <div class="top-country">
+                        <div class="country-badge">
+                            <img id="topCountryFlag" src="" alt="국기">
+                            <h2 id="topCountryName"></h2>
+                        </div>
+                        <div class="score-display">
+                            <span class="score-number" id="topScore"></span>
+                        </div>
+                        <p class="congratulation">당신의 얼굴이 가장 먹히는 국가 순입니다! 🎉</p>
+                    </div>
+
+                    <!-- 사진 분석 정보 -->
+                    <div class="photo-analysis-info">
+                        <h3><i class="fas fa-camera-retro"></i> 사진 분석 결과</h3>
+                        <div class="analysis-grid">
+                            <div class="analysis-item">
+                                <div class="analysis-icon">
+                                    <i class="fas fa-birthday-cake"></i>
+                                </div>
+                                <div class="analysis-content">
+                                    <h4>사진으로 본 추정 나이 🎂</h4>
+                                    <p class="analysis-value" id="estimatedAge">분석 중...</p>
+                                </div>
+                            </div>
+                            <div class="analysis-item">
+                                <div class="analysis-icon">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="analysis-content">
+                                    <h4>사진 품질 ⭐</h4>
+                                    <p class="analysis-value" id="faceQuality">분석 중...</p>
+                                </div>
+                            </div>
+                            <div class="analysis-item">
+                                <div class="analysis-icon">
+                                    <i class="fas fa-heart"></i>
+                                </div>
+                                <div class="analysis-content">
+                                    <h4>매력도 점수 ❤️</h4>
+                                    <p class="analysis-value" id="beautyScore">분석 중...</p>
+                                </div>
+                            </div>
+                            <div class="analysis-item">
+                                <div class="analysis-icon">
+                                    <i class="fas fa-smile-beam"></i>
+                                </div>
+                                <div class="analysis-content">
+                                    <h4>감정 분석 🥰</h4>
+                                    <p class="analysis-value" id="emotionAnalysis">분석 중...</p>
+                                </div>
+                            </div>
+                            <div class="analysis-item">
+                                <div class="analysis-icon">
+                                    <i class="fas fa-spa"></i>
+                                </div>
+                                <div class="analysis-content">
+                                    <h4>🩺 피부 상태</h4>
+                                    <p id="skinCondition">분석 중...</p>
+                                </div>
+                            </div>
+                            <div class="analysis-item">
+                                <div class="analysis-icon">
+                                    <i class="fas fa-ruler-combined"></i>
+                                </div>
+                                <div class="analysis-content">
+                                    <h4>📏 얼굴 비율</h4>
+                                    <p class="analysis-value" id="geometricAnalysis">분석 중...</p>
+                                </div>
+                            </div>
+                            <div class="analysis-item">
+                                <div class="analysis-icon">
+                                    <i class="fas fa-user-check"></i>
+                                </div>
+                                <div class="analysis-content">
+                                    <h4>📐 얼굴 대칭</h4>
+                                    <p id="poseAnalysis">분석 중...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TOP 10 국가 리스트 -->
+                    <div class="top-countries">
+                        <h3><i class="fas fa-trophy"></i> TOP 10 국가</h3>
+                        <p class="countries-hint">💡 국가를 클릭하면 해당 국가의 상세 분석을 확인할 수 있습니다!</p>
+                        <div class="countries-list" id="countriesList">
+                            <!-- JavaScript로 동적 생성 -->
+                        </div>
+                    </div>
+
+                    <!-- 매력 점수 이유 설명 -->
+                    <div class="reason-section">
+                        <h3><i class="fas fa-lightbulb"></i> 평가 점수를 받은 이유</h3>
+                        <div class="reasons" id="reasonsList">
+                            <!-- JavaScript로 동적 생성 -->
+                        </div>
+                        <!-- 나라별 얼굴 생김새 설명 -->
+                        <div class="facial-features" id="facialFeaturesList">
+                            <!-- JavaScript로 동적 생성 -->
+                        </div>
+                    </div>
+
+                    <!-- 다시하기 버튼 -->
+                    <button class="restart-btn" id="restartBtn">
+                        <i class="fas fa-redo"></i>
+                        다시 분석하기
+                    </button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- 로딩 오버레이 -->
+    <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h3>분석 중입니다...</h3>
+            <p>전 세계 미의 기준으로 당신의 얼굴을 분석하고 있어요</p>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+
     <script src="script.js"></script>
 </body>
-</html>
+</html> 

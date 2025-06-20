@@ -409,8 +409,8 @@ function displayAdvancedAnalysis(geometric, attributes) {
     const skin = faceAttributes.skinstatus;
     document.getElementById('skinCondition').textContent = `건강 ${getAnalysisText(skin.health, '%')}, 잡티 ${getAnalysisText(skin.stain, '%')}, 여드름 ${getAnalysisText(skin.acne, '%')}, 다크서클 ${getAnalysisText(skin.dark_circle, '%')}`;
     
-    document.getElementById('geometricAnalysis').textContent = `세로 비율: ${getAnalysisText(geometric.verticalRatio)}, 가로 비율: ${getAnalysisText(geometric.horizontalRatio)}, 입/코 비율: ${getAnalysisText(geometric.lipNoseRatio)}`;
-    document.getElementById('poseAnalysis').textContent = `대칭: ${getAnalysisText(geometric.symmetry, '점')}`;
+    document.getElementById('geometricAnalysis').textContent = `세로: ${getAnalysisText(geometric.verticalRatio)}, 가로: ${getAnalysisText(geometric.horizontalRatio)}, 입/코: ${getAnalysisText(geometric.lipNoseRatio)}`;
+    document.getElementById('poseAnalysis').textContent = `${getAnalysisText(geometric.symmetry, '점')}`;
 }
 
 // 국가 선택 및 특징 표시
