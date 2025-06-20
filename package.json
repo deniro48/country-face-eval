@@ -1,0 +1,16 @@
+{
+  "name": "face-analysis-app",
+  "version": "2.0.0",
+  "description": "MediaPipe를 이용한 클라이언트 기반 얼굴 분석 웹 애플리케이션",
+  "main": "script.js",
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {},
+  "keywords": [
+    "face-analysis",
+    "mediapipe",
+    "javascript"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+} 
