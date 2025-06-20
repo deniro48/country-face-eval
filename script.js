@@ -20,7 +20,7 @@ const countryData = {
     '대한민국': {
         flag: 'https://flagcdn.com/w320/kr.png',
         scoringFactors: {
-            weights: { beauty: 0.20, symmetry: 0.20, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.10, ethnicity: 0.30 },
+            weights: { beauty: 0.15, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.10, ethnicity: 0.40 },
             idealRatios: { verticalRatio: 1.4, horizontalRatio: 2.1, lipNoseRatio: 1.6 },
             idealEthnicity: 'Asian'
         },
@@ -29,7 +29,7 @@ const countryData = {
     '일본': {
         flag: 'https://flagcdn.com/w320/jp.png',
         scoringFactors: {
-            weights: { beauty: 0.25, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.10, ethnicity: 0.30 },
+            weights: { beauty: 0.20, symmetry: 0.10, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.10, ethnicity: 0.40 },
             idealRatios: { verticalRatio: 1.28, horizontalRatio: 2.25, lipNoseRatio: 1.45 },
             idealEthnicity: 'Asian'
         },
@@ -38,7 +38,7 @@ const countryData = {
     '중국': {
         flag: 'https://flagcdn.com/w320/cn.png',
         scoringFactors: {
-            weights: { beauty: 0.20, symmetry: 0.15, verticalRatio: 0.15, horizontalRatio: 0.10, lipNoseRatio: 0.10, ethnicity: 0.30 },
+            weights: { beauty: 0.15, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.10, ethnicity: 0.40 },
             idealRatios: { verticalRatio: 1.3, horizontalRatio: 2.05, lipNoseRatio: 1.65 },
             idealEthnicity: 'Asian'
         },
@@ -348,9 +348,9 @@ function calculateAllCountryScores(geometric, attributes) {
             } else {
                 // 동아시아 국가에서 흑인일 경우 큰 감점 (사용자 요청)
                 if (['대한민국', '일본', '중국'].includes(name) && detectedEthnicity === 'Black') {
-                    ethnicityScore = 40;
+                    ethnicityScore = 20; // 감점 대폭 강화
                 } else {
-                    ethnicityScore = 65; // 그 외 모든 불일치 경우
+                    ethnicityScore = 50; // 그 외 모든 불일치 경우 감점 강화
                 }
             }
         }
