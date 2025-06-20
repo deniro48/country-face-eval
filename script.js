@@ -242,7 +242,7 @@ function analyzeWithMediaPipe(image) {
         timeoutId = setTimeout(() => {
             resolve({ error: 'MediaPipe 분석 시간이 초과되었습니다.' });
             cleanup();
-        }, 15000); // 15초 타임아웃
+        }, 20000); // 20초 타임아웃
     });
 }
 
@@ -258,15 +258,6 @@ async function analyzeWithFacePlusPlus(imageFile) {
         if (!response.ok) {
             throw new Error(data.error || 'API 서버 응답 오류');
         }
-        
-        // 디버깅: Face++ API 응답 구조 확인
-        console.log('Face++ API 응답:', data);
-        if (data.faces && data.faces[0]) {
-            console.log('얼굴 속성:', data.faces[0].attributes);
-            console.log('미소 점수:', data.faces[0].attributes?.smile);
-            console.log('인종 정보:', data.faces[0].attributes?.ethnicity);
-        }
-        
         return data;
     } catch (error) {
         console.error("Face++ API 호출 실패:", error);
@@ -340,14 +331,6 @@ function calculateAllCountryScores(geometric, attributes) {
     
     // 인종 정보는 MediaPipe 추정치를 사용
     const detectedEthnicity = geometric.estimatedEthnicity || 'N/A';
-
-    console.log('추출된 데이터:', {
-        beautyScore,
-        smileScore,
-        detectedEthnicity: `MediaPipe 추정: ${detectedEthnicity}`,
-        faceAttributes,
-        geometricAvailable: !!geometric.symmetry
-    });
 
     return Object.entries(countryData).map(([name, data]) => {
         const factors = data.scoringFactors;
