@@ -399,18 +399,18 @@ function displayAdvancedAnalysis(geometric, attributes) {
     
     document.getElementById('estimatedAge').textContent = getAnalysisText(faceAttributes.age?.value, '세');
     document.getElementById('faceQuality').textContent = getAnalysisText(faceAttributes.facequality?.value, '점');
-    document.getElementById('beautyScore').textContent = getAnalysisText((faceAttributes.beauty?.male_score + faceAttributes.beauty?.female_score) / 2, '점');
+    document.getElementById('beautyScore').textContent = getAnalysisText(
+        ((faceAttributes.beauty?.male_score ?? 0) + (faceAttributes.beauty?.female_score ?? 0)) / 2, '점'
+    );
     
     const emotion = faceAttributes.emotion ? Object.keys(faceAttributes.emotion).reduce((a, b) => faceAttributes.emotion[a] > faceAttributes.emotion[b] ? a : b) : '분석 불가';
     document.getElementById('emotionAnalysis').textContent = emotion;
 
     const skin = faceAttributes.skinstatus;
-    document.getElementById('skinCondition').textContent = skin ? `건강: ${Math.round(skin.health)}%` : '분석 불가';
+    document.getElementById('skinCondition').textContent = `건강 ${getAnalysisText(skin.health, '%')}, 잡티 ${getAnalysisText(skin.stain, '%')}, 여드름 ${getAnalysisText(skin.acne, '%')}, 다크서클 ${getAnalysisText(skin.dark_circle, '%')}`;
     
+    document.getElementById('geometricAnalysis').textContent = `세로 비율: ${getAnalysisText(geometric.verticalRatio)}, 가로 비율: ${getAnalysisText(geometric.horizontalRatio)}, 입/코 비율: ${getAnalysisText(geometric.lipNoseRatio)}`;
     document.getElementById('poseAnalysis').textContent = `대칭: ${getAnalysisText(geometric.symmetry, '점')}`;
-
-    // 디버깅을 위해 분석된 인종을 화면에 표시
-    document.getElementById('ethnicity_debug').textContent = attributes.faces[0].attributes.ethnicity?.value || '분석 불가';
 }
 
 // 국가 선택 및 특징 표시
