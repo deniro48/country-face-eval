@@ -264,29 +264,33 @@ async function startAnalysis() {
 // MediaPipe 분석 함수
 function analyzeWithMediaPipe(image) {
     return new Promise((resolve) => {
-        // 이미지가 완전히 로드된 후에 분석 시작
-        if (image.complete && image.naturalWidth !== 0) {
-            processImage();
-        } else {
-            image.onload = processImage;
-            image.onerror = () => resolve({ error: '이미지 로딩 실패' });
-        }
+        const faceMesh = new FaceMesh({
+            locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`
+        });
+        faceMesh.setOptions({ maxNumFaces: 1, refineLandmarks: true, minDetectionConfidence: 0.5, minTrackingConfidence: 0.5 });
         
-        function processImage() {
-            faceMesh.onResults((results) => {
-                if (results.multiFaceLandmarks && results.multiFaceLandmarks.length > 0) {
-                    resolve({ landmarks: results.multiFaceLandmarks[0] });
-                } else {
-                    resolve({ error: '얼굴을 찾을 수 없습니다.' });
-                }
-            });
-            
+        faceMesh.onResults((results) => {
+            if (results.multiFaceLandmarks && results.multiFaceLandmarks.length > 0) {
+                resolve({ landmarks: results.multiFaceLandmarks[0] });
+            } else {
+                resolve({ error: '얼굴을 찾을 수 없습니다.' });
+            }
+            faceMesh.close(); // 분석 후 리소스 해제
+        });
+
+        const processImage = () => {
             try {
                 faceMesh.send({ image });
             } catch (error) {
-                console.error('MediaPipe 오류:', error);
-                resolve({ error: 'MediaPipe 분석 실패' });
+                 resolve({ error: `MediaPipe 분석 오류: ${error.message}` });
             }
+        };
+
+        if (image.complete && image.naturalWidth > 0) {
+            processImage();
+        } else {
+            image.onload = processImage;
+            image.onerror = () => resolve({ error: '이미지를 로드할 수 없습니다.' });
         }
     });
 }
