@@ -757,8 +757,8 @@ body.mobile-view .loading-overlay {
     /* 480px 이하에서 피부 상태 박스 크기 조정 */
     #skinCondition {
         font-size: 0.75rem;
-        line-height: 1.2;
-        padding: 0.4rem 0.6rem;
+        line-height: 1.3;
+        padding: 0.4rem 1.2rem;
         min-height: auto;
         white-space: normal;
         word-break: keep-all;
