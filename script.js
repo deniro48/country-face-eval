@@ -364,13 +364,11 @@ function calculateAllCountryScores(geometric, attributes) {
                          (scores.lipNoseRatio * factors.weights.lipNoseRatio) +
                          (scores.ethnicity * factors.weights.ethnicity);
         
-        // 3. 최종 점수를 70~99점 사이로 조정
-        const normalizedScore = 70 + (finalScore / 100) * 29;
-
+        // 3. 최종 점수를 0-100점 사이 값으로 그대로 사용 (정규화 로직 제거)
         return {
             name,
             flag: data.flag,
-            score: Math.min(99, Math.max(70, Math.round(normalizedScore)))
+            score: Math.min(100, Math.max(0, Math.round(finalScore)))
         };
     });
 }
