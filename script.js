@@ -315,31 +315,49 @@ function analyzeLandmarks(landmarks) {
 // MediaPipe 랜드마크를 이용한 안정적인 인종 추정 함수
 function estimateEthnicityFromLandmarks(landmarks) {
     try {
-        const getDistance = (p1, p2) => Math.hypot(p1.x - p2.x, p1.y - p2.y);
+        // 3D 공간상의 거리를 계산하는 헬퍼 함수
+        const getDistance3D = (p1, p2) => Math.hypot(p1.x - p2.x, p1.y - p2.y, p1.z - p2.z);
 
-        // 눈 가로폭 대비 세로폭 비율 (일반적으로 동양인이 서양인보다 비율이 작음)
-        const leftEyeWidth = getDistance(landmarks[33], landmarks[133]);
-        const leftEyeHeight = getDistance(landmarks[159], landmarks[145]);
-        const rightEyeWidth = getDistance(landmarks[362], landmarks[263]);
-        const rightEyeHeight = getDistance(landmarks[386], landmarks[374]);
-
+        // 1. 눈 모양 (개방도 비율) - 3D 거리 기반으로 더 정확하게 계산
+        const leftEyeWidth = getDistance3D(landmarks[33], landmarks[133]);
+        const leftEyeHeight = getDistance3D(landmarks[159], landmarks[145]);
+        const rightEyeWidth = getDistance3D(landmarks[362], landmarks[263]);
+        const rightEyeHeight = getDistance3D(landmarks[386], landmarks[374]);
         const avgEyeRatio = ((leftEyeHeight / leftEyeWidth) + (rightEyeHeight / rightEyeWidth)) / 2;
-        
-        // 코 넓이 대비 얼굴 전체 넓이 비율 (일반적으로 동양인이 더 넓은 코를 가짐)
-        const faceWidth = getDistance(landmarks[234], landmarks[454]);
-        const noseWidth = getDistance(landmarks[226], landmarks[446]);
-        const noseFaceRatio = noseWidth / faceWidth;
 
-        // 매우 단순화된 추정 로직 (정확도는 제한적이나, 결과를 내는 데 초점)
-        // 두 지표를 조합하여 판별
-        if (avgEyeRatio < 0.35 && noseFaceRatio > 0.22) {
-            return 'Asian';
-        } else if (avgEyeRatio > 0.4) {
-            return 'White';
-        } else {
-            // 어느 한 쪽 특징이 강하지 않으면 중간 값으로 판정
-            return 'Mixed'; 
-        }
+        // 2. 코 능선 돌출 정도 (z 좌표 직접 사용)
+        const noseBridgeZ = landmarks[6].z;
+        const eyeInnerCornerZ = (landmarks[133].z + landmarks[362].z) / 2;
+        const noseBridgeProminence = eyeInnerCornerZ - noseBridgeZ; // 값이 클수록 코가 돌출
+
+        // 3. 광대뼈 대비 턱 너비 비율
+        const cheekWidth = getDistance3D(landmarks[234], landmarks[454]);
+        const jawWidth = getDistance3D(landmarks[172], landmarks[397]);
+        const cheekJawRatio = cheekWidth / jawWidth;
+
+        // 점수 기반 추정 로직
+        let whiteScore = 0;
+        let asianScore = 0;
+
+        // 눈 모양: 서양인이 일반적으로 더 높음
+        if (avgEyeRatio > 0.42) whiteScore += 1;
+        else if (avgEyeRatio < 0.39) asianScore += 1;
+
+        // 코 능선: 서양인이 더 돌출됨 (가중치 1.5 부여)
+        if (noseBridgeProminence > 0.015) whiteScore += 1.5;
+        else asianScore += 1;
+
+        // 얼굴형: 동양인이 광대뼈가 더 발달한 경향
+        if (cheekJawRatio > 1.04) asianScore += 1;
+        else whiteScore += 1;
+        
+        // Face++ API가 Indian을 반환할 수 있으나, 현재 MediaPipe만으로는
+        // White/Asian/Mixed로만 분류함.
+        if (whiteScore > asianScore) return 'White';
+        if (asianScore > whiteScore) return 'Asian';
+
+        return 'Mixed';
+
     } catch (e) {
         console.error("인종 추정 중 오류 발생:", e);
         return 'N/A'; // 오류 발생 시 분석 불가 처리
