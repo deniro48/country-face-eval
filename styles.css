@@ -51,6 +51,10 @@ body {
     z-index: 100;
 }
 
+.header-content {
+    position: relative;
+}
+
 .logo {
     font-size: 2.5rem;
     font-weight: 700;
@@ -75,6 +79,89 @@ body {
     font-size: 1.1rem;
     color: var(--text-secondary);
     font-weight: 400;
+}
+
+/* 모바일 뷰 토글 버튼 */
+.mobile-view-toggle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: var(--gradient-accent);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.mobile-view-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.mobile-view-toggle.active {
+    background: var(--gradient-success);
+}
+
+.mobile-view-toggle i {
+    font-size: 1rem;
+}
+
+/* 모바일 뷰 활성화 시 스타일 */
+body.mobile-view {
+    max-width: 375px;
+    margin: 0 auto;
+    border-left: 2px solid var(--primary-color);
+    border-right: 2px solid var(--primary-color);
+    min-height: 100vh;
+    position: relative;
+}
+
+body.mobile-view::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.1);
+    pointer-events: none;
+    z-index: -1;
+}
+
+body.mobile-view .header {
+    border-radius: 0;
+}
+
+body.mobile-view .container {
+    max-width: 100%;
+    padding: 0 15px;
+}
+
+/* 모바일 뷰에서 토글 버튼 위치 조정 */
+body.mobile-view .mobile-view-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: var(--gradient-success);
+}
+
+/* 모바일 뷰에서 카메라 모달 z-index 조정 */
+body.mobile-view .camera-modal {
+    z-index: 2000;
+}
+
+/* 모바일 뷰에서 로딩 오버레이 z-index 조정 */
+body.mobile-view .loading-overlay {
+    z-index: 1500;
 }
 
 /* 메인 컨텐츠 */
@@ -453,6 +540,67 @@ body {
     .countries-hint {
         font-size: 0.9rem;
     }
+    
+    /* 모바일에서 텍스트 줄바꿈 방지 */
+    .logo {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .upload-area h3 {
+        white-space: nowrap;
+        font-size: 1.3rem;
+    }
+    
+    .upload-area p {
+        white-space: nowrap;
+        font-size: 0.9rem;
+    }
+    
+    .gender-selection h3 {
+        white-space: nowrap;
+        font-size: 1.2rem;
+    }
+    
+    .top-countries h3 {
+        white-space: nowrap;
+        font-size: 1.5rem;
+    }
+    
+    .reason-section h3 {
+        white-space: nowrap;
+        font-size: 1.5rem;
+    }
+    
+    .photo-analysis-info h3 {
+        white-space: nowrap;
+        font-size: 1.5rem;
+    }
+    
+    .analysis-content h4 {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    /* 768px 이하에서 모바일 뷰 토글 버튼 조정 */
+    .mobile-view-toggle {
+        position: fixed;
+        top: 15px;
+        right: 15px;
+        z-index: 1000;
+        padding: 0.6rem 1.2rem;
+        font-size: 0.8rem;
+    }
+    
+    .mobile-view-toggle span {
+        display: none;
+    }
+    
+    .mobile-view-toggle i {
+        font-size: 1.2rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -477,7 +625,7 @@ body {
     }
     
     .photo-analysis-info h3 {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
         margin-bottom: 2rem;
     }
     
@@ -507,6 +655,78 @@ body {
     
     .analysis-value {
         font-size: 0.9rem;
+    }
+    
+    /* 480px 이하에서 텍스트 줄바꿈 방지 및 폰트 크기 조정 */
+    .logo {
+        font-size: 1.5rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .upload-area h3 {
+        font-size: 1.1rem;
+        white-space: nowrap;
+    }
+    
+    .upload-area p {
+        font-size: 0.8rem;
+        white-space: nowrap;
+    }
+    
+    .gender-selection h3 {
+        font-size: 1rem;
+        white-space: nowrap;
+    }
+    
+    .top-countries h3 {
+        font-size: 1.2rem;
+        white-space: nowrap;
+    }
+    
+    .reason-section h3 {
+        font-size: 1.2rem;
+        white-space: nowrap;
+    }
+    
+    .photo-analysis-info h3 {
+        font-size: 1.2rem;
+        white-space: nowrap;
+    }
+    
+    .analysis-content h4 {
+        font-size: 0.8rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .country-badge h2 {
+        font-size: 1.5rem;
+        white-space: nowrap;
+    }
+    
+    .score-number {
+        font-size: 3rem;
+    }
+    
+    .congratulation {
+        font-size: 1rem;
+        white-space: nowrap;
+    }
+    
+    /* 480px 이하에서 모바일 뷰 토글 버튼 조정 */
+    .mobile-view-toggle {
+        top: 10px;
+        right: 10px;
+        padding: 0.5rem 1rem;
+        font-size: 0.7rem;
+        border-radius: 20px;
+    }
+    
+    .mobile-view-toggle i {
+        font-size: 1rem;
     }
 }
 

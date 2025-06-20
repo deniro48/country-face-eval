@@ -29,6 +29,9 @@ const captureBtn = document.getElementById('captureBtn');
 const retakeBtn = document.getElementById('retakeBtn');
 const usePhotoBtn = document.getElementById('usePhotoBtn');
 
+// 모바일 뷰 토글 관련 DOM 요소
+const mobileViewToggle = document.getElementById('mobileViewToggle');
+
 // 나라별 선호도 및 얼굴 특징 데이터 (인종 가중치 포함하여 전면 재조정)
 const countryData = {
     '대한민국': {
@@ -147,6 +150,12 @@ document.addEventListener('DOMContentLoaded', () => {
     captureBtn.addEventListener('click', capturePhoto);
     retakeBtn.addEventListener('click', retakePhoto);
     usePhotoBtn.addEventListener('click', useCapturedPhoto);
+
+    // 모바일 뷰 토글 이벤트 리스너
+    mobileViewToggle.addEventListener('click', toggleMobileView);
+    
+    // 페이지 로드 시 모바일 뷰 상태 복원
+    restoreMobileViewState();
 });
 
 function handleImageUpload(event) {
@@ -284,6 +293,40 @@ function useCapturedPhoto() {
             console.error('이미지 처리 오류:', error);
             alert('이미지 처리 중 오류가 발생했습니다.');
         });
+}
+
+// 모바일 뷰 토글 함수
+function toggleMobileView() {
+    const body = document.body;
+    const isMobileView = body.classList.contains('mobile-view');
+    
+    if (isMobileView) {
+        // 모바일 뷰 비활성화
+        body.classList.remove('mobile-view');
+        mobileViewToggle.classList.remove('active');
+        mobileViewToggle.innerHTML = '<i class="fas fa-mobile-alt"></i><span>모바일 뷰</span>';
+        mobileViewToggle.title = '모바일 뷰로 보기';
+        
+        // 로컬 스토리지에서 모바일 뷰 상태 제거
+        localStorage.removeItem('mobileViewEnabled');
+    } else {
+        // 모바일 뷰 활성화
+        body.classList.add('mobile-view');
+        mobileViewToggle.classList.add('active');
+        mobileViewToggle.innerHTML = '<i class="fas fa-desktop"></i><span>데스크톱 뷰</span>';
+        mobileViewToggle.title = '데스크톱 뷰로 보기';
+        
+        // 로컬 스토리지에 모바일 뷰 상태 저장
+        localStorage.setItem('mobileViewEnabled', 'true');
+    }
+}
+
+// 페이지 로드 시 모바일 뷰 상태 복원
+function restoreMobileViewState() {
+    const mobileViewEnabled = localStorage.getItem('mobileViewEnabled');
+    if (mobileViewEnabled === 'true') {
+        toggleMobileView();
+    }
 }
 
 function checkAnalyzeButtonState() {
