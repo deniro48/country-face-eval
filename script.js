@@ -164,7 +164,7 @@ async function startAnalysis() {
     try {
         // MediaPipe와 Face++ 동시 분석
         const [mediaPipeResult, facePlusPlusResult] = await Promise.all([
-            analyzeWithMediaPipe(uploadedImage),
+            analyzeWithMediaPipe(previewImage),
             analyzeWithFacePlusPlus(uploadedImage)
         ]);
 
@@ -191,58 +191,48 @@ async function startAnalysis() {
     }
 }
 
-// MediaPipe 분석 함수
-function analyzeWithMediaPipe(image) {
+// MediaPipe 분석 함수 (전역 인스턴스 사용 및 안정성 개선)
+function analyzeWithMediaPipe(imageElement) {
     return new Promise((resolve) => {
-        let timeoutId = null;
-        let faceMesh = null;
-
-        const cleanup = () => {
+        const onResults = (results) => {
             clearTimeout(timeoutId);
-            if (faceMesh) {
-                faceMesh.close();
-                faceMesh = null;
-            }
-        };
+            faceMesh.onResults(() => {}); // 다른 분석과의 충돌을 막기 위해 리스너를 제거합니다.
 
-        faceMesh = new FaceMesh({
-            locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`
-        });
-        
-        faceMesh.setOptions({ maxNumFaces: 1, refineLandmarks: true, minDetectionConfidence: 0.5, minTrackingConfidence: 0.5 });
-        
-        faceMesh.onResults((results) => {
             if (results.multiFaceLandmarks && results.multiFaceLandmarks.length > 0) {
                 resolve({ landmarks: results.multiFaceLandmarks[0] });
             } else {
                 resolve({ error: 'MediaPipe에서 얼굴을 찾을 수 없습니다.' });
             }
-            cleanup();
-        });
+        };
 
-        const processImage = () => {
+        faceMesh.onResults(onResults);
+
+        const timeoutId = setTimeout(() => {
+            faceMesh.onResults(() => {}); // 타임아웃 시 리스너를 제거합니다.
+            resolve({ error: 'MediaPipe 분석 시간이 초과되었습니다.' });
+        }, 20000); // 20초 타임아웃
+
+        const sendImage = () => {
             try {
-                faceMesh.send({ image });
+                faceMesh.send({ image: imageElement });
             } catch (error) {
-                 resolve({ error: `MediaPipe 분석 오류: ${error.message}` });
-                 cleanup();
+                clearTimeout(timeoutId);
+                faceMesh.onResults(() => {});
+                resolve({ error: `MediaPipe 분석 오류: ${error.message}` });
             }
         };
 
-        if (image.complete && image.naturalWidth > 0) {
-            processImage();
+        // 이미지가 완전히 로드되었는지 확인 후 분석을 요청합니다.
+        if (imageElement.complete && imageElement.naturalWidth > 0) {
+            sendImage();
         } else {
-            image.onload = processImage;
-            image.onerror = () => {
+            imageElement.onload = sendImage;
+            imageElement.onerror = () => {
+                clearTimeout(timeoutId);
+                faceMesh.onResults(() => {});
                 resolve({ error: '이미지를 로드할 수 없습니다.' });
-                cleanup();
             };
         }
-
-        timeoutId = setTimeout(() => {
-            resolve({ error: 'MediaPipe 분석 시간이 초과되었습니다.' });
-            cleanup();
-        }, 20000); // 20초 타임아웃
     });
 }
 
