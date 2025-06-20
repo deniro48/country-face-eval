@@ -258,10 +258,29 @@ async function analyzeWithFacePlusPlus(imageFile) {
 // 랜드마크 기반 기하학적 분석
 function analyzeLandmarks(landmarks) {
     const getDistance = (p1, p2) => Math.hypot(p1.x - p2.x, p1.y - p2.y);
+    
+    // 얼굴 전체 폭을 기준으로 대칭성 계산 (0~100점 척도, 음수 방지)
+    const faceWidth = getDistance(landmarks[234], landmarks[454]);
+    const symmetryPoints = [
+        [33, 263], // 눈 바깥쪽
+        [133, 362], // 눈 안쪽
+        [54, 284], // 입꼬리 위쪽
+        [61, 291], // 입술 바깥쪽
+        [78, 308]  // 턱 라인
+    ];
+    
+    const asymmetrySum = symmetryPoints.reduce((sum, pair) => {
+        const leftPoint = landmarks[pair[0]];
+        const rightPoint = landmarks[pair[1]];
+        // 얼굴 중심(코 끝점 9)으로부터의 x축 거리 차이
+        const leftDist = Math.abs(leftPoint.x - landmarks[9].x);
+        const rightDist = Math.abs(rightPoint.x - landmarks[9].x);
+        return sum + Math.abs(leftDist - rightDist);
+    }, 0);
 
-    // 얼굴 대칭 계산
-    const symmetry = 100 - ([...Array(5).keys()].reduce((acc, i) =>
-        acc + Math.abs(landmarks[i * 21 + 4].x - (1 - landmarks[i * 21 + 24].x)), 0) * 200);
+    // 비대칭 정도를 얼굴 폭으로 정규화하여 0-1 사이 값으로 만들고, 100을 곱해 점수화
+    const asymmetryRatio = asymmetrySum / (faceWidth * symmetryPoints.length);
+    const symmetryScore = Math.max(0, 100 * (1 - asymmetryRatio * 5)); // *5는 차이를 더 분명하게 하기 위한 스케일링 팩터
 
     // 얼굴 비율 계산
     const verticalRatio = getDistance(landmarks[10], landmarks[152]) / getDistance(landmarks[168], landmarks[6]);
@@ -271,7 +290,7 @@ function analyzeLandmarks(landmarks) {
     // MediaPipe 랜드마크 기반 인종 추정
     const estimatedEthnicity = estimateEthnicityFromLandmarks(landmarks);
 
-    return { symmetry, verticalRatio, horizontalRatio, lipNoseRatio, estimatedEthnicity };
+    return { symmetry: symmetryScore, verticalRatio, horizontalRatio, lipNoseRatio, estimatedEthnicity };
 }
 
 // MediaPipe 랜드마크를 이용한 안정적인 인종 추정 함수
