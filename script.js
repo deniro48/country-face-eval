@@ -1,6 +1,7 @@
 // 전역 변수 선언
 let selectedGender = null;
 let uploadedImage = null;
+let resolveMediaPipe = null; // MediaPipe 분석 Promise의 resolve 함수
 
 // DOM 요소 참조
 const uploadArea = document.getElementById('uploadArea');
@@ -168,7 +169,7 @@ const countryData = {
             idealRatios: { verticalRatio: 1.34, horizontalRatio: 2.2, lipNoseRatio: 1.6 },
             idealEthnicity: '' // 다양한 인종이 공존하므로 인종 점수 반영 안함
         },
-        features: { '얼굴형': { icon: '😊', description: '열정적이고 매력적인 얼굴형이 선호됩니다.' }, '눈': { icon: '👀', description: '깊고 매혹적인 눈매, 갈색이나 녹색 눈이 아름답게 여겨집니다.' }, '코': { icon: '👃', description: '자연스럽고 균형잡힌 코를 선호합니다.' }, '입술': { icon: '👄', description: '도톰하고 매력적인 입술이 이상적입니다.' } }
+        features: { '얼굴형': { icon: '��', description: '열정적이고 매력적인 얼굴형이 선호됩니다.' }, '눈': { icon: '👀', description: '깊고 매혹적인 눈매, 갈색이나 녹색 눈이 아름답게 여겨집니다.' }, '코': { icon: '👃', description: '자연스럽고 균형잡힌 코를 선호합니다.' }, '입술': { icon: '👄', description: '도톰하고 매력적인 입술이 이상적입니다.' } }
     },
     '터키': {
         flag: 'https://flagcdn.com/w320/tr.png',
@@ -186,6 +187,18 @@ const faceMesh = new FaceMesh({
     locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`
 });
 faceMesh.setOptions({ maxNumFaces: 1, refineLandmarks: true, minDetectionConfidence: 0.5, minTrackingConfidence: 0.5 });
+
+// MediaPipe 결과 콜백 (한 번만 설정)
+faceMesh.onResults((results) => {
+    if (resolveMediaPipe) {
+        if (results.multiFaceLandmarks && results.multiFaceLandmarks.length > 0) {
+            resolveMediaPipe({ landmarks: results.multiFaceLandmarks[0] });
+        } else {
+            resolveMediaPipe({ error: 'MediaPipe에서 얼굴을 찾지 못했습니다.' });
+        }
+        resolveMediaPipe = null; // 한 번 사용 후 초기화
+    }
+});
 
 // 이벤트 리스너 등록
 document.addEventListener('DOMContentLoaded', () => {
@@ -264,29 +277,30 @@ async function startAnalysis() {
 // MediaPipe 분석 함수
 function analyzeWithMediaPipe(image) {
     return new Promise((resolve) => {
-        // 이미지가 완전히 로드된 후에 분석 시작
-        if (image.complete && image.naturalWidth !== 0) {
-            processImage();
-        } else {
-            image.onload = processImage;
-            image.onerror = () => resolve({ error: '이미지 로딩 실패' });
-        }
-        
-        function processImage() {
-            faceMesh.onResults((results) => {
-                if (results.multiFaceLandmarks && results.multiFaceLandmarks.length > 0) {
-                    resolve({ landmarks: results.multiFaceLandmarks[0] });
-                } else {
-                    resolve({ error: '얼굴을 찾을 수 없습니다.' });
-                }
-            });
-            
+        resolveMediaPipe = resolve; // Promise의 resolve 함수를 저장
+
+        const sendToMediaPipe = () => {
             try {
                 faceMesh.send({ image });
             } catch (error) {
-                console.error('MediaPipe 오류:', error);
-                resolve({ error: 'MediaPipe 분석 실패' });
+                console.error('MediaPipe send() 호출 오류:', error);
+                if (resolveMediaPipe) {
+                    resolveMediaPipe({ error: 'MediaPipe 분석 중 오류가 발생했습니다.' });
+                    resolveMediaPipe = null;
+                }
             }
+        };
+
+        if (image.complete && image.naturalWidth > 0) {
+            sendToMediaPipe();
+        } else {
+            image.onload = sendToMediaPipe;
+            image.onerror = () => {
+                if (resolveMediaPipe) {
+                    resolveMediaPipe({ error: '이미지 로딩에 실패했습니다.' });
+                    resolveMediaPipe = null;
+                }
+            };
         }
     });
 }
