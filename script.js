@@ -257,10 +257,27 @@ async function analyzeWithFacePlusPlus(imageFile) {
 
 // 랜드마크 기반 기하학적 분석
 function analyzeLandmarks(landmarks) {
+    // 1. 얼굴 기울기 보정 (고개를 기울여도 정확한 대칭성 측정을 위함)
+    const forehead = landmarks[10];
+    const chin = landmarks[152];
+    const nose = landmarks[9];
+
+    // 얼굴의 수직축과 이미지의 수직축 사이의 각도 계산
+    const angleRad = Math.atan2(chin.y - forehead.y, chin.x - forehead.x) - Math.PI / 2;
+
+    // 모든 랜드마크를 코(중심점) 기준으로 회전시켜 기울기를 보정
+    const rotatedLandmarks = landmarks.map(p => {
+        const x = p.x - nose.x;
+        const y = p.y - nose.y;
+        const newX = x * Math.cos(-angleRad) - y * Math.sin(-angleRad) + nose.x;
+        const newY = x * Math.sin(-angleRad) + y * Math.cos(-angleRad) + nose.y;
+        return { ...p, x: newX, y: newY };
+    });
+
     const getDistance = (p1, p2) => Math.hypot(p1.x - p2.x, p1.y - p2.y);
     
-    // 얼굴 전체 폭을 기준으로 대칭성 계산 (0~100점 척도, 음수 방지)
-    const faceWidth = getDistance(landmarks[234], landmarks[454]);
+    // 2. 보정된 랜드마크로 대칭성 계산
+    const faceWidth = getDistance(rotatedLandmarks[234], rotatedLandmarks[454]);
     const symmetryPoints = [
         [33, 263], // 눈 바깥쪽
         [133, 362], // 눈 안쪽
@@ -270,11 +287,12 @@ function analyzeLandmarks(landmarks) {
     ];
     
     const asymmetrySum = symmetryPoints.reduce((sum, pair) => {
-        const leftPoint = landmarks[pair[0]];
-        const rightPoint = landmarks[pair[1]];
+        const leftPoint = rotatedLandmarks[pair[0]];
+        const rightPoint = rotatedLandmarks[pair[1]];
+        const centerPoint = rotatedLandmarks[9]; // 보정된 코 위치
         // 얼굴 중심(코 끝점 9)으로부터의 x축 거리 차이
-        const leftDist = Math.abs(leftPoint.x - landmarks[9].x);
-        const rightDist = Math.abs(rightPoint.x - landmarks[9].x);
+        const leftDist = Math.abs(leftPoint.x - centerPoint.x);
+        const rightDist = Math.abs(rightPoint.x - centerPoint.x);
         return sum + Math.abs(leftDist - rightDist);
     }, 0);
 
@@ -283,13 +301,13 @@ function analyzeLandmarks(landmarks) {
     // 스케일링 팩터를 5에서 2.5로 줄여 점수를 더 너그럽게 조정 (사용자 경험 개선)
     const symmetryScore = Math.max(0, 100 * (1 - asymmetryRatio * 2.5));
 
-    // 얼굴 비율 계산
-    const verticalRatio = getDistance(landmarks[10], landmarks[152]) / getDistance(landmarks[168], landmarks[6]);
-    const horizontalRatio = getDistance(landmarks[234], landmarks[454]) / getDistance(landmarks[130], landmarks[243]);
-    const lipNoseRatio = getDistance(landmarks[61], landmarks[291]) / getDistance(landmarks[218], landmarks[438]);
+    // 3. 보정된 랜드마크로 얼굴 비율 계산
+    const verticalRatio = getDistance(rotatedLandmarks[10], rotatedLandmarks[152]) / getDistance(rotatedLandmarks[168], rotatedLandmarks[6]);
+    const horizontalRatio = getDistance(rotatedLandmarks[234], rotatedLandmarks[454]) / getDistance(rotatedLandmarks[130], rotatedLandmarks[243]);
+    const lipNoseRatio = getDistance(rotatedLandmarks[61], rotatedLandmarks[291]) / getDistance(rotatedLandmarks[218], rotatedLandmarks[438]);
     
-    // MediaPipe 랜드마크 기반 인종 추정
-    const estimatedEthnicity = estimateEthnicityFromLandmarks(landmarks);
+    // 4. 보정된 랜드마크로 인종 추정
+    const estimatedEthnicity = estimateEthnicityFromLandmarks(rotatedLandmarks);
 
     return { symmetry: symmetryScore, verticalRatio, horizontalRatio, lipNoseRatio, estimatedEthnicity };
 }
