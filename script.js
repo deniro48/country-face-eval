@@ -179,7 +179,8 @@ async function startAnalysis() {
         }
 
         // MediaPipe 분석이 실패하면 geometricAnalysis는 빈 객체가 됩니다.
-        const geometricAnalysis = mediaPipeResult.landmarks ? analyzeLandmarks(mediaPipeResult.landmarks) : {};
+        const faceAttributes = facePlusPlusResult.faces[0]?.attributes;
+        const geometricAnalysis = mediaPipeResult.landmarks ? analyzeLandmarks(mediaPipeResult.landmarks, faceAttributes) : {};
         
         const countryScores = calculateAllCountryScores(geometricAnalysis, facePlusPlusResult);
 
@@ -256,7 +257,7 @@ async function analyzeWithFacePlusPlus(imageFile) {
 }
 
 // 랜드마크 기반 기하학적 분석
-function analyzeLandmarks(landmarks) {
+function analyzeLandmarks(landmarks, faceAttributes) {
     // 1. 얼굴 기울기 보정 (고개를 기울여도 정확한 대칭성 측정을 위함)
     const forehead = landmarks[10];
     const chin = landmarks[152];
@@ -307,7 +308,7 @@ function analyzeLandmarks(landmarks) {
     const lipNoseRatio = getDistance(rotatedLandmarks[61], rotatedLandmarks[291]) / getDistance(rotatedLandmarks[218], rotatedLandmarks[438]);
     
     // 4. 보정된 랜드마크로 인종 추정
-    const estimatedEthnicity = estimateEthnicityFromLandmarks(rotatedLandmarks, facePlusPlusResult.faces[0].attributes);
+    const estimatedEthnicity = estimateEthnicityFromLandmarks(rotatedLandmarks, faceAttributes);
 
     return { symmetry: symmetryScore, verticalRatio, horizontalRatio, lipNoseRatio, estimatedEthnicity };
 }
@@ -316,7 +317,7 @@ function analyzeLandmarks(landmarks) {
 function estimateEthnicityFromLandmarks(landmarks, faceAttributes) {
     try {
         // 1. 눈 색깔로 최우선 판별 (Face++ 정보 활용)
-        const eyeColor = faceAttributes.eyestatus?.right_eye_status?.color || faceAttributes.eyestatus?.left_eye_status?.color;
+        const eyeColor = faceAttributes?.eyestatus?.right_eye_status?.color || faceAttributes?.eyestatus?.left_eye_status?.color;
         if (eyeColor && ['blue', 'green', 'gray'].includes(eyeColor)) {
             return 'White';
         }
@@ -381,10 +382,8 @@ function calculateAllCountryScores(geometric, attributes) {
     // Face++ API에서는 'smile'로 반환되므로 이를 'smiling'으로 매핑
     const smileScore = faceAttributes.smile ? faceAttributes.smile.value : 50;
     
-    // 인종 정보는 MediaPipe 추정치를 사용 (Face++ 속성도 함께 전달)
-    const detectedEthnicity = geometric.estimatedEthnicity 
-        ? estimateEthnicityFromLandmarks(geometric.landmarks, faceAttributes) 
-        : 'N/A';
+    // 인종 정보는 geometric 객체에서 직접 사용 (재계산 방지)
+    const detectedEthnicity = geometric.estimatedEthnicity || 'N/A';
 
     return Object.entries(countryData).map(([name, data]) => {
         const factors = data.scoringFactors;
@@ -485,13 +484,9 @@ function displayAdvancedAnalysis(geometric, attributes) {
     document.getElementById('faceQuality').textContent = getAnalysisText(faceAttributes.facequality?.value, '점');
     document.getElementById('beautyScore').textContent = getAnalysisText((faceAttributes.beauty?.male_score + faceAttributes.beauty?.female_score) / 2, '점');
     
-    // 인종 정보는 개선된 알고리즘으로 다시 추정하여 표시
-    const reEstimatedEthnicity = geometric.landmarks 
-        ? estimateEthnicityFromLandmarks(geometric.landmarks, faceAttributes) 
-        : '분석 불가';
-
-    const ethnicityText = reEstimatedEthnicity !== 'N/A' 
-        ? `${reEstimatedEthnicity} (추정)` 
+    // 인종 정보는 geometric 객체에서 직접 사용 (재계산 방지)
+    const ethnicityText = geometric.estimatedEthnicity && geometric.estimatedEthnicity !== 'N/A' 
+        ? `${geometric.estimatedEthnicity} (추정)` 
         : '분석 불가';
     document.getElementById('ethnicity').textContent = ethnicityText;
 
