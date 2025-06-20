@@ -20,7 +20,7 @@ const countryData = {
     '대한민국': {
         flag: 'https://flagcdn.com/w320/kr.png',
         scoringFactors: {
-            weights: { beauty: 0.10, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.45, skinClarity: 0.10 },
+            weights: { beauty: 0.10, symmetry: 0.15, verticalRatio: 0.05, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.45, skinClarity: 0.15 },
             idealRatios: { verticalRatio: 1.4, horizontalRatio: 2.1, lipNoseRatio: 1.6 },
             idealEthnicity: 'Asian'
         },
@@ -29,7 +29,7 @@ const countryData = {
     '일본': {
         flag: 'https://flagcdn.com/w320/jp.png',
         scoringFactors: {
-            weights: { beauty: 0.15, symmetry: 0.10, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.45, skinClarity: 0.10 },
+            weights: { beauty: 0.10, symmetry: 0.10, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.45, skinClarity: 0.15 },
             idealRatios: { verticalRatio: 1.28, horizontalRatio: 2.25, lipNoseRatio: 1.45 },
             idealEthnicity: 'Asian'
         },
@@ -38,7 +38,7 @@ const countryData = {
     '중국': {
         flag: 'https://flagcdn.com/w320/cn.png',
         scoringFactors: {
-            weights: { beauty: 0.10, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.45, skinClarity: 0.10 },
+            weights: { beauty: 0.10, symmetry: 0.10, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.45, skinClarity: 0.15 },
             idealRatios: { verticalRatio: 1.3, horizontalRatio: 2.05, lipNoseRatio: 1.65 },
             idealEthnicity: 'Asian'
         },
@@ -47,7 +47,7 @@ const countryData = {
     '미국': {
         flag: 'https://flagcdn.com/w320/us.png',
         scoringFactors: {
-            weights: { beauty: 0.25, symmetry: 0.20, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.05, ethnicity: 0.30 },
+            weights: { beauty: 0.25, symmetry: 0.20, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.05, ethnicity: 0.25, skinClarity: 0.05 },
             idealRatios: { verticalRatio: 1.35, horizontalRatio: 2.25, lipNoseRatio: 1.7 },
             idealEthnicity: 'White'
         },
@@ -56,7 +56,7 @@ const countryData = {
     '프랑스': {
         flag: 'https://flagcdn.com/w320/fr.png',
         scoringFactors: {
-            weights: { beauty: 0.35, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.30 },
+            weights: { beauty: 0.30, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.30, skinClarity: 0.05 },
             idealRatios: { verticalRatio: 1.33, horizontalRatio: 2.25, lipNoseRatio: 1.55 },
             idealEthnicity: 'White'
         },
@@ -65,7 +65,7 @@ const countryData = {
     '러시아': {
         flag: 'https://flagcdn.com/w320/ru.png',
         scoringFactors: {
-            weights: { beauty: 0.10, symmetry: 0.20, verticalRatio: 0.05, horizontalRatio: 0.10, lipNoseRatio: 0.0, ethnicity: 0.45, skinClarity: 0.10 },
+            weights: { beauty: 0.10, symmetry: 0.15, verticalRatio: 0.05, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.45, skinClarity: 0.15 },
             idealRatios: { verticalRatio: 1.38, horizontalRatio: 2.2, lipNoseRatio: 1.5 },
             idealEthnicity: 'White'
         },
@@ -74,7 +74,7 @@ const countryData = {
     '브라질': {
         flag: 'https://flagcdn.com/w320/br.png',
         scoringFactors: {
-            weights: { beauty: 0.40, symmetry: 0.15, verticalRatio: 0.15, horizontalRatio: 0.15, lipNoseRatio: 0.10, ethnicity: 0.05 },
+            weights: { beauty: 0.35, symmetry: 0.20, verticalRatio: 0.15, horizontalRatio: 0.15, lipNoseRatio: 0.10, ethnicity: 0.05, skinClarity: 0.05 },
             idealRatios: { verticalRatio: 1.3, horizontalRatio: 2.3, lipNoseRatio: 1.6 },
             idealEthnicity: null
         },
@@ -83,7 +83,7 @@ const countryData = {
     '인도': {
         flag: 'https://flagcdn.com/w320/in.png',
         scoringFactors: {
-            weights: { beauty: 0.20, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.15, lipNoseRatio: 0.10, ethnicity: 0.30 },
+            weights: { beauty: 0.15, symmetry: 0.10, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.10, ethnicity: 0.30, skinClarity: 0.15 },
             idealRatios: { verticalRatio: 1.3, horizontalRatio: 2.0, lipNoseRatio: 1.65 },
             idealEthnicity: 'Indian'
         },
@@ -92,7 +92,7 @@ const countryData = {
     '이탈리아': {
         flag: 'https://flagcdn.com/w320/it.png',
         scoringFactors: {
-            weights: { beauty: 0.25, symmetry: 0.25, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.30 },
+            weights: { beauty: 0.25, symmetry: 0.20, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.30, skinClarity: 0.05 },
             idealRatios: { verticalRatio: 1.36, horizontalRatio: 2.2, lipNoseRatio: 1.6 },
             idealEthnicity: 'White'
         },
@@ -101,7 +101,7 @@ const countryData = {
     '태국': {
         flag: 'https://flagcdn.com/w320/th.png',
         scoringFactors: {
-            weights: { beauty: 0.25, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.10, ethnicity: 0.30 },
+            weights: { beauty: 0.20, symmetry: 0.10, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.10, ethnicity: 0.30, skinClarity: 0.15 },
             idealRatios: { verticalRatio: 1.32, horizontalRatio: 2.15, lipNoseRatio: 1.6 },
             idealEthnicity: 'Asian'
         },
