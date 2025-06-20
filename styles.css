@@ -543,9 +543,9 @@ body.mobile-view .loading-overlay {
     
     /* 768px 이하에서 피부 상태 박스 조정 */
     #skinCondition {
-        font-size: 0.9rem;
-        line-height: 1.4;
-        padding: 0.7rem 1rem;
+        font-size: 0.8rem;
+        line-height: 1.3;
+        padding: 0.5rem 0.8rem;
         white-space: normal;
         word-break: keep-all;
     }
@@ -756,9 +756,9 @@ body.mobile-view .loading-overlay {
     
     /* 480px 이하에서 피부 상태 박스 크기 조정 */
     #skinCondition {
-        font-size: 0.85rem;
-        line-height: 1.3;
-        padding: 0.8rem 1.2rem;
+        font-size: 0.75rem;
+        line-height: 1.2;
+        padding: 0.4rem 0.6rem;
         min-height: auto;
         white-space: normal;
         word-break: keep-all;
