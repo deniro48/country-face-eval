@@ -280,7 +280,8 @@ function analyzeLandmarks(landmarks) {
 
     // 비대칭 정도를 얼굴 폭으로 정규화하여 0-1 사이 값으로 만들고, 100을 곱해 점수화
     const asymmetryRatio = asymmetrySum / (faceWidth * symmetryPoints.length);
-    const symmetryScore = Math.max(0, 100 * (1 - asymmetryRatio * 5)); // *5는 차이를 더 분명하게 하기 위한 스케일링 팩터
+    // 스케일링 팩터를 5에서 2.5로 줄여 점수를 더 너그럽게 조정 (사용자 경험 개선)
+    const symmetryScore = Math.max(0, 100 * (1 - asymmetryRatio * 2.5));
 
     // 얼굴 비율 계산
     const verticalRatio = getDistance(landmarks[10], landmarks[152]) / getDistance(landmarks[168], landmarks[6]);
