@@ -20,90 +20,80 @@ const countryData = {
     '대한민국': {
         flag: 'https://flagcdn.com/w320/kr.png',
         scoringFactors: {
-            weights: { beauty: 0.10, symmetry: 0.15, verticalRatio: 0.05, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.45, skinClarity: 0.15 },
-            idealRatios: { verticalRatio: 1.4, horizontalRatio: 2.1, lipNoseRatio: 1.6 },
-            idealEthnicity: 'Asian'
+            weights: { beauty: 0.20, symmetry: 0.20, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.10, skinClarity: 0.30 },
+            idealRatios: { verticalRatio: 1.4, horizontalRatio: 2.1, lipNoseRatio: 1.6 }
         },
         features: { '얼굴형': { icon: '😊', description: '갸름한 V라인과 작은 얼굴이 선호됩니다.' }, '눈': { icon: '👀', description: '또렷한 쌍꺼풀과 큰 눈이 매력적으로 여겨집니다.' }, '코': { icon: '👃', description: '높고 곧은 콧대와 작은 코끝이 이상적입니다.' }, '입술': { icon: '👄', description: '도톰하고 선명한 입술이 선호됩니다.' } }
     },
     '일본': {
         flag: 'https://flagcdn.com/w320/jp.png',
         scoringFactors: {
-            weights: { beauty: 0.10, symmetry: 0.10, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.45, skinClarity: 0.15 },
-            idealRatios: { verticalRatio: 1.28, horizontalRatio: 2.25, lipNoseRatio: 1.45 },
-            idealEthnicity: 'Asian'
+            weights: { beauty: 0.20, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.10, skinClarity: 0.35 },
+            idealRatios: { verticalRatio: 1.28, horizontalRatio: 2.25, lipNoseRatio: 1.45 }
         },
         features: { '얼굴형': { icon: '😊', description: '부드러운 계란형 얼굴이 선호됩니다.' }, '눈': { icon: '👀', description: '처진 눈꼬리와 자연스러운 쌍꺼풀이 매력적입니다.' }, '코': { icon: '👃', description: '작고 낮은 코가 귀엽게 여겨집니다.' }, '입술': { icon: '👄', description: '작고 얇은 입술이 선호됩니다.' } }
     },
     '중국': {
         flag: 'https://flagcdn.com/w320/cn.png',
         scoringFactors: {
-            weights: { beauty: 0.10, symmetry: 0.10, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.45, skinClarity: 0.15 },
-            idealRatios: { verticalRatio: 1.3, horizontalRatio: 2.05, lipNoseRatio: 1.65 },
-            idealEthnicity: 'Asian'
+            weights: { beauty: 0.20, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.10, skinClarity: 0.35 },
+            idealRatios: { verticalRatio: 1.3, horizontalRatio: 2.05, lipNoseRatio: 1.65 }
         },
         features: { '얼굴형': { icon: '😊', description: '둥글고 풍만한 얼굴형이 선호됩니다.' }, '눈': { icon: '👀', description: '날렵한 눈매와 긴 눈이 매력적입니다.' }, '코': { icon: '👃', description: '적당한 크기의 코가 이상적입니다.' }, '입술': { icon: '👄', description: '도톰하고 붉은 입술이 선호됩니다.' } }
     },
     '미국': {
         flag: 'https://flagcdn.com/w320/us.png',
         scoringFactors: {
-            weights: { beauty: 0.25, symmetry: 0.20, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.05, ethnicity: 0.25, skinClarity: 0.05 },
-            idealRatios: { verticalRatio: 1.35, horizontalRatio: 2.25, lipNoseRatio: 1.7 },
-            idealEthnicity: 'White'
+            weights: { beauty: 0.30, symmetry: 0.25, verticalRatio: 0.15, horizontalRatio: 0.15, lipNoseRatio: 0.10, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.35, horizontalRatio: 2.25, lipNoseRatio: 1.7 }
         },
         features: { '얼굴형': { icon: '😊', description: '각진 턱선과 입체적인 얼굴이 선호됩니다.' }, '눈': { icon: '👀', description: '깊은 눈매와 큰 눈동자가 매력적입니다.' }, '코': { icon: '👃', description: '높고 굵은 콧대가 이상적입니다.' }, '입술': { icon: '👄', description: '풍만하고 섹시한 입술이 선호됩니다.' } }
     },
     '프랑스': {
         flag: 'https://flagcdn.com/w320/fr.png',
         scoringFactors: {
-            weights: { beauty: 0.30, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.30, skinClarity: 0.05 },
-            idealRatios: { verticalRatio: 1.33, horizontalRatio: 2.25, lipNoseRatio: 1.55 },
-            idealEthnicity: 'White'
+            weights: { beauty: 0.35, symmetry: 0.20, verticalRatio: 0.15, horizontalRatio: 0.10, lipNoseRatio: 0.10, skinClarity: 0.10 },
+            idealRatios: { verticalRatio: 1.33, horizontalRatio: 2.25, lipNoseRatio: 1.55 }
         },
         features: { '얼굴형': { icon: '😊', description: '세련된 타원형 얼굴이 선호됩니다.' }, '눈': { icon: '👀', description: '깊이 있는 눈매와 긴 속눈썹이 매력적입니다.' }, '코': { icon: '👃', description: '높고 날렵한 콧대가 이상적입니다.' }, '입술': { icon: '👄', description: '자연스럽고 우아한 입술이 선호됩니다.' } }
     },
     '러시아': {
         flag: 'https://flagcdn.com/w320/ru.png',
         scoringFactors: {
-            weights: { beauty: 0.10, symmetry: 0.15, verticalRatio: 0.05, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.45, skinClarity: 0.15 },
-            idealRatios: { verticalRatio: 1.38, horizontalRatio: 2.2, lipNoseRatio: 1.5 },
-            idealEthnicity: 'White'
+            weights: { beauty: 0.20, symmetry: 0.20, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.05, skinClarity: 0.35 },
+            idealRatios: { verticalRatio: 1.38, horizontalRatio: 2.2, lipNoseRatio: 1.5 }
         },
         features: { '얼굴형': { icon: '😊', description: '높고 도드라진 광대뼈와 갸름한 턱선이 특징입니다.' }, '눈': { icon: '👀', description: '크고 밝은 색의 눈, 특히 파란색이나 녹색 눈이 선호됩니다.' }, '코': { icon: '👃', description: '곧고 높은 콧대가 미의 기준으로 여겨집니다.' }, '입술': { icon: '👄', description: '너무 두껍지 않은 자연스러운 입술을 선호합니다.' } }
     },
     '브라질': {
         flag: 'https://flagcdn.com/w320/br.png',
         scoringFactors: {
-            weights: { beauty: 0.35, symmetry: 0.20, verticalRatio: 0.15, horizontalRatio: 0.15, lipNoseRatio: 0.10, ethnicity: 0.05, skinClarity: 0.05 },
-            idealRatios: { verticalRatio: 1.3, horizontalRatio: 2.3, lipNoseRatio: 1.6 },
-            idealEthnicity: null
+            weights: { beauty: 0.40, symmetry: 0.20, verticalRatio: 0.15, horizontalRatio: 0.15, lipNoseRatio: 0.05, skinClarity: 0.05 },
+            idealRatios: { verticalRatio: 1.3, horizontalRatio: 2.3, lipNoseRatio: 1.6 }
         },
         features: { '얼굴형': { icon: '😊', description: '건강미 넘치는 구릿빛 피부와 입체적인 얼굴형이 매력적입니다.' }, '눈': { icon: '👀', description: '깊고 매혹적인 눈매, 다양한 색의 눈이 아름답게 여겨집니다.' }, '코': { icon: '👃', description: '자연스럽고 얼굴과 조화로운 코를 선호합니다.' }, '입술': { icon: '👄', description: '도톰하고 생기 있는 입술이 선호됩니다.' } }
     },
     '인도': {
         flag: 'https://flagcdn.com/w320/in.png',
         scoringFactors: {
-            weights: { beauty: 0.15, symmetry: 0.10, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.10, ethnicity: 0.30, skinClarity: 0.15 },
-            idealRatios: { verticalRatio: 1.3, horizontalRatio: 2.0, lipNoseRatio: 1.65 },
-            idealEthnicity: 'Indian'
+            weights: { beauty: 0.25, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.10, skinClarity: 0.30 },
+            idealRatios: { verticalRatio: 1.3, horizontalRatio: 2.0, lipNoseRatio: 1.65 }
         },
         features: { '얼굴형': { icon: '😊', description: '계란형의 부드러운 얼굴선이 선호됩니다.' }, '눈': { icon: '👀', description: '크고 짙은 아몬드 모양의 눈, 긴 속눈썹이 매우 아름답게 여겨집니다.' }, '코': { icon: '👃', description: '날렵하고 오똑한 코가 이상적입니다.' }, '입술': { icon: '👄', description: '윤곽이 뚜렷하고 도톰한 입술이 매력의 상징입니다.' } }
     },
     '이탈리아': {
         flag: 'https://flagcdn.com/w320/it.png',
         scoringFactors: {
-            weights: { beauty: 0.25, symmetry: 0.20, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.05, ethnicity: 0.30, skinClarity: 0.05 },
-            idealRatios: { verticalRatio: 1.36, horizontalRatio: 2.2, lipNoseRatio: 1.6 },
-            idealEthnicity: 'White'
+            weights: { beauty: 0.30, symmetry: 0.25, verticalRatio: 0.10, horizontalRatio: 0.10, lipNoseRatio: 0.10, skinClarity: 0.15 },
+            idealRatios: { verticalRatio: 1.36, horizontalRatio: 2.2, lipNoseRatio: 1.6 }
         },
         features: { '얼굴형': { icon: '😊', description: '선이 굵고 조각 같은 입체적인 얼굴형이 선호됩니다.' }, '눈': { icon: '👀', description: '짙고 표현력이 풍부한 눈썹과 깊은 눈매가 특징입니다.' }, '코': { icon: '👃', description: '고전적으로 쭉 뻗은 로마 코가 아름답게 여겨집니다.' }, '입술': { icon: '👄', description: '감성적이고 도톰한 입술이 매력적으로 평가됩니다.' } }
     },
     '태국': {
         flag: 'https://flagcdn.com/w320/th.png',
         scoringFactors: {
-            weights: { beauty: 0.20, symmetry: 0.10, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.10, ethnicity: 0.30, skinClarity: 0.15 },
-            idealRatios: { verticalRatio: 1.32, horizontalRatio: 2.15, lipNoseRatio: 1.6 },
-            idealEthnicity: 'Asian'
+            weights: { beauty: 0.25, symmetry: 0.15, verticalRatio: 0.10, horizontalRatio: 0.05, lipNoseRatio: 0.10, skinClarity: 0.35 },
+            idealRatios: { verticalRatio: 1.32, horizontalRatio: 2.15, lipNoseRatio: 1.6 }
         },
         features: { '얼굴형': { icon: '😊', description: '작고 갸름한 얼굴, 부드러운 인상이 선호됩니다.' }, '눈': { icon: '👀', description: '크고 동그란 눈과 쌍꺼풀이 선호되는 경향이 있습니다.' }, '코': { icon: '👃', description: '너무 높지 않고 자연스러운 코를 아름답다고 생각합니다.' }, '입술': { icon: '👄', description: '미소를 머금은 듯한 모양의 도톰한 입술이 인기가 많습니다.' } }
     }
@@ -316,7 +306,6 @@ function calculateAllCountryScores(geometric, attributes) {
     
     // 분석된 값이 없을 경우를 대비해 기본값 설정
     const beautyScore = faceAttributes.beauty ? (faceAttributes.beauty.male_score + faceAttributes.beauty.female_score) / 2 : 75;
-    const detectedEthnicity = faceAttributes.ethnicity?.value;
 
     return Object.entries(countryData).map(([name, data]) => {
         const factors = data.scoringFactors;
@@ -334,37 +323,17 @@ function calculateAllCountryScores(geometric, attributes) {
         scores.horizontalRatio = geometric.horizontalRatio ? calculateRatioScore(geometric.horizontalRatio, factors.idealRatios.horizontalRatio) : 70;
         scores.lipNoseRatio = geometric.lipNoseRatio ? calculateRatioScore(geometric.lipNoseRatio, factors.idealRatios.lipNoseRatio) : 70;
         
-        // 새로운 점수 항목: 피부 깨끗함 (잡티, 여드름, 다크서클 기반)
+        // 새로운 핵심 점수 항목: 피부 점수 (건강도 + 결점)
         const skinStatus = faceAttributes.skinstatus;
         if (skinStatus) {
+            const healthScore = skinStatus.health ?? 70;
             const totalBlemish = (skinStatus.stain ?? 0) + (skinStatus.acne ?? 0) + (skinStatus.dark_circle ?? 0);
-            // 결점 합이 100을 넘어가면 0점, 결점이 없으면 100점
-            scores.skinClarity = Math.max(0, 100 - totalBlemish);
+            const blemishScore = Math.max(0, 100 - totalBlemish * 1.5); // 결점이 많을수록 큰 감점
+            // 최종 피부 점수는 건강도(40%)와 결점 없음(60%)을 가중 평균
+            scores.skinClarity = (healthScore * 0.4) + (blemishScore * 0.6);
         } else {
             scores.skinClarity = 70; // 분석 불가 시 기본 점수
         }
-
-        // 인종 선호도 점수 계산 (로직 강화)
-        let ethnicityScore;
-        const idealEthnicity = factors.idealEthnicity;
-
-        if (!idealEthnicity) { // e.g., 브라질 (선호 인종 없음)
-            ethnicityScore = 85;
-        } else if (!detectedEthnicity) { // 인종 분석 불가
-            ethnicityScore = 70;
-        } else {
-            if (detectedEthnicity === idealEthnicity) {
-                ethnicityScore = 100; // 완벽히 일치
-            } else {
-                // 동아시아 및 러시아에서 흑인일 경우 0점 처리 (사용자 요청)
-                if (['대한민국', '일본', '중국', '러시아'].includes(name) && detectedEthnicity === 'Black') {
-                    ethnicityScore = 0; // 감점 대폭 강화 (0점)
-                } else {
-                    ethnicityScore = 30; // 그 외 모든 불일치 경우 감점 강화
-                }
-            }
-        }
-        scores.ethnicity = ethnicityScore;
 
         // 2. 최종 점수 계산: 각 항목의 점수에 가중치를 적용하여 합산
         let finalScore = (beautyScore * factors.weights.beauty) +
@@ -372,10 +341,9 @@ function calculateAllCountryScores(geometric, attributes) {
                          (scores.verticalRatio * factors.weights.verticalRatio) +
                          (scores.horizontalRatio * factors.weights.horizontalRatio) +
                          (scores.lipNoseRatio * factors.weights.lipNoseRatio) +
-                         (scores.ethnicity * factors.weights.ethnicity) +
-                         (scores.skinClarity * (factors.weights.skinClarity || 0)); // skinClarity 가중치가 없는 국가 대비
+                         (scores.skinClarity * factors.weights.skinClarity);
         
-        // 3. 최종 점수를 0-100점 사이 값으로 그대로 사용 (정규화 로직 제거)
+        // 3. 최종 점수를 0-100점 사이 값으로 그대로 사용
         return {
             name,
             flag: data.flag,
