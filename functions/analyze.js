@@ -1,16 +1,21 @@
 // Cloudflare Function to handle Face++ API requests
 
-// Face++ API 설정 정보
-// 보안을 위해 환경 변수로 설정해야 합니다.
-// Cloudflare 대시보드에서 환경 변수를 설정해주세요.
-const FACE_API_CONFIG = {
-    API_KEY: process.env.FACE_API_KEY || 'YOUR_API_KEY_HERE',
-    API_SECRET: process.env.FACE_API_SECRET || 'YOUR_API_SECRET_HERE',
-    BASE_URL: 'https://api-us.faceplusplus.com/facepp/v3'
-};
+const BASE_URL = 'https://api-us.faceplusplus.com/facepp/v3';
 
 // 요청을 처리하는 메인 함수
 export async function onRequestPost(context) {
+    // Cloudflare 환경에서는 context.env에서 환경 변수를 가져옵니다.
+    const API_KEY = context.env.FACE_API_KEY;
+    const API_SECRET = context.env.FACE_API_SECRET;
+
+    // API 키가 설정되었는지 확인
+    if (!API_KEY || !API_SECRET) {
+        return new Response(JSON.stringify({ error: 'API 키가 서버에 올바르게 설정되지 않았습니다.' }), {
+            status: 500,
+            headers: { 'Content-Type': 'application/json' },
+        });
+    }
+    
     try {
         const request = context.request;
         const requestFormData = await request.formData();
@@ -25,15 +30,15 @@ export async function onRequestPost(context) {
         
         // Face++ API로 보낼 새로운 FormData 생성
         const faceppFormData = new FormData();
-        faceppFormData.append('api_key', FACE_API_CONFIG.API_KEY);
-        faceppFormData.append('api_secret', FACE_API_CONFIG.API_SECRET);
+        faceppFormData.append('api_key', API_KEY);
+        faceppFormData.append('api_secret', API_SECRET);
         faceppFormData.append('image_file', imageFile);
         
         // 우리가 필요한 모든 속성을 요청합니다.
         faceppFormData.append('return_attributes', 'gender,age,smiling,emotion,skinstatus,beauty,ethnicity,headpose,facequality');
 
         // Face++ API 호출
-        const response = await fetch(`${FACE_API_CONFIG.BASE_URL}/detect`, {
+        const response = await fetch(`${BASE_URL}/detect`, {
             method: 'POST',
             body: faceppFormData,
         });
