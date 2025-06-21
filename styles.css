@@ -1336,19 +1336,60 @@ body.mobile-view .loading-overlay {
     }
 }
 
-/* Google 번역 위젯을 숨기고 툴바만 표시되도록 처리 */
-#google_translate_element {
-    position: absolute !important;
-    width: 1px !important;
-    height: 1px !important;
-    overflow: hidden !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-    top: -9999px !important;
-    left: -9999px !important;
+/* --- 번역기 이식 스타일 --- */
+
+/* 이식될 컨테이너 위치 설정 */
+#translator-container {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
 }
 
-/* Google 번역 툴바가 다른 요소에 가려지지 않도록 z-index 설정 */
-.goog-te-banner-frame {
-    z-index: 99999999 !important;
+/* 구글 번역 드롭다운 기본 스타일 초기화 및 재정의 */
+#translator-container .goog-te-gadget-simple {
+    background-color: transparent !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 20px !important;
+    padding: 8px 12px !important;
+    transition: all 0.3s ease;
+}
+
+#translator-container .goog-te-gadget-simple:hover {
+    box-shadow: var(--shadow);
+    border-color: var(--primary-color);
+}
+
+/* 언어 선택 텍스트 스타일 */
+#translator-container .goog-te-menu-value span {
+    color: var(--text-secondary) !important;
+    font-weight: 500;
+    font-size: 0.9rem;
+    border: none !important;
+}
+
+/* 아래 화살표 아이콘 숨기기 */
+#translator-container .goog-te-menu-value span:last-child {
+    display: none;
+}
+
+/* 구글 로고 아이콘 숨기기 */
+.goog-te-gadget-icon {
+    display: none !important;
+}
+
+/* 번역 시 상단에 뜨는 검은색 툴팁 숨기기 */
+body > .skiptranslate {
+    display: none !important;
+    visibility: hidden;
+}
+
+/* 모바일 화면에서 위치 조정 */
+@media (max-width: 992px) {
+    #translator-container {
+        position: static;
+        transform: none;
+        margin-top: 1rem;
+        display: inline-block;
+    }
 } 

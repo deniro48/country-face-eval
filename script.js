@@ -530,6 +530,27 @@ document.addEventListener('DOMContentLoaded', () => {
     usePhotoBtn.addEventListener('click', useCapturedPhoto);
 });
 
+/**
+ * Google 번역 위젯 초기화 함수.
+ * 이 함수는 Google 스크립트에 의해 전역 범위에서 호출됩니다.
+ */
+function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+        pageLanguage: 'ko',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        autoDisplay: false
+    }, 'google_translate_element');
+
+    // 번역 위젯이 생성될 때까지 기다렸다가 원하는 위치로 이식합니다.
+    const transplantInterval = setInterval(() => {
+        const originalElement = document.querySelector('#google_translate_element .goog-te-gadget-simple');
+        if (originalElement) {
+            clearInterval(transplantInterval); // 이식 성공 후 인터벌 정리
+            document.getElementById('translator-container').appendChild(originalElement);
+        }
+    }, 100); // 0.1초마다 확인
+}
+
 function handleImageUpload(event) {
     const file = event.target.files[0];
     if (!file) return;
