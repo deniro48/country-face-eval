@@ -1334,4 +1334,21 @@ body.mobile-view .loading-overlay {
     .mobile-only {
         display: none;
     }
+}
+
+/* Google 번역 위젯을 숨기고 툴바만 표시되도록 처리 */
+#google_translate_element {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    top: -9999px !important;
+    left: -9999px !important;
+}
+
+/* Google 번역 툴바가 다른 요소에 가려지지 않도록 z-index 설정 */
+.goog-te-banner-frame {
+    z-index: 99999999 !important;
 } 
