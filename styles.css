@@ -492,7 +492,7 @@ body.mobile-view .loading-overlay {
     }
     
     .result-card {
-        padding: 2rem;
+        padding: 2rem 0;
     }
     
     .country-badge h2 {
@@ -516,8 +516,10 @@ body.mobile-view .loading-overlay {
     }
     
     .analysis-item {
-        padding: 1rem;
-        gap: 0.5rem;
+        padding-left: 0;
+        padding-right: 0;
+        width: 100%;
+        max-width: 100%;
     }
     
     .analysis-icon {
@@ -660,7 +662,7 @@ body.mobile-view .loading-overlay {
     }
     
     .result-card {
-        padding: 1.5rem;
+        padding: 1.5rem 0;
     }
     
     .photo-analysis-info {
@@ -673,14 +675,14 @@ body.mobile-view .loading-overlay {
     }
     
     .analysis-grid {
-        grid-template-columns: 1fr; /* 480px 이하 화면에서는 1열로 고정 */
+        gap: 0.3rem;
     }
     
     .analysis-item {
-        flex-direction: row;
-        text-align: left;
-        align-items: center;
-        padding: 0.8rem 1rem;
+        padding-left: 0;
+        padding-right: 0;
+        width: 100%;
+        max-width: 100%;
     }
     
     .analysis-icon {
