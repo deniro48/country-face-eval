@@ -626,18 +626,20 @@ body.mobile-view .loading-overlay {
         align-items: center;
     }
     .subtitle + #language-selector {
-        margin-top: 16px;
+        margin-top: 36px;
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
         width: 100%;
+        padding-left: 24px;
+        box-sizing: border-box;
     }
     #language-selector {
         width: 100%;
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
     }
     .language-btn {
-        margin: 0 auto;
+        margin: 0;
         display: block;
     }
 }
