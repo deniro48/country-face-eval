@@ -702,9 +702,11 @@ body.mobile-view .loading-overlay {
     
     .logo {
         font-size: 1.5rem;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        white-space: normal;
+        word-break: break-word;
+        text-align: center;
+        width: 100%;
+        max-width: 95vw;
     }
     
     .upload-area h3 {
