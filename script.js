@@ -537,27 +537,22 @@ document.addEventListener('DOMContentLoaded', () => {
 function googleTranslateElementInit() {
     new google.translate.TranslateElement({
         pageLanguage: 'ko',
-        includedLanguages: 'ko,en,ja,zh-CN,zh-TW,es,fr,de,it,pt,ru,ar,hi,th,vi,id,ms,fil,tr,pl,cs,sk,hu,ro,bg,hr,sl,et,lv,lt',
         layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
         autoDisplay: false
     }, 'google_translate_element');
-
-    const transplantInterval = setInterval(() => {
-        const originalElement = document.querySelector('#google_translate_element .goog-te-gadget-simple');
-        const translatorContainer = document.getElementById('translator-container');
-        
-        if (originalElement && translatorContainer) {
-            clearInterval(transplantInterval);
-            translatorContainer.appendChild(originalElement);
-            translatorContainer.style.display = 'block';
-
-            const textElement = document.querySelector('#translator-container .goog-te-menu-value span:first-child');
-            if (textElement) {
-                textElement.textContent = 'Select Language';
-            }
-        }
-    }, 100);
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const languageBtn = document.getElementById('language-btn');
+    if (languageBtn) {
+        languageBtn.addEventListener('click', function() {
+            const langSelector = document.querySelector('#google_translate_element select');
+            if (langSelector) {
+                langSelector.click();
+            }
+        });
+    }
+});
 
 // 언어 변경 시 호출되는 함수
 function changeLanguage() {

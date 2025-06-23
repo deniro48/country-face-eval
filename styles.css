@@ -1391,4 +1391,43 @@ body > .skiptranslate {
     border: 1px solid #dcdcdc !important;
     border-radius: 4px !important;
     padding: 5px 8px !important;
+}
+
+/* 언어 선택 버튼 스타일 */
+.language-selector {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.language-btn {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 8px 15px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.language-btn:hover {
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.language-btn i {
+    font-size: 16px;
+}
+
+/* Google 번역 드롭다운 메뉴 스타일 */
+.goog-te-menu-frame {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+    border-radius: 8px !important;
+    border: none !important;
 } 
