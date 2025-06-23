@@ -483,7 +483,8 @@ body.mobile-view .loading-overlay {
     }
     
     .gender-options {
-        flex-direction: column;
+        flex-direction: row;
+        justify-content: center;
     }
     
     .gender-card {
@@ -1010,6 +1011,7 @@ body.mobile-view .loading-overlay {
 .country-name {
     font-weight: 500;
     color: var(--text-primary);
+    text-transform: uppercase;
 }
 
 .country-score {
