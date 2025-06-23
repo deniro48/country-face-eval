@@ -258,10 +258,128 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
-
+    <!-- Google 번역 위젯이 로드될 컨테이너 (사용자에게는 보이지 않음) -->
     <div id="google_translate_element" style="display: none;"></div>
-    <script src="script.js"></script>
+
+    <!-- 언어 선택 모달 -->
+    <div id="language-modal" class="language-modal" style="display: none;">
+        <div class="language-modal-content">
+            <div class="language-modal-header">
+                <h3>언어 선택 (Select Language)</h3>
+                <button id="close-language-modal" class="close-language-modal">&times;</button>
+            </div>
+            <div class="language-modal-body">
+                <ul class="language-list">
+                    <li><a href="#" data-lang="af" class="language-option">Afrikaans</a></li>
+                    <li><a href="#" data-lang="sq" class="language-option">Albanian</a></li>
+                    <li><a href="#" data-lang="am" class="language-option">Amharic</a></li>
+                    <li><a href="#" data-lang="ar" class="language-option">Arabic</a></li>
+                    <li><a href="#" data-lang="hy" class="language-option">Armenian</a></li>
+                    <li><a href="#" data-lang="az" class="language-option">Azerbaijani</a></li>
+                    <li><a href="#" data-lang="eu" class="language-option">Basque</a></li>
+                    <li><a href="#" data-lang="be" class="language-option">Belarusian</a></li>
+                    <li><a href="#" data-lang="bn" class="language-option">Bengali</a></li>
+                    <li><a href="#" data-lang="bs" class="language-option">Bosnian</a></li>
+                    <li><a href="#" data-lang="bg" class="language-option">Bulgarian</a></li>
+                    <li><a href="#" data-lang="ca" class="language-option">Catalan</a></li>
+                    <li><a href="#" data-lang="ceb" class="language-option">Cebuano</a></li>
+                    <li><a href="#" data-lang="ny" class="language-option">Chichewa</a></li>
+                    <li><a href="#" data-lang="zh-CN" class="language-option">Chinese (Simplified)</a></li>
+                    <li><a href="#" data-lang="zh-TW" class="language-option">Chinese (Traditional)</a></li>
+                    <li><a href="#" data-lang="co" class="language-option">Corsican</a></li>
+                    <li><a href="#" data-lang="hr" class="language-option">Croatian</a></li>
+                    <li><a href="#" data-lang="cs" class="language-option">Czech</a></li>
+                    <li><a href="#" data-lang="da" class="language-option">Danish</a></li>
+                    <li><a href="#" data-lang="nl" class="language-option">Dutch</a></li>
+                    <li><a href="#" data-lang="en" class="language-option">English</a></li>
+                    <li><a href="#" data-lang="eo" class="language-option">Esperanto</a></li>
+                    <li><a href="#" data-lang="et" class="language-option">Estonian</a></li>
+                    <li><a href="#" data-lang="tl" class="language-option">Filipino</a></li>
+                    <li><a href="#" data-lang="fi" class="language-option">Finnish</a></li>
+                    <li><a href="#" data-lang="fr" class="language-option">French</a></li>
+                    <li><a href="#" data-lang="fy" class="language-option">Frisian</a></li>
+                    <li><a href="#" data-lang="gl" class="language-option">Galician</a></li>
+                    <li><a href="#" data-lang="ka" class="language-option">Georgian</a></li>
+                    <li><a href="#" data-lang="de" class="language-option">German</a></li>
+                    <li><a href="#" data-lang="el" class="language-option">Greek</a></li>
+                    <li><a href="#" data-lang="gu" class="language-option">Gujarati</a></li>
+                    <li><a href="#" data-lang="ht" class="language-option">Haitian Creole</a></li>
+                    <li><a href="#" data-lang="ha" class="language-option">Hausa</a></li>
+                    <li><a href="#" data-lang="haw" class="language-option">Hawaiian</a></li>
+                    <li><a href="#" data-lang="iw" class="language-option">Hebrew</a></li>
+                    <li><a href="#" data-lang="hi" class="language-option">Hindi</a></li>
+                    <li><a href="#" data-lang="hmn" class="language-option">Hmong</a></li>
+                    <li><a href="#" data-lang="hu" class="language-option">Hungarian</a></li>
+                    <li><a href="#" data-lang="is" class="language-option">Icelandic</a></li>
+                    <li><a href="#" data-lang="ig" class="language-option">Igbo</a></li>
+                    <li><a href="#" data-lang="id" class="language-option">Indonesian</a></li>
+                    <li><a href="#" data-lang="ga" class="language-option">Irish</a></li>
+                    <li><a href="#" data-lang="it" class="language-option">Italian</a></li>
+                    <li><a href="#" data-lang="ja" class="language-option">Japanese</a></li>
+                    <li><a href="#" data-lang="jw" class="language-option">Javanese</a></li>
+                    <li><a href="#" data-lang="kn" class="language-option">Kannada</a></li>
+                    <li><a href="#" data-lang="kk" class="language-option">Kazakh</a></li>
+                    <li><a href="#" data-lang="km" class="language-option">Khmer</a></li>
+                    <li><a href="#" data-lang="ko" class="language-option">Korean</a></li>
+                    <li><a href="#" data-lang="ku" class="language-option">Kurdish (Kurmanji)</a></li>
+                    <li><a href="#" data-lang="ky" class="language-option">Kyrgyz</a></li>
+                    <li><a href="#" data-lang="lo" class="language-option">Lao</a></li>
+                    <li><a href="#" data-lang="la" class="language-option">Latin</a></li>
+                    <li><a href="#" data-lang="lv" class="language-option">Latvian</a></li>
+                    <li><a href="#" data-lang="lt" class="language-option">Lithuanian</a></li>
+                    <li><a href="#" data-lang="lb" class="language-option">Luxembourgish</a></li>
+                    <li><a href="#" data-lang="mk" class="language-option">Macedonian</a></li>
+                    <li><a href="#" data-lang="mg" class="language-option">Malagasy</a></li>
+                    <li><a href="#" data-lang="ms" class="language-option">Malay</a></li>
+                    <li><a href="#" data-lang="ml" class="language-option">Malayalam</a></li>
+                    <li><a href="#" data-lang="mt" class="language-option">Maltese</a></li>
+                    <li><a href="#" data-lang="mi" class="language-option">Maori</a></li>
+                    <li><a href="#" data-lang="mr" class="language-option">Marathi</a></li>
+                    <li><a href="#" data-lang="mn" class="language-option">Mongolian</a></li>
+                    <li><a href="#" data-lang="my" class="language-option">Myanmar (Burmese)</a></li>
+                    <li><a href="#" data-lang="ne" class="language-option">Nepali</a></li>
+                    <li><a href="#" data-lang="no" class="language-option">Norwegian</a></li>
+                    <li><a href="#" data-lang="ps" class="language-option">Pashto</a></li>
+                    <li><a href="#" data-lang="fa" class="language-option">Persian</a></li>
+                    <li><a href="#" data-lang="pl" class="language-option">Polish</a></li>
+                    <li><a href="#" data-lang="pt" class="language-option">Portuguese</a></li>
+                    <li><a href="#" data-lang="pa" class="language-option">Punjabi</a></li>
+                    <li><a href="#" data-lang="ro" class="language-option">Romanian</a></li>
+                    <li><a href="#" data-lang="ru" class="language-option">Russian</a></li>
+                    <li><a href="#" data-lang="sm" class="language-option">Samoan</a></li>
+                    <li><a href="#" data-lang="gd" class="language-option">Scots Gaelic</a></li>
+                    <li><a href="#" data-lang="sr" class="language-option">Serbian</a></li>
+                    <li><a href="#" data-lang="st" class="language-option">Sesotho</a></li>
+                    <li><a href="#" data-lang="sn" class="language-option">Shona</a></li>
+                    <li><a href="#" data-lang="sd" class="language-option">Sindhi</a></li>
+                    <li><a href="#" data-lang="si" class="language-option">Sinhala</a></li>
+                    <li><a href="#" data-lang="sk" class="language-option">Slovak</a></li>
+                    <li><a href="#" data-lang="sl" class="language-option">Slovenian</a></li>
+                    <li><a href="#" data-lang="so" class="language-option">Somali</a></li>
+                    <li><a href="#" data-lang="es" class="language-option">Spanish</a></li>
+                    <li><a href="#" data-lang="su" class="language-option">Sundanese</a></li>
+                    <li><a href="#" data-lang="sw" class="language-option">Swahili</a></li>
+                    <li><a href="#" data-lang="sv" class="language-option">Swedish</a></li>
+                    <li><a href="#" data-lang="tg" class="language-option">Tajik</a></li>
+                    <li><a href="#" data-lang="ta" class="language-option">Tamil</a></li>
+                    <li><a href="#" data-lang="te" class="language-option">Telugu</a></li>
+                    <li><a href="#" data-lang="th" class="language-option">Thai</a></li>
+                    <li><a href="#" data-lang="tr" class="language-option">Turkish</a></li>
+                    <li><a href="#" data-lang="uk" class="language-option">Ukrainian</a></li>
+                    <li><a href="#" data-lang="ur" class="language-option">Urdu</a></li>
+                    <li><a href="#" data-lang="uz" class="language-option">Uzbek</a></li>
+                    <li><a href="#" data-lang="vi" class="language-option">Vietnamese</a></li>
+                    <li><a href="#" data-lang="cy" class="language-option">Welsh</a></li>
+                    <li><a href="#" data-lang="xh" class="language-option">Xhosa</a></li>
+                    <li><a href="#" data-lang="yi" class="language-option">Yiddish</a></li>
+                    <li><a href="#" data-lang="yo" class="language-option">Yoruba</a></li>
+                    <li><a href="#" data-lang="zu" class="language-option">Zulu</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous"></script>
+    <script src="script.js?v=1.2"></script>
 </body>
 </html> 
