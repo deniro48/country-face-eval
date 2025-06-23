@@ -528,6 +528,18 @@ document.addEventListener('DOMContentLoaded', () => {
     captureBtn.addEventListener('click', capturePhoto);
     retakeBtn.addEventListener('click', retakePhoto);
     usePhotoBtn.addEventListener('click', useCapturedPhoto);
+
+    // 언어 선택 버튼 이벤트 리스너 (수정된 부분)
+    const languageBtn = document.getElementById('language-btn');
+    if (languageBtn) {
+        languageBtn.addEventListener('click', () => {
+            const googleTranslateTrigger = document.querySelector('.goog-te-gadget-simple a');
+            if (googleTranslateTrigger) {
+                const clickEvent = new MouseEvent('click', { bubbles: true, cancelable: true, view: window });
+                googleTranslateTrigger.dispatchEvent(clickEvent);
+            }
+        });
+    }
 });
 
 /**
@@ -541,18 +553,6 @@ function googleTranslateElementInit() {
         autoDisplay: false
     }, 'google_translate_element');
 }
-
-document.addEventListener('DOMContentLoaded', function() {
-    const languageBtn = document.getElementById('language-btn');
-    if (languageBtn) {
-        languageBtn.addEventListener('click', function() {
-            const langSelector = document.querySelector('#google_translate_element select');
-            if (langSelector) {
-                langSelector.click();
-            }
-        });
-    }
-});
 
 // 언어 변경 시 호출되는 함수
 function changeLanguage() {
