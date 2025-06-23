@@ -1392,4 +1392,23 @@ body > .skiptranslate {
         margin-top: 1rem;
         display: inline-block;
     }
+}
+
+/* 추가: Google 번역 드롭다운 스타일 */
+#google_translate_element {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+body > .skiptranslate {
+    display: none !important;
+}
+
+.goog-te-gadget-simple {
+    background-color: #fff !important;
+    border: 1px solid #dcdcdc !important;
+    border-radius: 4px !important;
+    padding: 5px 8px !important;
 } 
