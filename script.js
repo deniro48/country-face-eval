@@ -248,7 +248,7 @@ const countryData = {
             idealRatios: { verticalRatio: 1.32, horizontalRatio: 2.1, lipNoseRatio: 1.6 },
             idealEthnicity: 'Middle Eastern'
         },
-        features: { '얼굴형': { icon: '😊', description: '고대 벽화처럼 신비롭고 이국적인 외모가 매력적입니다.' }, '눈': { icon: '👀', description: '아이라인으로 강조한 아몬드 모양의 눈(클레오파트라의 눈)이 이상적입니다.' }, '코': { icon: '👃', description: '곧고 날렵한 코가 세련미를 더합니다.' }, '입술': { icon: '👄', description: '윤곽이 뚜렷하고 균형 잡힌 입술을 선호합니다.' } }
+        features: { '얼굴형': { icon: '😊', description: '고대 벽화처럼 신비롭고 이국적인 외모가 매력적입니다.' }, '눈': { icon: '👀', description: '아이라인으로 강조한 아몬드 모양의 눈(클레오파트라의 눈)이 이상적입니다.' }, '코': { icon: '👃', description: '곧고 날렵한 코가 세련미를 더합니다.' }, '입술': { icon: '👄', description: '윤곽이 뚜렷하고 균형 잡힌 입술이 선호됩니다.' } }
     },
     '남아프리카공화국': {
         flag: 'https://flagcdn.com/w320/za.png',
@@ -512,7 +512,6 @@ faceMesh.setOptions({ maxNumFaces: 1, refineLandmarks: true, minDetectionConfide
 
 // 이벤트 리스너 등록
 document.addEventListener('DOMContentLoaded', () => {
-    // 기존 이벤트 리스너들
     uploadBtn.addEventListener('click', () => imageInput.click());
     imageInput.addEventListener('change', handleImageUpload);
     changeImageBtn.addEventListener('click', () => imageInput.click());
@@ -529,26 +528,12 @@ document.addEventListener('DOMContentLoaded', () => {
     captureBtn.addEventListener('click', capturePhoto);
     retakeBtn.addEventListener('click', retakePhoto);
     usePhotoBtn.addEventListener('click', useCapturedPhoto);
-    
-    // 언어 선택 버튼 이벤트 리스너 추가
-    const languageBtn = document.getElementById('language-btn');
-    if (languageBtn) {
-        languageBtn.addEventListener('click', function() {
-            const googleTranslateTrigger = document.querySelector('.goog-te-gadget-simple a');
-            if (googleTranslateTrigger) {
-                const clickEvent = new MouseEvent('click', {
-                    bubbles: true,
-                    cancelable: true,
-                    view: window
-                });
-                googleTranslateTrigger.dispatchEvent(clickEvent);
-            } else {
-                console.error("Google Translate widget trigger not found.");
-            }
-        });
-    }
 });
 
+/**
+ * Google 번역 위젯 초기화 함수.
+ * 이 함수는 Google 스크립트에 의해 전역 범위에서 호출됩니다.
+ */
 function googleTranslateElementInit() {
     new google.translate.TranslateElement({
         pageLanguage: 'ko',
@@ -557,8 +542,42 @@ function googleTranslateElementInit() {
     }, 'google_translate_element');
 }
 
-// 얼굴 분석 및 결과 표시 관련 함수들
-// ... (rest of the code remains unchanged)
+document.addEventListener('DOMContentLoaded', function() {
+    const languageBtn = document.getElementById('language-btn');
+    if (languageBtn) {
+        languageBtn.addEventListener('click', function() {
+            const langSelector = document.querySelector('#google_translate_element select');
+            if (langSelector) {
+                langSelector.click();
+            }
+        });
+    }
+});
+
+// 언어 변경 시 호출되는 함수
+function changeLanguage() {
+    googleTranslateElementInit();
+}
+
+function handleImageUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    if (!file.type.match('image/jpeg') && !file.type.match('image/png')) {
+        return alert('JPG 또는 PNG 파일만 업로드 가능합니다.');
+    }
+    if (file.size > 10 * 1024 * 1024) {
+        return alert('파일 크기는 10MB를 초과할 수 없습니다.');
+    }
+    uploadedImage = file;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        previewImage.src = e.target.result;
+        uploadArea.style.display = 'none';
+        imagePreview.style.display = 'block';
+        checkAnalyzeButtonState();
+    };
+    reader.readAsDataURL(file);
+}
 
 // 카메라 열기 함수
 async function openCamera() {
