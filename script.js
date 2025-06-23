@@ -537,6 +537,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function googleTranslateElementInit() {
     new google.translate.TranslateElement({
         pageLanguage: 'ko',
+        includedLanguages: 'ko,en,ja,zh-CN,zh-TW,es,fr,de,it,pt,ru,ar,hi,th,vi,id,ms,fil,tr,pl,cs,sk,hu,ro,bg,hr,sl,et,lv,lt',
         layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
         autoDisplay: false
     }, 'google_translate_element');
@@ -547,6 +548,12 @@ function googleTranslateElementInit() {
         if (originalElement) {
             clearInterval(transplantInterval); // 이식 성공 후 인터벌 정리
             document.getElementById('translator-container').appendChild(originalElement);
+
+            // 위젯의 기본 텍스트를 'Select Language'로 강제 변경합니다.
+            const textElement = document.querySelector('#translator-container .goog-te-menu-value span:first-child');
+            if (textElement) {
+                textElement.textContent = 'Select Language';
+            }
         }
     }, 100); // 0.1초마다 확인
 }
