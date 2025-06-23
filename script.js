@@ -529,17 +529,52 @@ document.addEventListener('DOMContentLoaded', () => {
     retakeBtn.addEventListener('click', retakePhoto);
     usePhotoBtn.addEventListener('click', useCapturedPhoto);
 
-    // 언어 선택 버튼 이벤트 리스너 (수정된 부분)
+    // --- 새로운 언어 선택 모달 로직 ---
     const languageBtn = document.getElementById('language-btn');
+    const languageModal = document.getElementById('language-modal');
+    const closeLanguageModalBtn = document.getElementById('close-language-modal');
+    const languageOptions = document.querySelectorAll('.language-option');
+
+    // 'Select Language' 버튼 클릭 시 모달 열기 (디버깅용 로그 추가)
     if (languageBtn) {
         languageBtn.addEventListener('click', () => {
-            const googleTranslateTrigger = document.querySelector('.goog-te-gadget-simple a');
-            if (googleTranslateTrigger) {
-                const clickEvent = new MouseEvent('click', { bubbles: true, cancelable: true, view: window });
-                googleTranslateTrigger.dispatchEvent(clickEvent);
+            console.log('언어 선택 버튼 클릭됨'); // 디버깅용 로그
+            if (languageModal) {
+                languageModal.style.display = 'flex';
+                console.log('모달 display: flex 적용됨'); // 디버깅용 로그
+            } else {
+                console.log('languageModal 요소를 찾을 수 없음');
             }
         });
     }
+
+    // 모달 닫기 버튼 클릭 시 모달 닫기
+    if (closeLanguageModalBtn) {
+        closeLanguageModalBtn.addEventListener('click', () => {
+            if (languageModal) languageModal.style.display = 'none';
+        });
+    }
+
+    // 모달 바깥 영역 클릭 시 모달 닫기
+    window.addEventListener('click', (event) => {
+        if (event.target === languageModal) {
+            languageModal.style.display = 'none';
+        }
+    });
+
+    // 각 언어 옵션 클릭 시 번역 실행
+    languageOptions.forEach(option => {
+        option.addEventListener('click', function (e) {
+            e.preventDefault();
+            const lang = this.getAttribute('data-lang');
+            
+            // Google 번역 쿠키 설정
+            document.cookie = `googtrans=/auto/${lang}; path=/`;
+
+            // 페이지 새로고침으로 번역 적용
+            window.location.reload();
+        });
+    });
 });
 
 /**
