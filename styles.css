@@ -24,9 +24,8 @@
     --gradient-success: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
 }
 
-body {
-    font-family: 'Noto Sans KR', sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+body, html {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
     min-height: 100vh;
     color: var(--text-primary);
     line-height: 1.6;
