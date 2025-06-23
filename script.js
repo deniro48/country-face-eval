@@ -542,20 +542,26 @@ function googleTranslateElementInit() {
         autoDisplay: false
     }, 'google_translate_element');
 
-    // 번역 위젯이 생성될 때까지 기다렸다가 원하는 위치로 이식합니다.
     const transplantInterval = setInterval(() => {
         const originalElement = document.querySelector('#google_translate_element .goog-te-gadget-simple');
-        if (originalElement) {
-            clearInterval(transplantInterval); // 이식 성공 후 인터벌 정리
-            document.getElementById('translator-container').appendChild(originalElement);
+        const translatorContainer = document.getElementById('translator-container');
+        
+        if (originalElement && translatorContainer) {
+            clearInterval(transplantInterval);
+            translatorContainer.appendChild(originalElement);
+            translatorContainer.style.display = 'block';
 
-            // 위젯의 기본 텍스트를 'Select Language'로 강제 변경합니다.
             const textElement = document.querySelector('#translator-container .goog-te-menu-value span:first-child');
             if (textElement) {
                 textElement.textContent = 'Select Language';
             }
         }
-    }, 100); // 0.1초마다 확인
+    }, 100);
+}
+
+// 언어 변경 시 호출되는 함수
+function changeLanguage() {
+    googleTranslateElementInit();
 }
 
 function handleImageUpload(event) {
